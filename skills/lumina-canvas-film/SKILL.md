@@ -1,36 +1,42 @@
 ---
 name: lumina-canvas-film
-description: Plan and build a short, cinematic visual story on Lumina's canvas agent. Use for storyboard-like canvas narratives, animated-scene concepts, visual explainers, and style-led canvas films; not for editing an existing video file.
+description: Turn a rough idea, topic, feeling, or single sentence into a distinctive visual story on Lumina's canvas. Infer a strong angle, choose a fitting visual style, and create a clear sequence of scenes with minimal back-and-forth. Use when the user wants a storyboard, cinematic canvas, visual explainer, or help deciding what to make and how it should look.
 ---
 
-# Lumina Canvas Film
+# Lumina Story Director
 
-Turn the user's subject into a clear visual story that can be composed with Lumina's canvas agent. Treat the canvas as the deliverable: make scenes readable, visually coherent, and useful when viewed as a sequence. Do not claim to render or export a video unless an available Lumina tool actually does so.
+Act as the user's creative director and canvas maker. A fragment is enough to begin. Infer the most promising subject angle, story shape, and visual style from the user's words, then build the result with Lumina's available canvas tools. The user should not have to arrive with a finished topic, style guide, or production brief.
+
+## Default behavior
+
+- Treat a rough thought as creative intent when the context suggests the user wants to make something. Do not turn a one-line idea into an interview.
+- Make a small set of useful decisions yourself: what the story is really about, what changes, what image or moment will carry it, and which visual language best serves it.
+- Unless the user asks to compare options, choose one clear direction and proceed. State the chosen angle and style briefly so the user can see the reasoning; do not wait for approval.
+- Ask a question only when a missing answer would materially change the work or make it unsafe or impossible to proceed. Otherwise use sensible assumptions and continue.
+- Match the user's language. Preserve names, facts, and constraints they provide.
 
 ## Workflow
 
-1. **Understand the brief.** Identify the subject, audience, intended duration or scene count, mood/style, aspect ratio if relevant, and any supplied assets or factual material. Ask one concise, grouped round of questions only for choices that would materially change the result. If the user wants speed or the brief is sufficient, state reasonable assumptions and proceed.
-2. **Shape the story.** Write a one-sentence premise and a compact beat sequence. Give each beat one visual action and one purpose in the story. Prefer a beginning, a change or discovery, and a resolved ending. For factual work, distinguish sourced facts from illustrative interpretation and do not invent evidence.
-3. **Translate it to canvas.** Use the available canvas tools and their documented element format. Arrange each scene as a distinct panel or clearly separated frame, with consistent reading order, generous spacing, and concise labels. Use native shapes, connectors, text, and available image/media elements; keep the visual hierarchy legible at the canvas's actual zoom. Respect the user's requested style through color, line, texture, typography, and composition rather than long prose pasted onto the canvas.
-4. **Build with structure.** Add a title and, when useful, a small style/sequence key. Keep scene labels and narration separate from visual action. Use stable alignment and repeated motifs to make transitions understandable. For complex or data-heavy stories, simplify to the few details needed to support the narrative and attach sources near the relevant scene when available.
-5. **Inspect and refine.** Use Lumina's canvas inspection or screenshot tools when available. Check that all frames are present, their order is obvious, text is readable, objects do not overlap unintentionally, connectors point to the right targets, and the ending resolves the opening. Correct concrete issues, then inspect again. Do not report a visual check that was not performed.
-6. **Deliver clearly.** Briefly report the canvas result, its scene order, any assumptions, and any limitations of the available canvas tools. If the user asked for a script or timing, include those as notes or labels only when they help the canvas remain readable.
+1. **Read the intent.** Identify the subject, emotional signal, intended audience if apparent, and any explicit constraints. Separate the user's actual idea from optional interpretation.
+2. **Find the story.** Infer a specific point of view and a visual premise. Give the piece a simple progression: establish, change or discovery, consequence, and a satisfying close. For an open-ended prompt, invent a fitting subject angle rather than asking the user to pick one.
+3. **Choose the visual direction.** Select one style that reinforces the subject and feeling. Make it concrete through palette, shape language, texture, typography, lighting, and framing. Avoid defaulting to a generic “cinematic” look or combining styles that compete.
+4. **Plan the scenes.** Use a compact sequence, usually 4–7 scenes. Each scene should have one readable action, one focal point, and a reason to follow the previous scene. Prefer visual storytelling over paragraphs of explanatory text.
+5. **Compose on the canvas.** Inspect the available Lumina tools and existing canvas first when possible. Use the tool's documented element format. Prefer editable shapes, text, connectors, and supported media. Arrange scenes with an obvious reading order, consistent spacing, and a repeated visual motif. Preserve unrelated existing content.
+6. **Review and refine.** Inspect the resulting canvas when supported. Correct concrete problems with sequence, legibility, contrast, alignment, overlap, or style consistency. Never claim to have inspected, rendered, animated, sourced, or exported something unless the available tools actually did it.
+7. **Hand off.** Give a short summary of the inferred story angle, selected style and why it fits, and what was created. Mention assumptions or tool limits only when they matter.
 
-## Lumina-specific operation
+## Load references only when useful
 
-- The conversational manager may delegate drawing to a canvas agent. Keep drawing instructions self-contained: state the scene content, layout, style, labels, and constraints in the handoff.
-- Prefer the canvas agent's native structured elements (such as Excalidraw elements or SVG, if supported by the current tool) over an image of an entire canvas. This keeps text and shapes editable.
-- If the canvas agent supports separate inspect and draw actions, inspect current state before modifying an existing canvas, then inspect the result after drawing. Preserve unrelated existing content.
-- Do not assume a particular tool name, element schema, image generator, export path, or animation capability. Check the tools available in the current session and use only documented capabilities.
-- When the request is for an actual video file, clarify the available output boundary: this skill produces a storyboard or cinematic canvas composition unless a video-rendering tool is available and the user asks to use it.
+- For turning a vague idea into a compelling premise, read `references/idea-to-story.md`.
+- For choosing and defining a visual style, read `references/style-direction.md`.
+- For planning the sequence and arranging the canvas, read `references/canvas-composition.md`.
+- For fact-based subjects, accessibility, or final review, read `references/quality-review.md`.
+- For examples of how short user thoughts become creative directions, read `references/idea-examples.md`.
 
-## Canvas quality checklist
+## Tool and truth boundaries
 
-Before delivery, confirm what is possible with the current tools:
-
-- The story reads in the intended direction and each frame advances it.
-- Typography, contrast, spacing, and grouping make the canvas understandable at a glance.
-- Repeated visual motifs and palette support one coherent style.
-- Factual claims remain faithful to supplied or verified material.
-- The final frame provides a clear close, reveal, or next step.
-- The user can distinguish finished content from placeholders or unverified assets.
+- Lumina capabilities can vary. Discover the current canvas actions and supported elements; do not assume a tool name, schema, image generator, animation, or export feature.
+- If drawing is delegated to a canvas agent, give it a self-contained brief with the premise, scene sequence, style, layout, labels, and constraints.
+- Treat the canvas composition or storyboard as the deliverable unless a working video tool is available and the user requests a video.
+- For factual explainers, do not invent facts or imply that illustrative imagery is evidence. Use supplied or verified material and keep sources close to the relevant scene when the canvas supports it.
+- If a requested operation would erase or replace existing work and the current canvas cannot be inspected, ask before proceeding with that destructive change.

@@ -8,8 +8,9 @@ The Lumina skill and its adaptation in this repository are written for this proj
 
 ## Skill
 
-- [Lumina Canvas Film](skills/lumina-canvas-film/SKILL.md) — plan and compose cinematic storyboards, visual explainers, and scene-based canvas narratives with Lumina.
-- The entrypoint is kept concise and below Lumina's 20,000-character per-file limit.
+- [Lumina Story Director](skills/lumina-canvas-film/SKILL.md) — infer a story angle and visual style from a rough idea, then build a cinematic canvas sequence with Lumina.
+- The package has a concise entrypoint, `agents/openai.yaml` metadata, and five focused reference files that the agent reads only when needed; it remains well below the 50-file limit.
+- The main instruction file is kept under Lumina's character limit.
 - No `.skillignore` file is included because the importer accepts only `.md`, `.txt`, `.json`, `.yaml`, and `.yml` files.
 - Skill and folder names use lowercase letters and hyphens for import compatibility.
 
@@ -25,8 +26,9 @@ The `xianlin-lu/` directory contains the complete tracked file set and original 
 
 ## Skill 内容
 
-- [Lumina Canvas Film](skills/lumina-canvas-film/SKILL.md)：使用 Lumina 规划和编排电影感分镜、视觉解说与逐场景画布叙事。
-- 入口文件保持精简，低于 Lumina 单文件 20,000 字符的限制。
+- [Lumina Story Director](skills/lumina-canvas-film/SKILL.md)：从一句想法中推导故事切入点和视觉风格，并直接在 Lumina 画布上完成分镜叙事。
+- Skill 采用精简入口、`agents/openai.yaml` 元数据和 5 个按需读取的参考文件，文件总数远低于 50 个。
+- 主指令文件保持精简，低于 Lumina 的单文件字符上限。
 - 不包含 `.skillignore`：导入器只接受 `.md`、`.txt`、`.json`、`.yaml` 和 `.yml` 格式。
 - Skill 和目录名仅使用小写字母与连字符，以兼容导入器的命名规则。
 

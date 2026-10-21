@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lumina Story Director"
+  short_description: "Turn one idea into a styled canvas story"
+  default_prompt: "我有一个简单想法，请帮我推导一个有吸引力的选题，选定最合适的视觉风格，并直接在 Lumina 画布上完成分镜。"
