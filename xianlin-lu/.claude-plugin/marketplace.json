@@ -1,0 +1,17 @@
+{
+  "name": "Xianlin-lu",
+  "owner": {
+    "name": "Xianlin-lu",
+    "url": "https://github.com/XianlinLu"
+  },
+  "metadata": {
+    "description": "Xianlin-lu skills: film styles for coding agents."
+  },
+  "plugins": [
+    {
+      "name": "xianlin-lu",
+      "source": "./plugin",
+      "description": "Make a film in one of the library's code-rendered styles: your agent directs, draws, scores and mixes it."
+    }
+  ]
+}
