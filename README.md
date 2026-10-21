@@ -10,7 +10,7 @@ The skill instructions, Lumina adaptation, and documentation in this repository 
 
 - [Lumina Canvas Film](skills/lumina-canvas-film/SKILL.md) — plan and compose cinematic storyboards, visual explainers, and scene-based canvas narratives with Lumina.
 - The entrypoint is kept concise and below Lumina's 20,000-character per-file limit.
-- No `.skillignore` file is included; the importer shown in the setup flow does not accept dot-prefixed filenames.
+- No `.skillignore` file is included because the importer accepts only `.md`, `.txt`, `.json`, `.yaml`, and `.yml` files.
 - Skill and folder names use lowercase letters and hyphens for import compatibility.
 
 ## 使用说明
@@ -23,5 +23,5 @@ The skill instructions, Lumina adaptation, and documentation in this repository 
 
 - [Lumina Canvas Film](skills/lumina-canvas-film/SKILL.md)：使用 Lumina 规划和编排电影感分镜、视觉解说与逐场景画布叙事。
 - 入口文件保持精简，低于 Lumina 单文件 20,000 字符的限制。
-- 不包含 `.skillignore`：截图所示的导入流程不接受以点开头的文件名。
+- 不包含 `.skillignore`：导入器只接受 `.md`、`.txt`、`.json`、`.yaml` 和 `.yml` 格式。
 - Skill 和目录名仅使用小写字母与连字符，以兼容导入器的命名规则。
