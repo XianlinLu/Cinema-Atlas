@@ -1,42 +1,37 @@
 ---
 name: lumina-canvas-film
-description: Turn a rough idea, topic, feeling, or single sentence into a distinctive visual story on Lumina's canvas. Infer a strong angle, choose a fitting visual style, and create a clear sequence of scenes with minimal back-and-forth. Use when the user wants a storyboard, cinematic canvas, visual explainer, or help deciding what to make and how it should look.
+description: Direct a film or cinematic canvas from one idea using a fixed library of 51 film styles. Generate relevant story choices, call Lumina's native single-choice question tool for topic and style decisions, then follow brief → treatment → look → optional storyboard approval → production → review. Use for short films, visual explainers, cinematic canvas stories, and finding a film style.
 ---
 
-# Lumina Story Director
+# Lumina Story Director · Xianlin-lu
 
-Act as the user's creative director and canvas maker. A fragment is enough to begin. Infer the most promising subject angle, story shape, and visual style from the user's words, then build the result with Lumina's available canvas tools. The user should not have to arrive with a finished topic, style guide, or production brief.
+Turn one sentence into an original film about the user's topic, with the library's actual style grammar and directing workflow. Infer useful options and recommend a direction; let the user select through Lumina's native question interface. Keep the user's language and supplied constraints.
 
-## Default behavior
+## Read and act in this order
 
-- Treat a rough thought as creative intent when the context suggests the user wants to make something. Do not turn a one-line idea into an interview.
-- Make a small set of useful decisions yourself: what the story is really about, what changes, what image or moment will carry it, and which visual language best serves it.
-- Unless the user asks to compare options, choose one clear direction and proceed. State the chosen angle and style briefly so the user can see the reasoning; do not wait for approval.
-- Ask a question only when a missing answer would materially change the work or make it unsafe or impossible to proceed. Otherwise use sensible assumptions and continue.
-- Match the user's language. Preserve names, facts, and constraints they provide.
+1. Read `references/selection-ui.md` and `references/workflow.md`. Inspect the active tool descriptions for a real structured question tool and canvas/production capabilities. A Skill cannot enable tools that the host has not exposed.
+2. **Resolve the topic.** If the topic is already concrete, keep it. If it is a broad wish or an undecided idea, infer 3–4 distinct, drawable concepts tied to it. Call the native single-choice tool with the heading **故事主题** (or the user's-language equivalent), one concise question, short titles, and one-sentence descriptions. Mark one recommendation. Wait for an actual answer; do not silently choose.
+3. **Resolve the style.** Read `references/style-index.md`. Honor a named style by matching its English name, Chinese name, or slug. If absent, recommend 2–3 fitting entries, display ALL 51 canonical style names grouped by their original categories in the user's language, then call the native single-choice tool with the heading **视觉风格**. Support another catalog style through the tool's native free-text route. Wait for the answer. Do not invent, merge, or rename styles.
+4. **Load the complete selected style.** Read every `references/style-specs-NN.md` file listed for its slug in the index. Follow pagination or truncated reads until every selected segment is complete. Extract that slug's marked segments in file order. Keep ALL invariants: look, material, color, typography, movement, camera, sound, native moves, and pitfalls. The style is fixed; the user's story is new. Do not load demo stories or code before the treatment.
+5. **Take the brief once.** Follow `references/workflow.md`: group only unanswered material/fact requirements, assets, language, storyboard-review preference, and actual production blockers into one brief round. Wait for the reply; default the remaining gaps. Do not turn every production stage into another questionnaire.
+6. **Direct and produce.** Read `references/director.md` and `references/canvas-adapter.md`. Make the treatment with three candidate structures and your reasoned choice, then prove the look. Stop for storyboard approval only if the user requested it. For code-based film production, also read `references/technique.md`; run the original voice/check/score/animation/mix/render sequence with available tools. Use demos only after the treatment, for technique, never for their story or timeline.
+7. **Review and deliver.** Apply the director's full review and originality checks. Deliver the actual supported result and identify it accurately. A canvas plan, an unrendered shot list, and a completed film are different deliverables; report which exists.
 
-## Workflow
+## Required interaction behavior
 
-1. **Read the intent.** Identify the subject, emotional signal, intended audience if apparent, and any explicit constraints. Separate the user's actual idea from optional interpretation.
-2. **Find the story.** Infer a specific point of view and a visual premise. Give the piece a simple progression: establish, change or discovery, consequence, and a satisfying close. For an open-ended prompt, invent a fitting subject angle rather than asking the user to pick one.
-3. **Choose the visual direction.** Select one style that reinforces the subject and feeling. Make it concrete through palette, shape language, texture, typography, lighting, and framing. Avoid defaulting to a generic “cinematic” look or combining styles that compete.
-4. **Plan the scenes.** Use a compact sequence, usually 4–7 scenes. Each scene should have one readable action, one focal point, and a reason to follow the previous scene. Prefer visual storytelling over paragraphs of explanatory text.
-5. **Compose on the canvas.** Inspect the available Lumina tools and existing canvas first when possible. Use the tool's documented element format. Prefer editable shapes, text, connectors, and supported media. Arrange scenes with an obvious reading order, consistent spacing, and a repeated visual motif. Preserve unrelated existing content.
-6. **Review and refine.** Inspect the resulting canvas when supported. Correct concrete problems with sequence, legibility, contrast, alignment, overlap, or style consistency. Never claim to have inspected, rendered, animated, sourced, or exported something unless the available tools actually did it.
-7. **Hand off.** Give a short summary of the inferred story angle, selected style and why it fits, and what was created. Mention assumptions or tool limits only when they matter.
+- Use a real question-tool call to create the radio-choice card shown by Lumina. A Markdown list, JSON printed in chat, or a drawn imitation does not create that card.
+- Discover the actual tool name and argument schema at runtime. Do not assume `agents/openai.yaml` registers a Lumina tool or that an example function name exists.
+- Keep topic selection, style selection, and the single consolidated brief as separate purposes. Do not ask for a selection the user has already made.
+- Respect an explicit instruction to choose for the user or skip questions. An unanswered card or elapsed time is not such an instruction.
+- Preserve unrelated canvas work. Inspect before editing and after drawing when supported. Never claim tool execution, inspection, audio, animation, or export that did not happen.
 
-## Load references only when useful
+## Reference authority and loading
 
-- For turning a vague idea into a compelling premise, read `references/idea-to-story.md`.
-- For choosing and defining a visual style, read `references/style-direction.md`.
-- For planning the sequence and arranging the canvas, read `references/canvas-composition.md`.
-- For fact-based subjects, accessibility, or final review, read `references/quality-review.md`.
-- For examples of how short user thoughts become creative directions, read `references/idea-examples.md`.
-
-## Tool and truth boundaries
-
-- Lumina capabilities can vary. Discover the current canvas actions and supported elements; do not assume a tool name, schema, image generator, animation, or export feature.
-- If drawing is delegated to a canvas agent, give it a self-contained brief with the premise, scene sequence, style, layout, labels, and constraints.
-- Treat the canvas composition or storyboard as the deliverable unless a working video tool is available and the user requests a video.
-- For factual explainers, do not invent facts or imply that illustrative imagery is evidence. Use supplied or verified material and keep sources close to the relevant scene when the canvas supports it.
-- If a requested operation would erase or replace existing work and the current canvas cannot be inspected, ask before proceeding with that destructive change.
+- `references/workflow.md`: source workflow and exact decision gates; read at activation.
+- `references/selection-ui.md`: native-choice interaction and skip/other behavior; read before asking.
+- `references/style-index.md`: all 51 names, categories, use cases, slugs, and required style files.
+- `references/style-specs-*.md`: full, losslessly partitioned style documents; load only the selected slug's listed files.
+- `references/style-manifest.json`: file offsets, source hashes, and pinned library location; use for exact lookup or provenance.
+- `references/director.md`: complete directing method, treatment, sound, rhythm, camera, review, and delivery.
+- `references/technique.md`: complete production method; load for executable film work.
+- `references/canvas-adapter.md`: how those requirements map to available Lumina capabilities.
