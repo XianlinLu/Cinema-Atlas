@@ -275,27 +275,6 @@ Click a frame for its `STYLE.md`.
 </table>
 <!-- styles:end -->
 
-## Star history
-
-<a href="https://www.star-history.com/#XianlinLu/Code-Cinema-Atlas&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=XianlinLu/Code-Cinema-Atlas&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=XianlinLu/Code-Cinema-Atlas&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=XianlinLu/Code-Cinema-Atlas&type=Date" />
- </picture>
-</a>
-
-### Thank you for every star
-
-A thank-you film at each milestone, made in code like everything here.<br>
-Click a poster to watch on the <a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/thanks/">thank-you page</a>.
-
-<table><tr>
-<td width="33%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/thanks/#stars2000"><img src="docs/thanks/thanks-2000.jpg" alt="2000 stars · Refresh (50 s)"></a><br><sub>2,000 stars · Refresh (50 s)</sub></td>
-<td width="33%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/thanks/#stars800"><img src="docs/thanks/thanks-800.jpg" alt="800 stars · Reverse Shot (39 s)"></a><br><sub>800 stars · Reverse Shot (39 s)</sub></td>
-<td width="33%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/thanks/#stars300"><img src="docs/thanks/thanks-300.jpg" alt="300 stars · The Lamplighter (18 s)"></a><br><sub>300 stars · The Lamplighter (18 s)</sub></td>
-</tr></table>
-
 ## Licence
 
 Made by **Xianlin-lu × Claude Opus 5.5**.
