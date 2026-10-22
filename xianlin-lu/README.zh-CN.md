@@ -8,9 +8,6 @@
 ⚠️ **本插件为 Claude 专用。** 风格都是按 Claude Opus 5.5 调出来的，<br>
 其他模型适配度不高，请谨慎使用。
 
-🆕 **2026-10-19 · [改成你自己的风格](#改成你自己的风格)**：改一个风格、起你自己的名字，先出一支 15–30 秒的测试片。<br>
-🆕 **2026-10-16 · 新分类[「实证影像」](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/#evidence-films)**：8 种风格，拍的都是真实素材，画面上每个数字都实测或有出处。[往下看 ↓](#实证影像)
-
 <sub>官方仓库：[github.com/XianlinLu/Code-Cinema-Atlas](https://github.com/XianlinLu/Code-Cinema-Atlas/tree/main/xianlin-lu) · 作者 Xianlin-lu（[@Xianlin-lu](https://github.com/XianlinLu)）</sub>
 
 ## 👋 关于我
