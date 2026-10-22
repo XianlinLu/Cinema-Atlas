@@ -5,17 +5,11 @@
 **<!--n-->51<!--/n--> 种影片风格，每种都配一支完全用代码做出来的短片。**<br>
 选一个风格，带上你自己的故事，让你的编程 agent 来当导演。
 
-⚠️ **本插件为 Claude 专用。** 风格都是按 Claude Opus 5.5 调出来的，<br>
-其他模型适配度不高，请谨慎使用。
-
 <sub>官方仓库：[github.com/XianlinLu/Code-Cinema-Atlas](https://github.com/XianlinLu/Code-Cinema-Atlas/tree/main/xianlin-lu) · 作者 Xianlin-lu（[@Xianlin-lu](https://github.com/XianlinLu)）</sub>
 
 ## 👋 关于我
 
 我是 **Xianlin-lu**，更多信息见我的 [GitHub 主页](https://github.com/XianlinLu)。
-
-> **这不是一个 awesome 合集。** 这里所有的片子都是我自己用 Claude Opus 5.5 做的。<br>
-> 风格是按 Opus 5.5 调出来的，换成其他模型不保证能做出同样的效果。
 
 ![全部风格](docs/cover.jpg)
 
