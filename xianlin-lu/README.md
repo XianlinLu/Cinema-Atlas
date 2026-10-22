@@ -6,8 +6,6 @@
 Pick a style, bring your own story, and let your coding agent direct the film.<br>
 <sub><!--n-->51<!--/n--> 种影片风格，每种都配一支完全用代码做出来的短片 · 🇨🇳 中文用户请看 <a href="README.zh-CN.md">简体中文说明</a></sub>
 
-⚠️ **Built for Claude.** The styles are tuned for Claude Opus 5.5;<br>
-other models may not reproduce them well, so use them with care.
 
 <sub>Official repo: [github.com/XianlinLu/Code-Cinema-Atlas](https://github.com/XianlinLu/Code-Cinema-Atlas/tree/main/xianlin-lu) · by Xianlin-lu ([@Xianlin-lu](https://github.com/XianlinLu))</sub>
 
@@ -16,9 +14,6 @@ other models may not reproduce them well, so use them with care.
 ## 👋 About me
 
 I'm **Xianlin-lu** ([@Xianlin-lu](https://github.com/XianlinLu)). More about me on my profile.
-
-> **Not an awesome list.** Every film here was made by me, with Claude Opus 5.5.<br>
-> The styles are tuned for Opus 5.5; other models may not reproduce them.
 
 ![All styles](docs/cover.jpg)
 
