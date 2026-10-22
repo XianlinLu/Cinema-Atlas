@@ -16,20 +16,6 @@ other models may not reproduce them well, so use them with care.
 
 </div>
 
-## 🎬 Feature presentation: OPUSCAR 98
-
-<table><tr>
-<td width="50%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/"><img src="docs/opuscar98.jpg" alt="OPUSCAR 98 — 98 Years of Best Picture"></a><br><b>▶ The film</b> · 1927 – 2025 · 6:31<br><sub>One Clawd walks through all 98 Best Picture winners, each one redrawn in a style that fits the film.</sub></td>
-<td width="50%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/#styles"><img src="docs/opuscar98-styles.jpg" alt="OPUSCAR 98 — all 98 styles open"></a><br><b>All 98 styles, open</b> · 77 in 2D · 4 in 2.5D · 17 in 3D<br><sub>Each film's style tag, a frame, a style prompt to reuse on your own topic, and the shots and direction. Also as <a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/styles.json">JSON</a>.</sub></td>
-</tr></table>
-
-<div align="center">
-
-Every frame, every note and every cut was written in code by Claude Opus 5.5.<br>
-[**▶ Watch**](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/) · [**All 98 styles**](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/#styles) · [**Download 1080p**](https://github.com/XianlinLu/Code-Cinema-Atlas/releases/download/films/opuscar98.mp4)
-
-</div>
-
 ## 👋 About me
 
 I'm **Xianlin-lu** ([@Xianlin-lu](https://github.com/XianlinLu)). More about me on my profile.
