@@ -1,4 +1,4 @@
-# Code-Cinema-Atlas
+# Cinema-Atlas
 
 **Cinema Atlas Video Director — a Lumina workflow by Xianlin-lu.**
 
