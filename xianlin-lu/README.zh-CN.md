@@ -13,22 +13,6 @@
 
 <sub>官方仓库：[github.com/XianlinLu/Code-Cinema-Atlas](https://github.com/XianlinLu/Code-Cinema-Atlas/tree/main/xianlin-lu) · 作者 Xianlin-lu（[@Xianlin-lu](https://github.com/XianlinLu)）</sub>
 
-</div>
-
-## 🎬 特别放映：OPUSCAR 98
-
-<table><tr>
-<td width="50%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/"><img src="docs/opuscar98.jpg" alt="OPUSCAR 98：98 年最佳影片"></a><br><b>▶ 影片</b> · 1927 – 2025 · 6 分 31 秒<br><sub>一个 Clawd 走过 98 部最佳影片，每一部都换成贴合那部电影的画风。</sub></td>
-<td width="50%" valign="top"><a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/#styles"><img src="docs/opuscar98-styles.jpg" alt="OPUSCAR 98：98 种风格全部公开"></a><br><b>98 种风格全部公开</b> · 2D 77 · 2.5D 4 · 3D 17<br><sub>每部片的风格标注、截图、拿去拍你自己题材的风格提示词、镜头与导演编排，也有 <a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/styles.json">JSON</a>。</sub></td>
-</tr></table>
-
-<div align="center">
-
-每一帧画面、每一个音符、每一刀剪辑，都是 Claude Opus 5.5 写代码做出来的。<br>
-[**▶ 观看**](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/) · [**98 种风格**](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/opuscar98/#styles) · [**下载 1080p**](https://github.com/XianlinLu/Code-Cinema-Atlas/releases/download/films/opuscar98.mp4)
-
-</div>
-
 ## 👋 关于我
 
 我是 **Xianlin-lu**，更多信息见我的 [GitHub 主页](https://github.com/XianlinLu)。
