@@ -1,4 +1,4 @@
 interface:
-  display_name: "Lumina Story Director"
-  short_description: "Choose a story and one of 51 film styles"
-  default_prompt: "使用 $lumina-canvas-film，根据我的一句想法生成主题候选，用原生单选卡片让我选择主题与风格，再按导演流程创作。"
+  display_name: "Cinema Atlas Video Director"
+  short_description: "Create a complete film with native review gates"
+  default_prompt: "使用 $lumina-canvas-film，从我的想法写完整剧本，以原生 Question 选项确认剧本、16:9 角色三视图、逐角色试音和镜头生产总表，通过后自动生成全部分镜并合成成片。"

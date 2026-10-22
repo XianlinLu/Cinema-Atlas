@@ -1,186 +1,192 @@
 # Complete style specifications 32
 
 
-<!-- STYLE: brick-toy -->
+<!-- STYLE: rubber-hose -->
 
-- **Instruments**: small, acoustic, playful (glockenspiel, toy piano, pizzicato, ukulele, whistling, claps, melodica); a brass or orchestral swell for scale; a heartbeat drum for suspense. Licensed or original, edited to the picture (cut on bars, bar-aligned jumps, chroma similarity at joins) rather than looped under it.
-- **Foley** (synthesizable): plastic creak before a failure, tiny plastic footsteps, a crash of many clacks, a brick click (short transient + resonances near 2.9 kHz and 4.6 kHz), clack on wood, rattle of a parts pile being stirred, whoosh on throws, a bell "ding" for discovery, bricks sliding over paper, motors and engines built from filtered noise.
-- **Silence is a tool**: cut music dead at a failure or a surprise; leave only room tone and one small real-world sound (a ticking clock, a fridge hum, a distant bird). Music can also drop out before a big moment, leaving a pulse or a countdown.
-- **Voice**: a warm storyteller, few short lines with room to breathe; secondary voices through a device filter (band-pass ~380–2800 Hz + soft saturation), optionally with beeps. Verify every line with whisper.
-- Mix: voice compressed, music ducked ~40 % under voice, loudness −14 LUFS.
-
-## 8. Native moves
-
-A menu: use the ones your story needs.
-
-- **Snap-together building.** The plot is an act of building; pieces fly in on arcs and click home. *Fits content like:* a company assembling its first product; a neighbourhood rising street by street; a recipe put together ingredient by ingredient.
-- **Break without harm.** Things fall apart and the parts become something new; failure yields spare parts. *Fits content like:* a pivot after a failed plan; recycling; a team reshuffled into a better shape.
-- **Toy on a real desk.** Real objects become landscape at toy scale. *Fits content like:* a laptop keyboard as a city grid; a houseplant as a jungle; a coffee spill as a flood.
-- **Hand-made stop-motion.** 12 fps poses, tiny imperfections, even fire and water made of bricks. *Fits content like:* a weather report; a kitchen explained with brick flames; a science demo of a volcano.
-- **Rebuild into something else.** The same pieces, rearranged on screen, become a different object. *Fits content like:* one career turning into another; a before/after renovation; a word re-spelled.
-- **The scale reveal.** Pull back until the whole world is a toy on a table. *Fits content like:* a big ambition that is still small; a year in review; a child's imagination.
-
-## 9. Pitfalls of the medium
-
-- Tungsten HDRI → orange whites. Use a neutral studio HDRI and a slightly cool grade.
-- Clearcoat on a large flat baseplate reflects softboxes as a coloured wash. Make it matte.
-- Flat, slightly jagged first renders: even light, no AO, single-sample rendering, stepped camera. Fix: softboxes + low environment, GTAO, 2× supersampling, cool grade, camera on ones.
-- Too much aperture blurs the hero at mid distance. Scale aperture with shot size.
-- A fast-rising or fast-moving object becomes a dot on a blank wall. Track it and keep its destination in frame.
-- Curved transparent parts made from a sphere segment vanish inside a cylindrical part. Use an open-cylinder panel.
-- Real props on a later shot's camera axis sneak into the background. Check props against every camera.
-- Random jitter used as a material or colour index can go negative → undefined material crash. Clamp.
-
-## 10. Engine
-
-In `demo/`: `bricks.js` (rounded brick/plate/round-brick geometry, studs, plastic materials with clearcoat and fingerprint roughness), `actors.js` (a brick-built character rig with pose objects and `walkPose`), `set.js` (desk, HDRI, real props at true scale, softboxes), `rockets.js` (props, pre-simulated rigid-body physics, brick fire and smoke), `main.js` (acting, cameras, DOF, subtitles, sound events), `mix.py` (synthesized foley + voice + music), `music/edit.py` (bar-aligned score edit). Minimal start: a brick lighthouse from `bricks.js` on a stack of books, lit by the `set.js` softboxes, one still via `core/render/still.mjs`.
-
-## 11. Variation space
-
-You decide the structure, the characters (or none), the surface and its props, the opening, the ending, the camera path, the pacing, the palette within the colour logic and the music. All far from our demo:
-
-- Structures: **a catalogue** (one build per beat, each a different object answering the same question, lined up at the end); **two builders** on opposite sides of the table whose builds grow toward each other; **a disassembly** (a finished thing is taken apart piece by piece to explain what's inside).
-- Openings: **a hand pours a bin of bricks** onto the table and the pile settles into the first shape; **a real object first** (a mug, a phone), then rack focus to the tiny world at its base; **plan view** of an empty baseplate filling in like a map.
-- Endings: **one piece left over** held in close-up, the question it raises unanswered; **the lights go out** in the room and only a lit brick window glows; **a real hand** reaches in and picks the character up.
+- Structures: **a singalong** (verse and chorus, the bouncing ball carrying the message while the set acts out each line); **a talent show** (objects take turns on a stage, the smallest wins); **a relay** (a thing passed hand to hand across a town, each hand-off a new instrument on the melody).
+- Openings: **out of the inkwell** (a pen draws the hero, who hops onto the set); **a curtain rise** (the band tuning up; a baton starts the film); **an iris on one eye** (it blinks, the iris widens to show whose eye it is).
+- Endings: **the card pulled over** (a character drags "The End" in front of itself mid-gag); **the film snaps** (the frame burns, a gloved hand splices it for one last bow); **the band packs up** (instruments leave until one note remains).
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: paper-popup -->
+<!-- STYLE: cel-anime-80s -->
 
-# Paper Pop-up Book — Style Prompt
+# 80s Cel Anime — Style Prompt
 
-> A pop-up book on a real desk becomes a stage: flat cut-paper actors with white borders perform in front of paper sets that spring up from the page, under real lamp light and a real macro lens.
-> References (grammar only): the *Paper Mario* series (flat cut-paper actors with a white border in a 3D diorama, bubbles that type on with blips, action ratings); Robert Sabuda / Matthew Reinhart pop-up books (layered V-folds, pieces rising back to front, pull-tabs); macro "tiny world on a real desk" photography. Never copy their characters, logos, UI or music, and never name them in the film.
+> Hand-painted cel animation from the golden age of Japanese OVAs, re-created in code: flat two-tone cels over airbrushed backgrounds, backlit neon, limited-animation timing, played back as a late-80s videotape on a CRT television.
+> References (grammar only): 1980s Japanese OVA and TV cel animation in general (painted-background vs flat-cel contrast, backlit light, held drawings, speed grammar, city-pop openings). Borrow the era's craft, never a specific work's characters, mecha, logos, place names or signature shots.
 
 ## 1. Essence, and what it is not
 
-Two worlds in one frame. **The real world** at human scale: a photoreal surface lit by an HDRI room, a few real objects, a macro lens (shallow focus, warm practical light, soft contact shadows). **The paper world**: a hardcover book in that room; when it opens, one board stands up as the **backdrop** and the lower page is the ground. Every set piece is a **flat cut-paper card** that lies on the page and **pops up** around its bottom edge. Characters are cut paper too: a few centimetres tall, flat, with a thick off-white border, a grey cardboard edge and grain.
+Four layers, and the contrast between them is the look:
+- **Background painting**: soft airbrushed gradients, glowing windows, wet reflections; painted once at load (colour + emissive pair), then only slid.
+- **Cel** (characters, vehicles, props): flat fills, **hard-edged** shadow and highlight shapes, **coloured** outlines, never pure black; stepped at 12 or 8 fps.
+- **Light**: backlit cel (透過光): signs, lamps, title letters glowing *through* the frame; flares, halation.
+- **Playback**: videotape on a CRT: chroma bleed, scanlines, grille, phosphor glow, darkened corners, faint noise.
 
-What sells it is the **mismatch of scale and material**: flat, saturated, outlined paper cartoons under real light, casting cut-out-shaped shadows and going soft in real lens blur. Keep the paper graphic; let light and lens make it real.
-
-Not a papercut silhouette film (no one-colour lace, no backlight), not a 3D cartoon (nothing modelled round), not claymation (paper hinges, folds, curls and slides; it never squishes).
+If a frame looks like modern digital anime, one layer is missing. Not moe anime (round eyes, giant irises, hatched blush), not vector clip-art (uniform black lines, gradients in shapes), not a film-print pastiche (no gate weave or scratches: this is tape).
 
 ## 2. Materials & rendering
 
-- **Real units** (metres): page 0.3–0.5 m wide, actors 3–5 cm, near plane a few mm, so HDRI, shadows and depth of field behave like a real macro shot.
-- **Cut-paper finish**: Canvas2D art with a dark ink outline; its silhouette dilated (drawn at many angles on several rings, recoloured `source-in`) into a grey cardboard edge offset slightly down (thickness) and a wide off-white border; a shared paper grain on top (`source-atop`).
-- **Drawing**: one dark-brown ink (never black), thick outline + thinner detail line, round joins; shading = one hard **crescent** (fill with shade, refill shifted with base); wobbly shapes (low-harmonic noise), never perfect geometry; simple faces.
-- **Pop-up pieces**: planes with art on the front and plain paper on the back (same alpha); `alphaTest` + `alphaToCoverage`; a custom depth material with the alpha map so **the shadow is the cut-out silhouette**. Anything "3D" is several flat cards (front/back layers, triangles hinged on a keel).
-- **The book** is modelled: cloth cover with foil title (roughness/metalness map), page block with edge lines, a curling leaf.
-- **Real world**: HDRI environment and softly blurred background, real wood or fabric, a few CC0 props. **Neutral tone mapping** (ACES shifts paper colours).
-- **Depth of field by hand**: CoC = aperture × (1/focus − 1/z), spiral gather that keeps far samples off a sharp foreground (stock bokeh looks fake at this scale); then light bloom, vignette, warmth.
+**Cel rendering.** Fill, then a **hard** shadow crescent, then a **hard** highlight crescent, then the coloured outline. No gradients inside a cel shape (exception: one "harmony" painted still at a peak). Automatic shading: clip to the shape and fill `shape − shape shifted toward the light` with the shadow colour (even-odd); the same shifted away for the highlight and for a saturated neon **rim light** (2–4 px). Add hand-placed cast shadows. Outlines ~2–3 px at 1080p, scaled down (0.45–0.8×) in extreme close-ups. **Colour models per lighting** (色指定): define each character in daylight, derive other sets by multiplying lit / shadow / line separately, plus a backlit silhouette set with a warm rim.
+
+**People the 80s way.** Construct the head (sphere + jaw): long egg-shaped face, soft-point chin, far eye foreshortened with a cheekbone turn in 3/4. **Almond** eyes near the vertical middle of the head, a thick upper lash line flicking outward, a tall oval layered iris, two highlights, long thin brows. Nose = a shadow plane + one stroke; one faint blush layer, never hatched. Hair in overlapping locks with sharp uneven tips over a wider dark under-layer, a continuous "angel ring" highlight with a zigzag lower edge. Lines: skin thin warm dark brown, hair dark purple; only hard props near-black. Emotion lives in brows, lid height, iris size, mouth corners and shoulders. Build and approve a **model sheet** first; draw every shot from the same head function.
+
+**Backgrounds.** Painted once at load: sky gradients, airbrushed clouds with lit undersides, buildings or landscape with painted light sources, and always a matching **emissive plate** that slides with the colour plate. Wet ground = a flipped, blurred, streaked copy of the plate darkened with ripple bands. Generic sign words only, never brands. Moving plates get a light horizontal smear (~16 px) against strobing.
+
+**Light and lens.** Bloom strongly from the emissive canvas, weakly from the colour canvas above ~0.9; tint the widest bloom red-orange (halation). Flares: star-burst, anamorphic streak, hexagonal ghosts through frame centre. Stamp every cel's silhouette in black onto the emissive canvas so glow never bleeds through it.
+
+**Videotape + CRT, restrained and deterministic:** chroma bleed (sharp luma, horizontally blurred and slightly shifted chroma), fine scanlines anchored to output pixels whose gap shrinks on brights, a faint RGB grille, phosphor glow, darkened corners without curved borders, faint signal noise. Subtitles are composited inside the pass after grading. Two optional accents: a **power-on** (dot → line → picture) and **tracking noise** (a few frames of tearing, rolling band, vertical hop). Check moiré on a 720p downscale. Frame: full 16:9 as a theatrical feature (4:3 pillarbox is valid for an OVA feel).
 
 ## 3. Colour logic
 
-- Saturated children's-book colour, **never neon**; the real world stays natural and slightly warm so paper pops against it.
-- **One dominant hue family per spread**, so a page turn is also a colour change; a few accents (a red, a yellow, a gold) recur across spreads to stitch the book together.
-- Ink dark brown, border off-white, card backs plain paper.
-- Unfinished or "outside the story" pages lose colour: graphite on cream. Night is a change of the paper art; the real lamp keeps its warmth.
-
-Examples of spread families: green meadow under sky blue; pink-and-lilac market with mint accents; ochre desert with a turquoise oasis.
+- Painted plates carry gradients and atmosphere; cels are flat, few-colour, saturated. Each time of day gets its own colour model, never a filter over the frame.
+- The protagonist has **one accent colour** that pops in every lighting set. Line colours are dark versions of their fill.
+- Skin gets its own colour in every set; multiplying daylight skin by a tint turns faces pink under neon.
+- Examples: night city (indigo, violet, neon magenta, cyan, window gold); seaside noon (cobalt, white cumulus, sand, coral); classroom dusk (amber, chalk green, brown wood, purple shadows).
 
 ## 4. Type & subtitles
 
-- Rounded OFL faces: a rounded sans for subtitles, bubbles, signs (e.g. Fredoka); a chunky display face for cover, banners, action words (e.g. Lilita One); a storybook serif for taglines (e.g. IM Fell English); a playful Chinese face (e.g. ZCOOL KuaiLe) with the Latin face in its stack.
-- **Narration subtitles**: bottom centre, ~40 px, cream with a thick dark-brown outline and soft shadow, second language smaller below. Hold ≥ max(1.8 s, speech + 0.6 s).
-- **Speech bubbles** live in the paper world: white card, ink outline, tail projected each frame to the speaker; pop in with overshoot, type on with blips.
-- **Titles are paper objects**: a cardboard sign dropping on strings and swinging; the cover itself is the film title. Action words (italic display, gradient, double stroke, rays) sparingly, like a game rating.
-- Subset Chinese fonts to the characters used; re-subset after every text change.
+- Subtitles live on the tape, composited inside the CRT pass: a semi-condensed sans (e.g. Barlow Semi Condensed 600, ~50–56 px), cream-yellow with a thick dark outline and soft shadow, ~96 px above the bottom; a second speaker may take a second colour and a small boxed tag. Hold ≥ max(1.8 s, speech + 0.6 s); a line yields to the next.
+- Titles: heavy italic Latin in a **chrome gradient** (sky → white horizon line → violet → pink → gold), dark + neon outlines, optional katakana line (e.g. Dela Gothic One), glowing through the emissive layer, flickering on at 12 fps with a light sweep and a star glint.
 
 ## 5. Motion quality
 
-- On ones (60 fps suits the smooth macro camera), all a pure function of `t`. Paper moves stiffly; life comes from easing: `back()` overshoot for pop-ups, springs for things on strings, squash and stretch on characters.
-- **Pop-ups rise back to front** (delay grows with distance from the reader), far pieces lying back, near ones folding forward face-down; they fold down in the same order.
-- Plants and light props sway a few hundredths of a radian around their base.
-- **Characters are flat cards redrawn per quantized pose** (walk phase, arms, eyes, mouth, look, blink); walk phase follows distance walked, so feet don't slide.
-- **Turning around = a `scale.x` flip** between front and back drawings; never `rotation.y`. Jumps: parabolic arcs, squash at both ends, a paper puff on landing.
-- **Page turn**: a many-segment strip whose bend is integrated along its length, so it curls like paper.
-- Never moves: the room.
+- **Characters on twos (12 fps)**; performance beats (blinks, eye openings, lip flaps, gestures) on threes (8 fps). Camera, light sweeps, flares and rain on ones (24 fps); a stepped camera judders.
+- **Cycles**: hair and cloth as ribbons driven by a travelling sine, 4-drawing cycle (6 when calm); bounce = a 12 fps jitter of a few px.
+- **Move light, not drawings**: coloured bands sweeping across a held cel (`source-atop`).
+- **Impact frames**: 2 frames of an inverted or monochrome silhouette over radial lines, then the result.
+- **Hold the peak**: a painted still with a slow pan, only cycles moving.
+- Fast blinks (one 8 fps closed drawing); eye openings in three drawings; lip flaps of 3–4 shapes at 8 fps ending on a held expression.
 
 ## 6. Camera grammar
 
-One virtual macro camera keyed as position / target / fov / aperture / focus with monotone-cubic interpolation; a new key list = a hard cut. A vocabulary, not a route. Opening and ending come from the topic.
+A vocabulary, not a route. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Eye-level macro track, shallow focus | being inside the story at the actors' size | a walk; a conversation; a chase |
-| Pull up to a 3/4 view of the spread | the mechanism, the map | a page turn; a new setting; a plan |
-| Descending dolly from human height | entering the book's scale | an arrival; zooming into one part of a system |
-| Push-in on a face | feeling | a wish; a fear; a decision |
-| Reverse shot from inside the book to the blurred room | the world beyond the page is huge | curiosity; an outside threat; a reader watching |
-| Rack focus paper ↔ real object | paper and reality touch | cause and effect; a real product in a paper story |
-| Top-down over the open spread | a board game, a diagram | a route; two sides of the gutter compared |
-| Locked frame on a pull-tab | the trick is the event | before/after; a count |
-| Rising crane leaving the book small | scale, distance | aftermath; a summary; time passing |
+| Multiplane crane over a tall plate | a world revealed layer by layer | arriving; descending into a place; rising above it |
+| Side tracking, 3–4 parallax layers | steady momentum | a journey; a chase; progress |
+| Rear view into a pseudo-3D canyon | speed, pressure ahead | a race; a tunnel; a countdown |
+| Held bust with light bands | speed or tension without animation | a drive; waiting; a decision |
+| Insert with bokeh and a sliding highlight | this object matters | a letter; a key; a ticket |
+| Extreme close-up on eyes | resolve, recognition | a choice; a promise |
+| Slow pan across a painted still | awe, a held breath | a peak; a memory; a landscape |
+| Radial speed lines + one-beat freeze | the instant before impact | a leap; a collision; a goal |
+| Truck-in through a window or screen | entering another world | a flashback; a broadcast; a dream |
+| Locked two-shot with lip flaps | conversation | banter; a confession; an argument |
+| An earlier composition repainted | what changed | after a storm; years later |
 
-Actors in focus, room objects as soft foreground or background; keep near pop-ups out of the lens path. Transitions: page turns, a book closing and reopening, a hard cut on a paper sound; never a video dissolve inside the book.
+Cut on bars. Framing: cels readable against the painted plate; keep the lower ~120 px clear for subtitles. Transitions: cuts, white flashes, impact frames, tracking noise at a tape-related beat; no digital dissolves or wipes.
 
 ## 7. Sound palette
 
-- **Paper foley is the signature**: page swish, cardboard thump, pop-up snap (short sine sweep + crinkle), fold and crease, pull-tab slide, footsteps as tiny taps with crinkle, slat flaps, string-drop tinks; the book's spine creak and closing thump. All synthesizable from the page's event list.
-- **Character voices as typing blips**: one waveform and pitch range per character, a blip every other letter.
-- **Narration**: one warm storyteller, picture-book sentences; pronunciations kept apart from displayed text.
-- **Music**: whimsical, acoustic or toy-like: music box, pizzicato strings, clarinet, glockenspiel, ukulele, toy piano, brushes. Options: a warmer cue for anything in the real room; a bar-aligned internal edit of a library track so its ending lands on a picture event; a pull-tab's clicks setting a cue's pulse.
-- **Ambience**: room tone and a clock for the room; one bed per spread for the paper world.
-- **Silence** = the book held still with only room tone; before a turn that matters, or a hesitation.
-- **Mix**: voice high-passed, compressed, well above music; music ducked under speech with smooth release; limit SFX per channel; −14 LUFS.
+- **Instruments** (city pop, synth funk, anime-opening pop): saxophone or synth-brass lead, FM electric piano with a bell transient, slap bass, chorus-y 16th guitar chanks, gated-reverb snare and big toms, drum machine, arpeggiated analog synth, string pad, FM bell sparkle. Extended jazz-pop harmony (maj7, 9ths).
+- **Techniques, as options**: band-pass the score to cassette/AM when a diegetic source plays, then open it; a brass hit on a title; a drum fill left open for an effect; one beat of true silence before a peak; a semitone lift for a last chorus.
+- **Foley** (synthesized): engines from an RPM curve, rain, tire hiss, wind, bells, radio squelch, impacts, sparks, cassette clicks, crowd murmur, door buzzers, footsteps on wet pavement; tape accents get their own thunk, whine, hiss.
+- **Voice**: an English-dub feel, short lines; a second voice through a phone/radio band-pass (~380–2800 Hz). Verify every line with whisper.
+- **Mix**: limit then compress TTS, voices ~10 dB over ducked music (duck ~9 dB), beds ducked ~3 dB, choruses louder than intros, two-pass loudnorm to −14 LUFS.
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **The book opens**: creak, the board swings up, the world pops up back to front. *Fits content like:* a project launch; a first school day; a recipe book.
-- **Page turn = scene change**: old pieces fold down as new ones spring up. *Fits content like:* stages of a process; a farm's seasons; chapters of a biography.
-- **Pull-tab mechanisms**: flipping slats, a sun on a stick, sliding strips, a hinged door, pieces on strings. *Fits content like:* a forecast; old way/new way; a lock opening.
-- **Paper as character**: crumpled, smoothed, refolded, torn, taped. *Fits content like:* a mistake becoming a lesson; recycling; a rejected draft becoming the design.
-- **The edge of the page**: crossing between paper and the room, either way. *Fits content like:* a character stepping into a phone on the desk; a real object entering the story; a drawing coming true.
-- **The real object plays a part**: a lamp as a sun, a mug as a tower. *Fits content like:* a product at home; the reader's presence; real clock time.
-- **Typed bubbles and ratings**. *Fits content like:* a tutorial; a quiz; a small victory.
+- **Small flat hero in a huge painted world.** *Fits content like:* a first day in a big company; a child in a museum hall; a lone researcher at an observatory.
+- **Stillness as drama** (held close-up or harmony still). *Fits content like:* an exam result; a goodbye at a gate; an unveiling.
+- **Backlit light.** *Fits content like:* a lantern festival; a screen full of code; a lighthouse; stage lights.
+- **Speed grammar** (speed lines, looping plates, impact frames). *Fits content like:* a sprint final; a data packet crossing the world; a kitchen rush.
+- **Light-band sweep on a held cel.** *Fits content like:* a night train; a scanner reading a page; a heartbeat quickening.
+- **A song as an object** (tape, radio, jukebox changes the score). *Fits content like:* a band's origin; a family memory; a call-in show.
+- **Tape artefacts as punctuation.** *Fits content like:* found home video; a rewind to the past; an interrupted broadcast.
+- **Colour-model change** (one place, another hour). *Fits content like:* a day in a shop; a farm's seasons; before/after a renovation.
 
 ## 9. Pitfalls of the medium
 
-- `rotation.y` shows a card edge-on, then its blank back → `scale.x` flip. Negative scale also swaps front/back materials → draw mirrored props instead.
-- A one-plane container hides its contents → back card + front card, contents between.
-- Near-lens foreground pop-ups fill the frame with blur → move them or close the aperture.
-- Rectangle shadows kill the illusion → alpha-mapped depth material on every card; tight shadow bias and a big shadow map against acne on thin cards.
-- A turning page goes black facing away from lights → emissive map = colour map.
-- ACES shifts paper colours → Neutral.
-- Headless Chrome falls back to software WebGL → GPU ANGLE flags; ES modules need HTTP.
-- Redrawing character canvases each frame → redraw only on pose change.
-- Chinese subsets miss new characters and Latin glyphs → re-subset; Latin face in the stack.
+- White cels bloom pink → bloom from the emissive canvas; weak, high-threshold bloom on colour.
+- Neon bleeds through characters → silhouettes stamped into the emissive canvas.
+- Black holes in highlights → clamp before S-curves.
+- Thick rim light swallows thin shapes → 2–4 px offsets.
+- Hair like tentacles, a face like a paper mask, moe eyes, uniform black lines → the drawing rules in §2.
+- Pink faces under coloured light → skin gets its own colour per set; weaker light sweeps on faces.
+- Front views are the hardest drawing → hide them behind a visor, a windscreen or backlight when you can.
+- Pseudo-3D points behind the camera flip into the sky → clamp z to the near plane.
+- Canvas silently falls back to a serif → `document.fonts.load` every weight before painting.
+- CRT detail inflates files → noise in the shader, only `noise=c0s=2:allf=t` in ffmpeg, CRF ≈ 23; loudnorm in two passes with `linear=true`; don't let a limiter flatten the dynamics.
 
 ## 10. Engine
 
-In `demo/` (three.js r170 + Canvas2D): `paper.js` (cut finish, grain, crescent, blobs), `cutmesh.js` (cut mesh with paper back and cut-out shadow, strings, particles), `book.js` (`setOpen(θ)`, `setLeaf(u)` curling page), `art.js` (drawings at a fixed px/m), `actors.js` (posable flat characters, a foldable plane), `sets.js` (spreads, back-to-front pop scheduling), `post.js` (hand DOF → bloom → vignette), `hud.js` (subtitles, bubbles, banners), `lib.js` (easing, `back`, `spring`, `track`), `render.mjs` (stills / events / video). API table and a minimal new-spread example: DEMO.md "Engine reference".
+In `demo/`: `cel.js` (path, cel, ribbon, flutter), `pal.js` (colour models), `head80.js` (80s head, 3 views × expressions), `hands.js`, `bg.js` (painted plates, crane plates, wet reflections), `fx.js` (rain, speed lines, flares, trails), `post.js` (WebGL tape + CRT pass: bloom, grade, subtitles, power-on, tracking noise), `hud.js`, `music/score.py` (numpy FM/slap/brass synthesis), `tools/`. `?test=model|close|side` draws model sheets, `?raw=1` skips the CRT pass. A minimal new use: a harbour sunset plate with its emissive pair, one cel boat shaded with `cel.js`, through `post.js`.
 
 ## 11. Variation space
 
-You decide the book, the room, the characters (or none), the spreads and mechanisms, the opening, the ending, the camera path and each spread's palette. All far from our demo:
+You decide the structure, the characters, the world, the opening, the ending, the camera path, the pacing and the colour models. All far from our demo:
 
-- Structures: **the almanac** (one spread per month or stage, each pull-tab left running so the book fills with motion); **two books facing each other**, characters trading objects across the gap; **one spread pulled again and again**, each pull a step of how something is made.
-- Openings: **mid-turn** (a page already curling, we land in chapter three); **inside the gutter** (low along the fold as the first piece rises over the lens); **a mechanism alone** (a tab slides by itself before any character appears).
-- Endings: **the book closes** (pieces fold in reverse, a puff of air, stillness); **one piece stays up** (everything folds but the card that is the point); **the shelf** (the camera finds this book among many).
+- Structures: **slice of life in four seasons** (one place, four colour models, a small change each time); **two-hander dialogue** (a locked two-shot comedy that breaks into one fantasy sequence); **the mock opening credits** (a character roster introduced one by one, each with a pose and a name card).
+- Openings: **in the middle of a conversation** (lip flaps already moving, no establishing shot); **a TV being switched on** to an in-world broadcast; **a close-up of a drawing hand** in a classroom, then cut to the world it draws.
+- Endings: **a freeze-frame** on a laugh with a "to be continued" card; **the tape runs out** into blue screen; **a slow pan up to a starry sky** from a quiet rooftop, no dialogue.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: tilt-shift -->
+<!-- STYLE: scifi-toon -->
 
-# Tilt-Shift Miniature — Style Prompt
+# Sci-Fi Sitcom Toon — Style Prompt
 
-> A real-looking place photographed from high above with a tilted lens and a time-lapse camera, so the whole world reads as a tabletop model.
-> References (grammar only): Sam O'Hare's *The Sandpit* (2010) and tilt-shift time-lapse photography in general: high vantage points, the blur band, time-lapse rhythm, cloud shadows sweeping over streets. Copy none of its places or music; show no real landmarks, brands or logos.
+> Adult-animation sci-fi sitcom: thick boiling outlines, flat colour, a duo whose reactions don't match, a glowing portal, and one palette per world.
+> References (grammar only): adult-swim-era sci-fi sitcom cartoons (dialogue-driven comedy, reaction close-ups, boiling line, sci-fi hardware as household junk). Borrow the *grammar*, never the characters.
 
 ## 1. Essence, and what it is not
 
-A place seen from high up through a **tilt-shift lens**: only a thin horizontal strip of the frame is sharp, everything above and below melts into blur. The eye reads that as a macro shot of something small, so the world becomes a model. Two more things make the trick work: **saturated, sunny colour** (model-railway paint) and **time-lapse** (vehicles and people move in fast, jittery steps like wind-up toys).
+Hand-drawn-looking 2D TV animation for adults: **uniform thick dark outlines that boil**, **flat fills with hard-edged shadow shapes (no gradients)**, **big white eyes with tiny pupils**, **elastic mouths**, grotesque-but-cute creatures, and sci-fi hardware treated like household junk. The comedy is **dialogue-driven**: improvised-feeling talk, interruptions, awkward pauses, reaction shots, escalation, and a last-second reversal. The genre's engine is **a tiny, mundane goal pursued with absurdly large sci-fi means**: whoever could solve anything uses it for something petty, and someone else pays the emotional price.
 
-Not a toy or clay render (the world is photoreal, only the lens and the clock make it small), not a game's top-down view (no UI, no clean flat shading), not drone footage (the band, the saturation and the stutter are mandatory).
+Not a kids' cartoon (dry humour, long pauses), not anime (no sparkly eyes), not a vector explainer (lines boil).
+
+**Copyright red lines (non-negotiable):**
+- Never reproduce any existing show's characters, silhouettes or colour combos (e.g. a spiky-blue-haired old man in a lab coat + a kid in a yellow shirt), names, catchphrases, burp gags, logos, or the look of any existing portal gun.
+- Invent your own cast, props and portal device. Never write the source show's name in the film or docs; one line "inspired by adult-swim-era sci-fi sitcom cartoons" is enough.
 
 ## 2. Materials & rendering
+
+- **Line**: near-black (a slightly purple black reads best), ~7 px for characters and props, 4–6 px for background detail, round joins. **Line width is constant in screen space**: close-ups are "redrawn" at the same weight, never scaled up (transform points to screen, then stroke with an identity transform).
+- **Line boil**: resample every outline in screen space (~7 px steps) and displace along the normal with low-frequency noise, amplitude ~1.7 px; cycle **3 boil drawings at 12 fps**. Everything boils, including held poses and backgrounds: a still frame is never dead.
+- **Fill**: flat colours only. Shadows are hard-edged darker shapes clipped inside the fill (one per form, away from the light). Glows are 1–2 flat translucent rings, not gradients. Skies are **flat colour bands**.
+- **Faces**: big white eyes (touching in 3/4 view), 4–5 px pupils, heavy lids for deadpan, eye bags. Parametric mouths (open, width, curl, skew) with interior, teeth, tongue. Brows carry the emotion.
+- **Cast design**: silhouettes must read in solid black. Give each lead one absurd costume idea. Avoid white lab coat + spiky hair.
+- **Creatures**: every world may get one creature that is disgusting *and* adorable; keep it non-verbal (sound effects) so the film stays a dialogue between the leads. Check that anything behind furniture still shows face and upper body.
+- **The portal** (or whatever device moves between worlds): the only thing that glows. A lumpy rim with a thick outline, rotating spiral arms, a pale core, orbiting sparks, drips, a flat translucent wash over the scene while it's open. Open with a gentle overshoot (~12 %, back-ease ~0.3 s); a springy overshoot covers the actors.
+- **Screen graphics**: a retro-terminal tag (VT323) typed in, coloured per world.
+
+## 3. Colour logic
+
+- **One palette per world**, 3–5 colours, maximally different from the previous world in hue *and* value, so the audience reads "we jumped" from colour alone.
+- Line colour and eye white never change between worlds; everything else may.
+- Glow colour belongs to the travel device only: nothing else in any world may use it.
+- A deliberately bland palette (beige, brown) is itself a joke: use it for the world that is "suspiciously normal".
+- Examples of a sequence of worlds: sage lab → magenta and lime jelly → orange and teal; or grey office → ultraviolet and gold → mint and coral → beige. Our demo's values are in DEMO.md.
+
+## 4. Type & subtitles
+
+- **Subtitles**: bottom centre, a rounded heavy sans (Baloo 2 ExtraBold ~50 px), white with a ~11 px black outline, so they look like the cartoon's own captions, with a small **speaker pill** in the character's colour (boiling outline) on the left. Lines over ~1300 px wrap to two lines. Overlapping lines stack; the older one dims to ~70 %.
+- **Timing**: hold ≥ max(1.8 s, speech + 0.6 s) for narration; for rapid dialogue, `max(audio + 0.35 s, 0.9 s + chars / 17)`. Clip at world changes and **before a silent beat**, so the silence plays on a clean screen.
+- **Title**: chunky display lettering popped in on 12 fps steps on a musical hit. Choose a period look that is not the source genre's logo: **avoid acid green, slime drips and wobbly bubble lettering** together, which reads as a specific show.
+- Keep faces out of the subtitle band (bottom ~170 px) and the world tag clear of faces.
+
+## 5. Motion quality
+
+- **Characters on twos (12 fps)**: poses, mouths, blinks, walk cycles and boil step at 12 fps. **Camera moves, portal swirl, flying props and wipes on ones (24 fps)**.
+- **Acting over moving**: held poses with small changes (eye twitch, pupils sliding, a gulp, sweat drops). Idle life: breathing (±1 % squash), a nod driven by speech loudness.
+- **Anticipation → action** before every gesture.
+- **Squash & stretch** on landings (decaying cosine squash ~22 %), stretch while flying out of a portal; "sucked in" = scale toward the portal centre while stretching.
+- **Lip-sync from audio**: per line, RMS (open) and spectral centroid (wide vs round) at 24 Hz, sampled at the 12 fps drawing time. Exaggerate for screams (mouth ×1.5–1.9).
+- **Nervous jitter**: a 12 fps random offset of 3–6 px plus trembling pupils; amplitude grows with panic.
+- What never moves in a cold pause: everything but the boil.
+
+## 6. Camera grammar
+
+A vocabulary, not a route. Opening and ending come from the topic.
 
 
 <!-- END STYLE PAGE -->

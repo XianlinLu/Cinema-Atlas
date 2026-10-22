@@ -1,172 +1,163 @@
 # Complete style specifications 01
 
 
-<!-- STYLE: satellite-briefing -->
+<!-- STYLE: caption-news -->
 
-# Satellite Briefing — Style Prompt
+# Caption News — Style Prompt
 
-> Real satellite imagery of a real place, graded down to an analyst's grey, with thin white measurement lines drawn on the ground: a lock-on reticle, outlines, a range line, one reading. One continuous zoom built from stacked imagery plates carries the viewer from orbit to the ground and back, and time can run inside one locked frame.
-> References (grammar only): open-source investigation films that annotate satellite pictures (thin lines on imagery, one claim per screen, measuring as the plot); the Eameses' *Powers of Ten* (one continuous change of scale with a readout); NASA Earth Observatory's *World of Change* (one place, time running). Copy none of their layouts, typefaces, icons or music; never name them in the film.
+> Social-video news that reads with the sound off. Real footage, photos and the source document are the ground; huge captions are the lead actor, slammed in a chunk at a time with one keyword on a yellow block. Hard cuts on a music grid, numbers that roll, a source tag that slides in whenever a figure appears, and the original document highlighted on screen before its number is believed. 16:9, built for a feed.
+> References (grammar only): the captions-first social news of the mid-2010s (NowThis, AJ+), horizontal explainers that set big type over footage (Bloomberg Quicktake). Never copy their logos, fonts, colour ratios, idents or shots, and never name them in the film.
 
 ## 1. Essence, and what it is not
 
-- **The ground is a photograph**: real, licence-clean, georeferenced satellite or aerial imagery of the actual place. Nothing on the ground is drawn, stylised or generated.
-- **Two layers, two truths**: the imagery is what the satellite saw; the hairlines are what the analyst measured. Marks are thin, white, sparse, and sit on real coordinates.
-- **The grade moves with the story**: orbit in true colour, the analysis layer in grey, colour back only where the story turns.
-- **Scale is the camera**: one zoom from orbit to the ground built from nested plates, with an altitude readout and a scale bar from the same camera.
-- **One finding per screen**, in the single accent colour.
+1. **Sound-off first.** Every beat must be understood from the picture and the captions alone; the voice adds pace, not information.
+2. **The caption is the shot.** One Chinese line, set huge, slammed in two or three chunks, one keyword in a yellow block; one English line under it. The footage is chosen to sit under the line.
+3. **Evidence on screen.** Each number arrives with its source: a source tag slides in; key figures are first seen highlighted in the original document; per-shot footage credits sit in the corner like a news "Video:" tag.
+4. **A hook on frame 4.** The film's largest number lands in the first 0.15 s and rolls to its value.
+5. **One turn.** The bad-news hook is answered by a fact that changes its meaning; the rest of the film explains that turn, one new fact per shot.
 
-Not Data Storytelling (a chart on paper), not Sci-fi Hologram HUD (no glowing wireframes or invented chrome), not Blueprint, not Isometric Infographic (real nadir or oblique views, no diorama), not a keynote (no slides, header bars or chapter numbers).
+Not **Data Storytelling** (charts are short inserts between footage, never the whole film, never a dashboard). Not a **TV news package** (no anchor, no lower-third ticker, no studio, no scrolling crawl). Not a keynote: no headers, no centred title-and-bullets, no page turns.
 
-## 2. Materials & rendering
+## 2. Frame and layout (1920×1080)
 
-- **Plates**: georeferenced rasters with a lon/lat box, sampled in a shader where the camera ray hits the ground, nested by resolution (world → region → detail) with feathered edges so finer plates dissolve in as the camera descends.
-- **Globe**: ray–sphere from a perspective camera, a thin atmosphere rim, limb shading at orbit only; compute |C|² − R² in double precision (float32 fails below a few tens of km).
-- **Time**: dated plates share one grid. A soft scan front (a satellite pass, never a hairline) swaps them: north → south forward, south → north for a rewind. Growth can run outward from the old edge, ordered by a distance map.
-- **The analyst's grade** (one uniform from colour to grey): luminance with local contrast and clarity, a shoulder so salt, snow and cloud stay below white, toned blue-black → cool silver up to ~65 % grey, a fifth of the chroma. White belongs to the marks.
-- **Marks**: a 2D overlay through the same world → screen function: hairlines 1.2–2.6 px with a dark halo, dashes for history and claims, brackets, ticks, leader lines. Lines draw on; outlines print behind the scan.
-- **Screen space only for instruments** (altitude, scale bar, imagery credit) and the transcript strip. Everything else is anchored to the ground.
-- **The claim layer** is a printed map drawn in the shader from a distance field of the old outline: paper grain a few pixels wide at any zoom, halftone ink, coast and waterlines, graticule, the serif name.
-- **Post**: light grain in ffmpeg, a vignette, directional blur only on whip pans.
-
-## 3. Colour logic
-
-- Neutral ground: grey, roughly 3–65 % in value. White means *measured*.
-- One accent (warm, e.g. amber) for the single reading on screen, never decoration.
-- A second hue may mark the **claim** the imagery tests (a map, a plan, a promise): flat, cartographic, never used for anything measured.
-- True colour is evidence: at orbit, and again only where the story turns (the field that greened, the water that returned).
-- No false-colour ramps over the imagery.
-
-Example (our demo): ground #070B0E → #A1A7A9, marks #F2F5F6, reading #FFBE55, map blue rgb(46, 112, 206).
-
-## 4. Type & subtitles
-
-- **Roles**: a light condensed grotesk for the reading (96–130 px, e.g. Barlow Condensed); a monospace for instruments and dates (20–34 px, e.g. IBM Plex Mono); a sans for labels in the film's language (24–42 px); a serif only for the claim layer and the title. OFL, self-hosted, CJK subset to the characters used.
-- **Labels attach to the ground** with a leader line. The reading sits in the right third beside what it measures, label above, source note below ("Landsat, measured").
-- **Subtitles are a transcript strip** at the bottom left: a 2 px white rule, a dark plate fading right, left-aligned, each line on one line (measure with the real font, `nowrap`; split a long sentence into two cues). If the film is bilingual, the film's language on top.
-- Nothing below 20 px at 1080p, the imagery credit included.
-- Hold subtitles ≥ max(1.8 s, speech + 0.6 s); a rolling counter reports its landing value; labels stay ≥ characters ÷ 4.5 + 1.5 s (CJK).
-
-## 5. Motion quality
-
-- The camera never stops: distance interpolates in log space, segments ease, holds keep a 2–5 % creep or a slow rotation. No frozen frame longer than a second.
-- Marks arrive by being made: a line grows, an outline prints behind the scan, a counter rolls and lands with a small pop, a reticle snaps with overshoot.
-- Time changes are scans, never dissolves; their spacing tells the speed, and the camera moves with them (accelerating as the steps shorten, braking on the last).
-- Never moves: the ground under its annotations, the instrument positions.
-
-## 6. Camera grammar
-
-| Move | What it expresses | Can serve |
+| Zone | Position | Content |
 |---|---|---|
-| Oblique orbit, limb in frame | scale, context, distance | an opening; a return; a title card |
-| Dive (log zoom, tilt to nadir) | going to look for yourself | a reveal; checking a claim |
-| Locked nadir frame, slow creep | evidence, comparison | time running in one place; a measurement |
-| Push-in on a point | singling out | one town, one dam, one field |
-| Track along a line | travelling a distance | measuring; a river, a road, a border |
-| Whip pan with blur | a new subject at the same altitude | the counter-example; "meanwhile" |
-| Climb back to orbit | consequence, perspective | an ending; a summary |
+| Footage | full bleed | video, photo, document or data card; never a vertical frame pillar-boxed in the middle |
+| Caption card | left aligned at x 120; Chinese baseline y ≈ 948, English baseline y ≈ 1014 | one line per language, never wrapped |
+| Channel bug | top left, x 96 y 52, 46 px high | yellow block with a fictional channel name + topic in Chinese and English small caps |
+| Source tag | under the bug, y 108, 36 px | white "来源" + dark label (`USDA NASS · 2026.08.03`, `… · 第 13 页`); only on data and document shots, slides in 0.2 s |
+| Footage credit | top right, 19 px on a 50 % dark chip | `视频 作者 · CC BY 3.0`; every CC BY shot carries it |
+| Lower third | x 120, y 742, 96 px high | yellow bar + label + one English line; for a place, date or speaker, never for the main sentence |
 
-At key moments the subject fills a third of the frame height; reading right, subtitles bottom left, instruments in the corners. Transitions: scan-line swaps, a map layer switched off, zooming through plates, whip pans, the reticle opening into a title card. No crossfades between unrelated places, no hard cuts inside a zoom.
+Under the caption: a bottom gradient (0 → 84 % from y 560) plus a soft dark radial from the bottom-left corner; a top gradient (55 % → 0 over 200 px) under the bug and the credit. Data cards use a lighter gradient that starts at y 820. Graphics and charts sit right of centre and bleed to the frame edge; their title and source sit top left, never centred.
+
+Vertical 9:16 is a different layout, not a crop: put the caption under a 1080×1560 footage band (horizontal sources then scale ≤ 1.5×), stack the chunks on two lines there (the one-line rule is for 16:9 subtitles), and move the bug and source tag into the top safe area.
+
+## 3. Editing grammar
+
+- **Cuts on a 120 BPM half-beat grid** (every cut at a multiple of 0.5 s). Footage shots 1.5–3 s; data cards and documents 3–4.5 s; a shot that holds a comparison stays until every item has been fully on screen ≥ 2.5 s.
+- **Captions cross cuts.** A caption can run over two shots (picture changes, words don't); captions change at most every ~2.5 s even when shots change every 1.5 s. Reading time, not shot length, sets the caption clock.
+- **The order of a fact**: footage (feeling) → the number on a card → the document line that says it → the consequence. Never a number without its source tag in the same shot.
+- **Transitions are few and fixed**: hard cut (default); a 1–2-frame white flash on the turn and on the freeze; a card sliding in from the right with speed streaks (0.18 s); a split screen opening from its divider; grid panels rising staggered (0.1 s apart); a punch-in (0.3 s ease-out to ~1.25×) on the culprit; a **mask transition** where a photo grows out of a map shape. No dissolves, no page turns, no 3D flips.
+- **Pace**: a strong action within 0.5 s of every shot; no frame flat for more than 1 s (rolling counters, line drawing, highlighter sweeps, slow pushes keep it alive); one held breath (2–3 s) after the turn; two real silences.
+
+## 4. Caption card (the subtitle *is* the graphic)
+
+- **Chinese line**: Noto Sans SC 900, 88 px (verdict lines 110 px), ivory `#F7F5EF`, 20 px dark soft shadow. Split into 2–3 chunks with `|` in the timeline; each chunk slams 0.12 s after the previous: scale 1.3 → 1 in 0.13 s (back ease, overshoot 1.6), opacity full in 0.04 s.
+- **Keyword**: `{…}` inside a chunk; a honey-yellow block `#FFC21A` wipes left → right in 0.12 s behind it, text turns ink `#0E0E0C`. One keyword per caption, at most.
+- **English line**: Inter Tight 500, 33 px, ivory, fades and rises 10 px in 0.18 s, 0.1 s after the first chunk. It is the spoken line (numbers as digits), not a translation of the Chinese.
+- **One line per language, always.** If either language would wrap, split the sentence into two captions. A caption is on screen ≥ 1.8 s and ideally ≥ the spoken line + 0.6 s; the Chinese is a paraphrase short enough to read in that time (≤ ~14 characters).
+- The `.srt` is generated from the same timeline (`timeline.json` → `tools/cues.py` → `core/render/srt.py`): one Chinese line, one English line per cue.
+- A text-only beat (caption with no voice) is native to the style: use it for the breath after the turn.
+
+## 5. Graphics
+
+- **Ledger card** (the data-card ground): `#151512` sheet, faint ruled lines every 54 px (4.5 % white), a thin red double margin at x 78/86 — the "account book" that ties every chart together. It slides in from the right over 0.18 s; inside, a slow push (×1.025–1.03 over the shot).
+- **Colour meaning**: honey `#FFC21A` = the point / gains / the highlight; red `#FF4A3D` = losses, the spike, the bad number; ivory = everything else; grey `#8D8B83` = labels and units; `#5E5C55` = the bars that don't matter.
+- **Numbers**: Inter Tight 800 with fixed-width digit cells (`num()` in `demo/main.js`), so a rolling counter never jitters. Counters roll with ease-out and turn their colour when they arrive. Units in Chinese (箱, 万箱) set smaller after the number.
+- **Charts**: titled top left in Chinese (Noto Sans SC 900 64 px, ≤ 6 characters so it can be read in the shot) with one grey English line; lines draw segment by segment (eio); the key point gets a bigger dot, an expanding ring (0.7 s) and a block label; bars grow from the left one after another (first one slower and longer if it is the point).
+- **Map**: state shapes from Natural Earth, projected (Albers), sequential fill in five steps of one hue, states without data in dark grey with a "未单列" legend swatch; the subject state outlined in yellow with a leader and a label; the map pushes in on it.
+- **Documents**: the PDF page rendered at 220 dpi as white paper on a dark desk (±1–2° tilt, soft shadow, vignette), pushed in slowly; highlighter rectangles placed from `pdftotext -bbox` coordinates (1 pt = 3.0556 px), `multiply` blend, swept left → right in 0.3–0.5 s; the number read from it is re-set as a big yellow block beside the page. The printed text is picture; what must be read is re-set in type.
+- **Split screen**: two halves with a 4 px yellow divider that drops first; the "bad" half desaturated, darkened and tinted red, the "good" half in full grade; a label block (Chinese + English word) and a counter in each; a shared stamp centred on the divider.
+- **Grid**: three panels (632 px, 12 px gaps) rising staggered; each one lights up (yellow border, label turns yellow) on the word that names it; numbered 1–2–3.
+- **Freeze frame**: the shot stops on a frame, a 0.14 s white flash, punch 1.0 → 1.12, saturation drops to 45 %, yellow corner brackets close in on the subject, a timecode chip with a pause mark appears top right.
+- **Title sting**: a yellow ruled page (the ledger again, in yellow) wipes across the left 45 % over live footage; the title slams, the English title and a dateline chip follow; the page wipes off left and the title becomes the channel bug.
+
+## 6. Grade and image quality
+
+- One grade for every piece of footage: `contrast(1.07) saturate(0.92) brightness(0.98)` + a 6 % warm soft-light layer; documents 4 %. Light grain in the master (`mux.sh … 30 1`).
+- **Scale limits**: modern footage ≤ 1.5× (prepare frames at their final size with ffmpeg: crop, lanczos, `unsharp=5:5:0.45`); photos ≤ 1:1 of their source; archive material ≤ 2.5× after deblocking. Pushes stay inside those limits — a 720p source already at 1.5× gets no push.
+- Remove station logos by cropping (never cover them with a caption), blur legible private details (phone numbers, names on hives, number plates) with `delogo`, skip shots with burned-in text.
+- Captions, numbers and charts are always vector, never scaled footage.
 
 ## 7. Sound palette
 
-- **Telemetry**: FM pings (a lock-on ping worth bringing back), dry ticks on the grid that divide to accelerate, noise scans (rising for a rewind, falling forward), servo whines, a ratchet for a range line.
-- **Weight**: timpani, bass drum, gran cassa, bowed cymbal, a tam-tam reversed when time runs backwards. Measurements land on a pitched hit.
-- **Synthesis**: a pulse bass with audible 2nd and 3rd harmonics, detuned-saw pads under a low-pass, risers for dives.
-- **Beds**: orbit hum, radio hiss, data chatter; the place's own ambience (wind, water, a far horn), sparingly, often as J- or L-cuts.
-- **One option for the shape**: keep the palette dry (electronics, skins, metal) and let one wet timbre (glass, water, bowed metal) mark the turn.
-- **Silence**: music and foley stop, a thin bed stays, impacts may decay into it; the first sound after it is the turn. A short suck-out (0.2–0.45 s, music and foley down ~25 dB) before the heaviest impacts makes them land.
-- **Mix**: voice ~10 dB over music; the two or three designed impacts are the loudest moments (out of the bus compressor, with mid-range body, e.g. a low-brass stab); 20–60 Hz about 15 dB under the full band (high-pass ~40 Hz, impact weight at 60–120 Hz); −14 LUFS, true peak ≤ −1.2 dB. Voice: a calm analyst, short declarative lines.
+| Layer | What | Level |
+|---|---|---|
+| Voice | one brisk narrator (Kokoro, speed 1.1–1.17), numbers spelled out in the TTS text | compressed, ≈ 8 dB over the music |
+| Music | 120 BPM pulse in sampled instruments: kit (kick on the beat, hats on off-beats), eighth-note electric bass, a sixteenth-note marimba ostinato, vibraphone off-beat chords, glockenspiel accents, staccato brass stabs on the big numbers, timpani and suspended cymbal for turns | ducked ~45 % under the voice |
+| Structure | the hook hit on frame 4; a hard stop into silence before the turn (only natural sound and the question); the turn lands on a major-key brass hit; half-time and low strings for the threat; a snare build into the spike; a second short silence before the verdict; a major chord with bells on the verdict | |
+| Foley | every graphic action has a sound: chunk slam (click + thump), counter rattle (a tick every 45 ms), whoosh into each card, highlighter squeak, camera shutter on the freeze, stamp thump on a big number, pops for labels, ticks as map states fill, a riser into the map push | |
+| Natural sound | the subject's own location sound (here a swarm), J-cut 0.3 s before the freeze, bed under the ending | not ducked below audibility |
+
+Master −14 LUFS, true peak −1.2 dB (`core/render/mux.sh`).
 
 ## 8. Native moves
 
-- **The map against the photograph.** The camera falls into the printed map of the claim; a scanner bar tears it away and the ground is underneath; the name outlives the page. *Fits content like:* a lake still on maps but gone; a cleared concession forest; a planned city never built.
-- **Time rings in a locked frame.** Dated plates scan in one by one; each leaves its outline, the band lost between two rings flashes. *Fits content like:* a glacier's retreat; a city's sprawl; a fire scar season after season.
-- **The range line.** Mark the destination, grow a ticked line from A to B, chase the tip while the reading counts up, land on the number, pull back to show the whole distance. *Fits content like:* how far a shore moved; a village to its well; a camp to the border.
-- **The dive and the climb.** One zoom from orbit to the ground, or back. *Fits content like:* locating anything; a scale reveal; an ending that returns one place to the planet.
-- **Colour returns where the story turns.** Only the subject regains true colour inside the grey. *Fits content like:* an irrigated field; a refilled reservoir; a regrown forest.
-- **The reticle becomes the frame**: the lock-on brackets open out to frame a title card or the last reading.
+1. **Frame-4 hook** — kicker line, then a giant number in a yellow block rolling to its value in 0.45 s, then the unit and the subject word (`hook()`).
+2. **Chunk slam with one yellow keyword** (`capCard()`).
+3. **Proportion by darkness** — a yellow line sweeps across the footage to the percentage; what it passed goes grey and dark; the figure appears on the dark side (`shotHalf()`). Works for any "X % of …".
+4. **The document says it** — headline or sentence highlighted from PDF bbox coordinates, then the number popped as a yellow block beside the paper (`paper()`, `shotDoc6()`, `shotQuote()`).
+5. **Freeze and question** — the image stops on the viewer's question, music cut to silence (`shotFreeze()`).
+6. **Ledger split** — two counters racing side by side, the difference stamped after both settle (`shotSplit()`).
+7. **Lit grid** — three ways / three causes, each panel lighting on its word (`shotGrid()`).
+8. **Punch and circle** — 0.3 s punch-in on the culprit, a circle drawn round it, a leader to its name and its Latin name (`shotSem()`).
+9. **Map to ground** — the map pushes into a region, then a photo of that place grows out of the region's outline (`shotMap()`).
 
-## 9. Pitfalls of the medium
+## 9. Material
 
-- **Licences**: not usable: Google Earth/Maps, Bing, Esri World Imagery, Mapbox Satellite, Planet, Maxar, news photos, AI-generated imagery. EOX Sentinel-2 cloudless is CC BY 4.0 only for 2016 (2018 onward is NC). Raw Copernicus Sentinel data need "Contains modified Copernicus Sentinel data [year]"; check the user's rules. Public domain or free with credit: USGS Landsat (1972 on, worldwide), USGS NAIP (US, ~1 m), NASA Blue Marble, MODIS, VIIRS. Burn a readable credit into the picture and list every asset in `CREDITS`.
-- **Finding imagery for a new place**: search by bounding box and date in the Planetary Computer STAC (Landsat C2, Sentinel-2 L2A; no account) or USGS EarthExplorer; MODIS/VIIRS and Blue Marble from NASA GIBS; outlines from Natural Earth. Log every request. OSM (ODbL), CC BY-SA and "no known restrictions" are not CC0: name the terms and ask the user first. Ask for the user's own surveys or GIS layers when the place is theirs. Never fill a gap with generated imagery presented as evidence.
-- **Seams**: paths imaged on other days disagree. One date per path, each scene gain-matched on stable land, feathered overlaps, holes filled from the same year only.
-- **Old sensors**: Landsat MSS (to 1992) has no blue or SWIR and drops scan lines: nearest-neighbour resampling, near-zero rows as nodata filled from same-year scenes, scan-angle streaks cleaned on land only. Inspect every year at full contrast.
-- **Plumes and haze** cross water as bright diagonal bands: swap the scene for another date of the same year rather than painting it out.
-- **Edges**: resampling against nodata darkens scene rims (erode the mask); drop contour pieces along a plate border. Real straight edges (dikes, polders) can read as seams: frame them out or label them.
-- **Grey mush at close range**: raise local contrast for that altitude only and dim outside the measured corridor.
-- **Water and cloud**: MNDWI where shortwave infrared exists, only the basin you measure; clouds read as features in grey, so use the dry season.
-- **Facts**: keep a FACTS.md in the project folder (claim, source URL, quoted wording, or the measurement method with scene IDs and dates) and deliver it with the film. Measure on the date you show.
+1. **Ask the user first** whether they have their own footage, photos, documents or data (and the rights to them). Their material comes first; the sources below are the fallback.
+2. **Where to look** (judge every file on its own page, not the search result):
+   - **Wikimedia Commons** (video and photos): read the licence on each file page. Fine: CC0, public domain, CC BY (credit author, title, licence on screen and in `CREDITS`). Not used: CC BY-SA, "no known restrictions", unclear licences, YouTube re-uploads, colourised or "restored" versions.
+   - **U.S. federal agencies** (USDA, USGS, NASA, NOAA, NARA): works of federal employees are public domain; check that the page does not credit a contractor or a third party. NASA: https://images.nasa.gov. NARA: https://catalog.archives.gov.
+   - **Internet Archive**: only items whose own page states public domain or a CC0/CC BY licence; U.S. works published before 1931 are public domain.
+   - **Library of Congress**: read each item's rights statement; "no known restrictions" is not enough.
+   - **Official documents and data** (reports, statistics, court filings) from the agency's own site: the source of every fact; keep `FACTS.md` (claim, URL, quoted wording, derived sums with their arithmetic).
+   - **Map geometry**: Natural Earth (public domain).
+3. **Before downloading, tell the user** what you will fetch, from where and under which licence, and keep within a size budget. The finder copied into this style, `demo/tools/footage.py` (`search commons|archive|nasa`, `fetch`, `used`, `md`), logs licence, author, page and the seconds used of each file into `SOURCES.jsonl` and writes `SOURCES.md`; `demo/tools/commons-tools/peek.py` previews a Commons video from thumbnails before downloading it, `seg.py` downloads only a segment of a long one, `commons_thumb.py` takes a standard-width thumbnail when the original is rate-limited. Wikimedia rate-limits bursts (HTTP 429): one request at a time with pauses.
+4. **People on screen**: no close-up or slow motion of an identifiable private person; public figures and people in the news event are fine. Never use generated images as footage.
 
 ## 10. Engine
 
-- `demo/engine.js`: `makeCamera({lat, lon, d, tilt, heading, sx, sy})`, `project()` / `unproject()`, the WebGL2 plate shader (nested plates, time scans, growth map, analyst grade, printed-map layer, whip blur).
-- `demo/overlay.js`: hairlines, brackets, `readout`, the measured single-line `subtitle` strip, `text` with a registry for `window.TEXTS`.
-- `demo/tools/`: `fetch_landsat.py` (STAC, one date per path, same-year gap fill), `plates.py` (normalisation, streak cleaning, water masks, areas), `vectors.py` (shorelines, distances), `mapfield.py` (the printed map), `growth.py`.
-- **Extra packages and packs**: none beyond `setup.sh deps voice` and the sample packs the score uses (`sh tools/fetch.sh instruments <lib>` for vsco2ce, vcsl, freepats in the demo). Imagery uses only the standard library, numpy, SciPy, Pillow (no GDAL); allow 3–4 GB for cached scenes. Anything more (rasterio, pyproj) goes in a private venv in the project folder, not `$LIB/.venv`.
+Copy `demo/` into the project and replace the content:
+- `main.js` — the page (`window.render(t)` draws synchronously with placeholders first, so `TEXTS(t)` is valid for `readcheck.mjs`, then loads the frames it needs and draws again). Shot functions per format; `SHOTS` table for cuts.
+- `timeline.json` — captions (`zh` with `|` chunks and `{keyword}`, `en`), voice start times, silences and hits; read by the page, `tools/cues.py` (.srt + timing check) and `audio/mix.py`.
+- `tools/prep.sh` — every video shot as a 30 fps JPEG sequence at its display size (crop, lanczos, unsharp, delogo); report pages; photos; the map projection (`tools/map_prep.py`).
+- `audio/mix.py` — sampled score from the timeline, foley from `events.json`, voice, natural sound, ducking.
+- `tools/fonts.sh` (OFL subsets for every character in `main.js`), `tools/final_check.sh` (loudness, black frames, speech-to-text of the final mix).
 
-## 11. Variation space
+## 11. Pitfalls
 
-The agent decides the place or places, whether there is a claim layer, which dates, the structure, the camera path, the accent hue and where colour comes back.
+- **Text that can't be read in its shot.** Chart titles ≤ 6 Chinese characters; ornamental stamps (datelines) must recur readably elsewhere; a label that changes text (a counter) is reported to `TEXTS` with its final value. Run `readcheck.mjs`.
+- **Two-line Chinese captions in 16:9** read as a slide. Split the sentence instead.
+- **The voice running to the cut**: lines that end on the cut feel rushed; speed the TTS (≤ 1.17 — faster, Kokoro starts to mangle names: "varroa" became "Veroa") or shorten the line.
+- **Homophones in ASR**: "requeen the weak" was heard as "week"; "varroa mite" as "might". Rewrite the line ("give old ones a new queen", "varroa mites").
+- **Words stronger than the source**: the report says "stressor", not "killer"; quarterly losses summed are not "annual net loss". Write what the source says.
+- **Footage from elsewhere**: illustrative footage (here Dutch hives) never carries a place label it doesn't have; dates on photos (an almond orchard in 2014) are stated in the credit.
+- **Blank first frames on transitions**: start split/grid/sting animations 0.1–0.15 s before the cut so frame 1 already has picture.
+- **Station logos**: crop them out; never park a caption over a logo.
 
-- **Structures**: a locked time-lapse of one place ending in a push-in; a river followed from source to mouth with a reading at each stop; two places compared at one scale with whip pans.
-- **Openings**: a ground-level detail that climbs to reveal its scale; a black frame a scan line paints in; an oblique orbit with a searching reticle.
-- **Endings**: the climb back to orbit; a last measurement that lands and holds in silence; the claim layer redrawn to match the ground.
+## 12. Variation space
+
+The agent decides per film: topic, the turn, which formats are spent where, footage, the channel's fictional name and colour (keep one accent colour), the title.
+
+- **Three structures:** the inverted pyramid with a mid-film turn (bad number → "really?" → the document says otherwise → why); a list of three that turns on the third; a countdown of numbers that ends on the one that matters.
+- **Three openings:** the biggest number on frame 4; the document headline highlighted in the first second; a freeze on the event with a question.
+- **Three endings:** a two-part verdict caption on footage with music returning after a silence; back to the hook's number, now re-read; the last data card's key point becoming the closing caption.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: briefing-board -->
+<!-- STYLE: newsreel -->
 
-# Engineering Briefing Board — Style Prompt
+# 1920s Newsreel — Style Prompt
 
-> One real whiteboard wall, filmed: window light on enamel, ghosts of erased marker, frame and tray. Cut-out photographs of real things land on it with weight; tags, magnets, a ruler and stamps are pinned to it; marker ink draws itself in three colours with fixed meanings. The camera rides the lines from fact to fact and only at the end pulls back to show the whole briefing.
-> References (grammar only): explainers filmed on a map wall; the long pull-back over a wall covered in work; drafting conventions (plan above elevation, dimension lines, hatching). Never copy them or name them in the film.
+> A sound newsreel of the late 1920s, cut from real archive material: a searchlight-and-globe ident with a brass fanfare, a newspaper that spins into the lens, a fast and cheerful announcer on an optical soundtrack, place-and-date cards, maps, magazine pages and documents, wipes, flips and irises, and a hot band that can stop dead for the punchline.
+> References (grammar only): **Fox Movietone News** and **Universal Newspaper Newsreel** (1927–1930s) — the ident ritual, the announcer's patter, one story per location, the stinger after the last story; **Pathé News** — the item title card; Hollywood's **spinning newspaper** montage; **1920s hot dance bands** (Charleston rhythm, banjo, tuba). Never copy a real newsreel's name, logo, globe design, typeface or fanfare.
 
 ## 1. Essence, and what it is not
 
-1. **A physical board in a room**: enamel, window falloff, a sliding reflection, ghosts of earlier work, frame and tray.
-2. **Real things on it**: cut-out photographs of the real objects, a few millimetres off the board, shadowed by one window, parallaxing. They are evidence: never a generated image presented as a real object.
-3. **Ink that means something**: graphite for names and rules, blue for water and measurement, red only for the decision; rejected ideas erased to ghosts.
-4. **One continuous wall**: no pages; the camera travels along lines, projections and leaders.
-5. **The whole wall, once**: every shot is a crop of the final briefing, seen whole only in the last pull-back, as a poster.
+An edit style: the look is in **how real material is arranged, cut, captioned and carried by sound**, not in a drawing technique.
+- **Archive in a projected gate**: 1.37:1 picture, full height, rounded corners, black outside; everything inside it shares one silver grade, gate weave, flicker, scratches and dust.
+- **News objects** do the explaining: newspapers, magazine pages, books, telegrams, maps, records. They are filmed (spun, slammed, panned, turned, underlined), never typeset as slides.
+- **A voice talks over everything**: short exclamations, half joking, never a lecture.
+- **Music is a band, and it edits**: cuts land on the band's beats; the band stops dead to let a line land; a period record can take over the soundtrack.
 
-Not **Whiteboard Explainer** (a hand drawing line art on a flat page): the board is a filmed object, subjects are photographs. Not **Data Storytelling**: comparisons are dimension lines in real units beside real objects. Not a keynote: no headers, centred bullets, page turns.
+Not `silent-film` (1920s Silent Film, in this library): that style is a drawn, inked comedy projected between velvet curtains, with intertitles instead of voices, a cinema pianist and no foley. Here nothing is drawn but the packaging; the footage and print are real; somebody always speaks; the soundtrack is brass, banjo and records; titles are news captions (place · date), not dialogue cards; there are no curtains and no theatre.
+Not a documentary with a "vintage filter" either: no talking heads, no slow Ken Burns drifts, no modern lower-third bars.
 
 ## 2. Materials & rendering
-
-- **Board (z 0)**: procedural enamel, wiped ghost strokes, smudges, a window falloff, a sliding diagonal reflection; the frame shadows a warm grey wall.
-- **Ink (multiply)**: flat colour at about 90 %, lighter core, round caps, a wet-tip glint on the stroke being drawn. Lettering: a marker font revealed glyph by glyph with seeded tilt and baseline jitter. Erasing leaves a blurred ghost (about 7 %).
-- **Prints (z ≈ 6–14)**: photographs cut out at full resolution (a matting model, or a hand polygon / mask), clean edges, one shared grade (lower saturation, a touch warmer, lifted blacks). Thin structure (cables, wires, masts, railings) is measured in the photo and redrawn as clean lines in one colour. Shadow = blurred silhouette along one light vector, softer the higher the object. **No frame upsamples a photo**: ≥ 1 source px per screen px at its largest, measured; cap the zoom or find a bigger source.
-- **Secondary layer** (only where the camera never goes before the end): the photos as pinned prints, a source card, sums on sticky notes, a small sketch. Texture and proof for the final wall, lighter than the main line.
-- **Props (z ≈ 8–26)**: magnetic tags, magnets, a steel ruler, printed cards, a pitted stamp impression; the tray (z 70) nearest the lens.
-- **Camera**: parallax by height, sub-frame motion blur (180° shutter), light grain. Only subtitles are screen-space.
-
-## 3. Colour logic
-
-- Ground: the enamel and its light falloff; the wall around is neutral warm grey.
-- Ink: graphite = names, rules, facts; blue = water and measurement (dimensions, projection lines, measured numbers); red = the decision (a rejection, the key word of a verdict, the one mark to notice); grey for drafting only (extension lines, hatching).
-- Red is rare: two or three red marks per frame at most, never on a red object. Full colour belongs to the photographs; props stay neutral; a red magnet is a verdict.
-
-## 4. Type & subtitles
-
-- **Marker lettering**: a single-weight marker face covering every script the film uses (ours: LXGW Marker Gothic, OFL, subset — re-run when words change). Content 100–160 board px; a verdict 230–400.
-- **Printed labels** (tags, cards, stamps): a sturdy sans; credit lines in a monospace. A tag holds one to three words.
-- **Subtitles**: a frosted acrylic strip at the bottom centre with a blue marker tick. If the film is bilingual, the film's language sits on top. **One line per language**: `nowrap`, measured in the page against a 1,500 px safe width; a long line becomes two cues. Key content stays above the strip (bottom 15 %).
-- **Reading time**: subtitles ≥ max(1.8 s, speech + 0.6 s); board text stays fully in frame for CJK ÷ 4.5 + other ÷ 15 + 1.5 s from when it appears. In the final wall, text meant to be read is ≥ 20 px on screen.
-
-## 5. Motion quality
-
-- 24 fps on ones; nothing is stepped.
-- Camera: overlapping eased moves, velocity ∝ u^a (1−u)^b (a, b ≈ 1.5–4), so speed and acceleration never jump; b > a gives inertia. A hand-held breath (≤ 3 px) underneath; shake only on an impact.
-- Weight: prints are lowered from the camera side, land, bounce and settle as the shadow tightens; magnets clack on to pin them; tags swing; removed magnets pop toward the lens; struck things jolt and spring back. The camera may meet a landing close, briefly, on the object's most telling detail, then pulls out.
-- Blurred in motion, sharp where words are read. Every 1–2 beats something lands, draws or swings; only silences and judgement holds go still.
-- Ink draws at the speed of a hand; dimension lines land with an arrowhead tap.
-- Never: dissolves, scale-pops on text, bouncy UI easing, text fading in by itself.
-
-## 6. Camera grammar
 
 
 <!-- END STYLE PAGE -->

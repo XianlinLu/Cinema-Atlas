@@ -1,162 +1,199 @@
 # Complete style specifications 34
 
 
-<!-- STYLE: lowpoly-island -->
+<!-- STYLE: pixel-rpg -->
 
-- **Music can be event-driven**: growth events carry a note, and the score synthesizes each one at its exact time, so the picture writes the tune. Pitched percussion suits the facets: marimba, kalimba, woodblock, bells, vibraphone, celesta, steel drum; underneath, a soft pad, a gentle ostinato, light shaker or soft kick. Pentatonic or modal material keeps any order of notes consonant. **No piano, no strings.**
-- **A single note can be a motif**: one sound owned by the world (a bell, a chime, a horn) that returns changed.
-- **Foley follows material**, all synthesizable: bubble sweep + splash with droplet ticks for rising tiles (bigger = lower); wooden knock plus a quieter bounce knock for floors; ceramic clack for roofs; hollow plank knock; heavy stone thunk; glass tink; a low whump with electric hum for anything switching on.
-- **Beds**: low-passed brown-noise water with swells, birds as downward-gliding FM chirps, creaking wood, crickets or wind at night.
-- **Silence**: drop to a low drone and a bed; a moment of digital zero on the music bus before a big downbeat. Options: thin the ostinato to one voice instead of stopping it; let the world's own events carry the rhythm for a passage.
-- **Voice**: clear and gentle, few short lines; avoid words that collide with the film's subject (a film about notes: "sea" heard as "C").
-- **Mix**: voice compressed and well above the music, music ducked under it, −14 LUFS; **grain 0** (flat colour shimmers with grain).
+> A short film that looks, sounds and *behaves* like a mid-90s console role-playing game: 320×180 pixels, a limited indexed palette, text boxes that type, menus, save files, chip music with echo.
+> References (grammar only): mid-90s console RPGs as a system of dialog boxes, menus, battles, overworlds and save points; the palette tricks of indexed hardware (palette swaps, fades by steps, cycling); the colour-depth history of consoles (4 shades → 8-bit → 16-bit). Never use existing game names, characters, UI frames, fonts, logos, melodies or sound effects. Learn the grammar, not the assets.
+
+## 1. Essence, and what it is not
+
+- **320×180 native pixels**, scaled ×6 nearest-neighbour to 1080p; everything, text included, lives in the framebuffer.
+- **A limited, indexed palette**; gradients are **ordered dither**, never blends.
+- **Sprites** around 20–34 px tall animating in a handful of frames; faces act in **portraits**.
+- **Story told the way a game tells it**: dialog boxes with portraits, menus, status bars, battle messages, save files, item fanfares.
+- It takes the game's systems seriously as a language for feeling.
+
+Not HD-2D (no depth of field, bloom or real-time light), not CRT nostalgia (no scanlines, no grain), not a parody.
+
+## 2. Materials & rendering
+
+- **Indexed framebuffer** (`Uint8Array` of palette indices) presented through a **lookup table** (index → RGB), so a whole palette can change in one frame. Camera moves are **integer pixels**; each parallax layer rounds its own offset.
+- **Master palette** of ~32 colours (a free palette such as ENDESGA-32), plus **protected duplicates** of a few indices that no palette effect touches.
+- **Colour-depth tables** computed from the master palette: identity (16-bit), nearest of ~15 NES-like colours (8-bit; it needs a dark green and a dark brown), 4 fixed luminance thresholds (4-colour, drawn natively at 160×90 and doubled), a faded set (`lum^0.8` → ~7 blue-greys), and intermediate subsets for step-by-step collapse. Map by luminance, never by rank.
+- **Light is index stepping**: `LIGHT[]` / `DARK[]` tables move each index one step along its ramp; glows are Bayer-thresholded rings. Firelight in a low-colour era uses a warm remap (greens → browns → rust), not generic brightening.
+- **Dither**: 4×4 Bayer for gradients and glows; light shafts as a flat 50 % checker with a 25 % edge.
+- **Sprites from a rig**: capsule limbs with 3-tone shading from an upper-left light, a per-part inner line in the material's darkest tone, a global 1-px ink outline, plus hand-placed ASCII heads. One rig gives every pose; lower eras drop the highlight tone. Give the hero a **silhouette mark** (a garment tail, a hat, a hairstyle).
+- **Portraits** 32×32, 3/4 view, base face + eye/brow and mouth overlays; they carry facial acting (the sprite face has one eye pixel).
+- **Props** can be flat-shaded 3D shapes quantised to a few protected indices (e.g. a rotating crystal at 8 frames per 90°).
+
+## 3. Colour logic
+
+- **Palette = feeling.** Colour depth, fades and swaps are story tools; change the whole palette by table, never by alpha.
+- **Colour depth can stand for time**: older = fewer colours, lower resolution.
+- **Protected indices**: a few colours exempt from every effect become the thread through the film and allow match cuts between eras. Use one or two; more and they stop meaning anything.
+- **Warm hues survive reductions**: keep orange, pink and plum in reduced subsets, or the first step turns a scene solid red.
+- Example uses of protected colours: a red kite across a childhood; a gold coin in a grey economy; the green of one plant in a faded city.
+
+## 4. Type & subtitles
+
+- **The dialog box is the subtitle**, drawn in the framebuffer at the bottom quarter: a layered rounded border (ink / white / silver), a dithered dark-blue fill, a 32×32 portrait on the left, an **original** variable-width pixel font (cap ~7 px) with a 1-px shadow. It types with the voice (~38–40 chars/s; slower in older eras), ▼ blinks when done.
+- **Skins follow the era** (light box for 4-colour, black box with white frame for 8-bit, blue for 16-bit).
+- Battle and system messages go in a thin top window. Every box stays ≥ max(1.8 s, speech + 0.6 s); the next box cuts the previous one. Export the `.srt` from the same subtitle array.
+- Titles in the pixel font at 2×, 8-neighbour ink outline, row-by-row gradient, Bayer-dissolved in and out.
+
+## 5. Motion quality
+
+- Output 24 fps. Sprites step at **8 fps** (walk) to **12 fps** (flames, blinks); camera and parallax move on ones at integer pixels.
+- **Game-native acting**: hop forward to act, cast pose, knockback recoil, kneel, KO blink (12 fps on/off) and vanish; breath = shoulders up 1 px.
+- **UI motion**: windows slide in over ~0.3 s (ease-out, integer px); a hand cursor bobs 1 px at 4 fps and **stops when the character hesitates**.
+- **Transitions**: thumbnail expand + mosaic, mosaic cross with a palette switch at the peak, the encounter swirl (polar twist + mosaic + Bayer dissolve to white), screen shake (3–2–1 px over 8 frames), palette step fades (4 levels). Never alpha fades.
+
+## 6. Camera grammar
+
+A vocabulary, not a route. Game cameras are simple and legible. Opening and ending come from the topic.
+
+| Move | What it expresses | Can serve |
+|---|---|---|
+| Side-scroll with parallax layers | journey; loneliness; progress | a commute; a quest; a timeline |
+| Locked frame with UI on one third | a choice; a system speaking | a menu decision; a stats reveal |
+| Battle side view (enemy / party / windows) | conflict as a system | an exam; a negotiation; an illness |
+| Top-down overworld pan | the whole world; where things are | a city; a map of a company; a trip |
+| Integer-pixel tilt up something tall | awe; scale | a tower; a door; a mountain |
+| Hold while the palette changes | loss or change without motion | grief; a memory fading; nightfall |
+| Back view at a threshold | resolve; the unknown ahead | a first day; a launch; a departure |
+| Zoom by mosaic into a thumbnail | entering a memory or a file | a flashback; a save slot; a photo |
+
+Framing: characters stay above the dialog box (floor line above its top edge); menus leave the action visible.
+
+## 7. Sound palette
+
+- **Chiptune voices**: pulse waves at 12.5/25/50 % duty, 4-bit triangle bass, LFSR noise drums, wavetable leads, SNES-style echo (a few taps ~180–370 ms, feedback ~0.4, low-pass in the loop). Original melodies only.
+- **Fidelity follows colour depth** (option): 4-colour = mono, 4-bit volume steps, low sample rate; 8-bit = NES-like mono; 16-bit = stereo with echo; a faded present = the same music muffled.
+- **Techniques (options)**: regional variations of one motif; the arrangement losing one layer per palette step; a key change or the full band returning on a colour flood; a phrase left on the dominant and resolved later; an item-get fanfare as a punctuation.
+- **Foley**, synthesised and bit-crushed to the scene's era: cursor and select blips, text blips (pitch per speaker), footsteps with echo, fire crackle, magic shimmer (triangle arpeggio), charge and blast, HP tick-down, KO blink, a bit-drop per palette step, save ticks, door grind, coin and item jingles, menu error buzz.
+- **One organic sound** (a breath, a heartbeat) can make a character human at one moment.
+- **Silence**: true zero including echo tails.
+- **Mix**: music ducks ~7–8 dB under voice (fast attack, slow release); −14 LUFS, grain 0.
+- **Voice** (optional): first person, few short lines; or text blips only, for a character who exists only in text.
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **Building is composing**: every piece that lands plays a note; a later sweep can replay them in spatial order as a finished melody. *Fits content like:* a skyline whose floors are notes; a team assembling a product; a garden whose flowers form a chord.
-- **Procedural growth**: tiles rise, floors stack, trees pop. *Fits content like:* a startup's first year; a coral reef recovering; a neighbourhood being planned.
-- **Scale by pure zoom**: one object fills the frame, then the world becomes a speck (or the reverse). *Fits content like:* one user among millions; a village on a continent; a data centre inside a network.
-- **Turntable**: a continuous rotation around the thing being made. *Fits content like:* a machine being assembled; a museum object; a house renovation.
-- **Light as clock**: shadows sweep and facets re-colour. *Fits content like:* a day of a shop; a year of a farm; a shift at a hospital.
-- **Emissive blocks in the dark**: lights coming on one by one, a beam sweeping like a clock hand. *Fits content like:* a network going live; a town at nightfall; volunteers joining a cause.
+- **Palette collapse / flood.** Colour depth drops one level per beat, or full colour floods back through a dither wave. *Fits content like:* a city blackout and recovery; a company in crisis; burnout and rest.
+- **Protected colour match cut.** One exempt colour links two eras in the same screen position. *Fits content like:* a family heirloom; a brand colour across decades; a team jersey.
+- **Save files as memory.** A list of files; choosing NEW FILE refuses to overwrite. *Fits content like:* versions of a product; chapters of a career; photo albums.
+- **Game UI as narration.** A greyed-out name, an item description, a stat screen. *Fits content like:* a team member leaving; a skill learned; a budget.
+- **Level up.** Stats rise with a fanfare. *Fits content like:* a student's year; a startup's funding round; learning a language.
+- **Encounter swirl.** A crash into danger. *Fits content like:* a deadline; a diagnosis; a storm.
+- **Era shift.** The same characters redrawn in older hardware. *Fits content like:* a town's history; grandparents' youth; the evolution of a device.
 
 ## 9. Pitfalls of the medium
 
-- `perspectiveDepthToViewZ` in shared post code is wrong for an orthographic camera → `orthographicDepthToViewZ`.
-- GTAO renders sprites and transparent objects as solid quads → hide them during the AO pass; set `visible = false` at zero opacity.
-- Side column and top cap sharing one plane → z-fighting → sink the column.
-- A double-sided additive cone reads as two white lines → a camera-facing Gaussian ribbon + halo.
-- Camera too close for its frustum → the frame bottom shows below the sea → distance ≥ 3 × frustum height.
-- Two pieces landing in one grid slot muddy the melody → one piece per slot.
-- `half` is a reserved word in GLSL.
+- Rank-based palette mapping crushes a scene to black → map by luminance with a gamma.
+- Reduced subsets without warm hues turn a sunset solid red → keep warm hues.
+- An 8-bit set without dark green or brown turns night grass blue; generic brightening near fire turns grass neon → warm remap.
+- Post-quantising a full-colour scene to 4 shades is mud → draw low eras natively with known indices at half resolution.
+- Pixel hair as a smooth dome reads as a helmet; single-pixel alternation reads as noise → 2–3 big spikes. Pale clothing reads as skin. Held props cross the face in side view → back hand.
+- A dark plank door reads as a jail → panels, bevels, studs.
+- Negative modulo indexes `undefined` → `((n % m) + m) % m`.
+- The dialog box covers the bottom quarter → keep the floor line above it.
+- Match cuts on protected colours need both screen positions computed.
 
 ## 10. Engine
 
-In `demo/` (three.js): `world.js` (hex layout, primitive props, growth schedule → events with notes, arrival curves), `sea.js` (faceted wave shader, shallow map, beam-lit water), `post.js` (ortho post: GTAO → sky/haze + stars → tilt-shift → bloom → grade), `story.js` (beat grid, time-of-day keyframes, shots), `main.js` (renderer, lights, per-shot cameras, HUD, event export), `music/score.py` (event-driven score; `music/check.py` compares audio onsets and pitches with the events), `mix.py` (foley, beds, ducking). File map and build steps: DEMO.md.
+In `demo/`: `px.js` (indexed framebuffer, palettes and LUTs for every colour depth, Bayer dither, mosaic), `font.js` (variable-width pixel font), `ui.js` (windows, dialog, menus, file list, status bars), `sprites.js` (rig + ASCII heads), `portraits.js` (32×32 portraits + expressions), `props.js`, `scenes.js` (parallax, index lighting, tilt), `main.js` (shots, transitions, palette timing, sound events, subtitles). `?sheet=1` renders a model sheet; `?frame=<scene>&lut=<table>` renders an environment through any colour-depth table. File list and build steps: [DEMO.md](DEMO.md) "Build notes".
 
 ## 11. Variation space
 
-You decide the world (island, town, orchard, factory floor, planet), what grows or changes, the palette within the colour logic, the opening, the ending, the camera path and the pacing. All far from our demo:
+You decide which game system the topic hides, the characters, the eras, the palette plan, the opening and the ending. All far from our demo:
 
-- Structures: **erosion** (a finished world loses pieces one by one, each removal a falling note, until only the essential piece remains); **two worlds** side by side trading pieces across a gap until they join; **a year in four seasons** on one fixed world, the palette keyframes carrying the story.
-- Openings: **mid-construction** (a busy half-built world, many pieces already dropping); **from above** (a top-down map that tilts down into isometric); **the full world first**, then a push into one tile where the story lives.
-- Endings: **a close-up on one final piece** landing, no pull-back; **the world packed away** (pieces fly up and stack into a box); **daylight** (dawn floods the world and the music resolves on the first sunlit facet).
+- Structures: **an overworld tour** (a top-down map; each town a chapter entered by a door transition); **a shop and an inventory** (the story told entirely through items bought, used and sold); **a turn-based duel** (two sides take turns; each move is a scene of the topic).
+- Openings: **PRESS START**, a title screen with an attract-mode demo; **a battle already in progress** with HP low; **a boot screen** that fails to load and must be retried.
+- Endings: **GAME OVER** answered by a choice (retry / give up) left open; **credits scrolling over the overworld** as characters walk home; **the save screen** where the last slot is written and the menu closes.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: glass-product -->
+<!-- STYLE: hd-2d -->
 
-# Glass Product Render — Style Prompt
+# HD-2D — Style Prompt
 
-> Launch-film product rendering in transparent and frosted glass: a dark-field studio, strip-light sweeps, dispersion, caustics, light travelling inside the object, slow exploded views that snap shut on a downbeat.
-> References (grammar only): premium launch films (a sweep drawing a contour in the dark, slow orbits, macro rack focus, cuts on the beat, ultra-thin wide type); transparent-hardware adverts (internals as ornament, exploded views, black and white plus one accent); dark-field glass photography. Copy none of their silhouettes, typefaces, sounds or colour templates, and never name them in the film.
+> Hand-made pixel sprites standing like paper cut-outs inside a lit, fogged, fully 3D diorama, shot from a high three-quarter angle through a tilt-shift lens: a toy world where every lamp throws a real shadow.
+> References (grammar only): *Octopath Traveler* (Square Enix × Acquire, 2018) and its sequel (2023), the games that defined the HD-2D look. Learn the grammar: sprite-in-diorama, high 3/4 camera, tilt-shift focus band, point lights with shadows, heavy bloom and vignette, framed dialogue box. Never use their characters, places, logos, UI ornaments or music, and never name them in the film.
+> Name: "HD-2D" is Square Enix's term (and trademark) for that look. The library borrows it only to describe the style; this style and its demo have no connection to Square Enix and are not endorsed by it. Don't use "HD-2D" as a title or brand in a film.
 
 ## 1. Essence, and what it is not
 
-A single hero object of **glass, metal and light** floating in an infinite black studio. Long strips *behind and beside* it turn clear glass into a thin white outline with rainbow edges; the internals show through as in a display case. Everything moves slowly and precisely; every cut, sweep and pulse lands on the beat.
+A **3D miniature set** of boxes and cylinders wrapped in **pixel-art textures**, populated by **flat 2D pixel sprites that receive light and cast shadows**, seen from a **high, far camera** through a **tilt-shift band** so the world reads as a tabletop model. **Light is the subject**: practicals throw sprite shadows across the floor; shafts, fog, dust or rain hang in the air; strong bloom, heavy vignette. On top, a small **RPG UI**: chapter card, framed dialogue box with typewriter text, serif subtitles.
 
-The object is always **fictional**. Never reproduce a real product silhouette (a famous phone or headphone outline), a real brand name, logo, typeface or UI.
+The key contrast: characters stay **flat, low-res and stepped** while camera, light, particles and focus move smoothly every frame.
 
-Not a white-cyclorama catalogue shot, not a wireframe HUD, not a keynote slide: material and light are the subject.
+Not a voxel game (no cubic characters), not a flat 2D pixel RPG (the set is real 3D with real light), not a tilt-shift photo of a real miniature (textures are pixels, not materials).
 
 ## 2. Materials & rendering
 
-- **Studio = a strip-light scene, not an HDRI.** Photo-studio HDRIs contain windows and clutter that print as messy streaks on glass. Build a tiny black scene of emissive planes and bake it to PMREM **every frame** (`pmrem.fromScene(env, 0, 1, 1000)`, dispose the previous RT): tall side strips behind (silhouette), a wide far strip (horizon rim), a soft top box (volume for frosted glass and metal), a weak front card (off when concave glass faces camera), a top-front key only when parts must be read one by one, an accent card driven by the pulses, and **the sweep**: a tall strip on an arc *behind the camera* (azimuth = camera + π). Being real geometry, its highlight, refraction and dispersion move physically; never paint a 2D highlight.
-- **Clear glass**: `MeshPhysicalMaterial`, transmission 1, roughness ≈ 0.015, IOR ≈ 1.5, thickness sets lensing (thicker = stronger), **dispersion on** (three r163+), near-neutral attenuation, `side: DoubleSide` so other glass sees its back faces.
-- **Frosted glass**: transmission ~0.85, roughness ~0.4, milky tint, thick. On black it reads as dark grey plastic unless **something bright is behind or inside it**: an opaque emissive shape inside (blurred into a soft internal glow) and/or a bright gradient behind.
-- **Metals** make transparency worth looking at: satin bands, chrome (roughness ≥ ~0.14), brushed surfaces via a roughness map, boards with gold traces. **Anything inside transmissive glass must be opaque** (only opaque objects reach the transmission buffer).
-- **Light guides**: dark polished opaque acrylic, clearcoat, emissive **comet pulses** along a UV axis via `onBeforeCompile` (Gaussian head, exponential tail, white-hot core, hue drifting with age). Idle emission ≈ 0.
-- **Background**: black with an optional dark-grey radial sweep that separates glass edges; the floor fades into it, **no horizon line**. **Floor**: black gloss, blurred mirror, radial fade, procedural caustics (lens ring with R/G/B radii offset, warped Voronoi filaments, rings spreading from events).
-- **Post**: 2× supersampling; physical DoF (shallow macro, deep exploded views); bloom only above ~1.1; **Neutral tone mapping** (AgX washes accents to white); grain 0. Model in mm, near plane 1.
+- **Constant texel density**: surfaces drawn per pixel on small canvases, `NearestFilter`, world-space UVs at one density (e.g. 24 px/m); sprites on a similar scale (a character ~30–60 px tall).
+- **Colour from ramps**: 3–6 swatches picked by brightness through a narrow 4×4 Bayer dither. Sprites get a 1 px *selout* outline (neighbour colour darkened toward the ink).
+- **Boxes and cylinders** for buildings, floors, rock; **billboards** (instanced) for foliage, distant props, ridges. Windows are emissive pixel panes; fire is a pixel atlas stepping at ~10 fps; water a shader with quantized ripples and light columns toward the camera.
+- **Light rig per set**: one dim shadow-casting key, a hemisphere fill, **practical point lights** with shadows (lamps, fires, windows, screens), and a **front fill** ~2 m before the hero (a billboard lit from behind stays black). An additive glow sprite on every source gives bloom something to grab.
+- **Post chain, at render time**: supersampled render → physical DOF with tilt-shift in the same signed circle of confusion (above the band = far, below = near; far never bleeds over a sharp foreground) → bloom → vignette/grade → filmic tone map. No film grain.
 
 ## 3. Colour logic
 
-- The world is neutral: black, greys, the white of strip reflections, the metals' own tints.
-- **One accent colour family, reserved for light** (emission, caustic rings, the dispersion line on UI), optionally drifting between two neighbouring hues with age or energy. Examples: ice blue → soft violet; amber → rose; green → cyan. Pick it from what the product does, never from a brand.
-- Emitters that only illuminate (inside frosted glass) stay cool-white and dim.
-- Dispersion rainbows are allowed only at thick glass edges and in the caustic, never as a gradient on surfaces or type.
+- **Two temperatures**: one large ambient key (cold, or pale, or dusty) against small warm or saturated practicals. The practicals carry the story; the ambient carries the mood.
+- The darkest value is a warm ink, never pure black; the brightest is the light source itself, bloomed.
+- Each set owns one fog colour and one light key, so a cut to a new place reads instantly.
+- The hero wears the one saturated costume colour that no set uses, so the tiny sprite is findable in a wide.
+- UI is one metal (gold, silver, copper) plus one paper white over a dark translucent plate.
+- Examples: night canal town (blue fog, amber windows); autumn market at dusk (violet sky, pink paper lanterns); snowy mine at noon (grey-white daylight, green mineral glow).
 
 ## 4. Type & subtitles
 
-- **Subtitles are a slab of frosted glass**: a centred rounded bar filled with the live frame blurred (`filter: blur() brightness()` on the WebGL canvas, `preserveDrawingBuffer: true`), a little cool white, a thin highlight stroke and an accent line on top. A licence-free grotesk (e.g. Inter Tight), light weight, ~36–44 px, near-white. Hold ≥ max(1.8 s, speech + 0.6 s).
-- **Titles**: the same grotesk at an ultra-thin weight (200), very large (100–140 px) with very wide tracking, centred in the upper third; a diagonal glint sweeps across the letters in sync with the sweep light on the object. Small tracked caps (18–20 px) for kickers and credits.
-- The product name and slogan are **title cards**, not subtitle lines.
+- An inscriptional capital serif (Cinzel, wide tracking) for chapter labels and titles; an old-style serif (Cormorant, Cormorant Garamond italic) for subtitles, dialogue, taglines. All OFL.
+- **Narration subtitles**: italic serif ~46–54 px, centred low on a soft dark gradient band, one line per voice clip, in ~0.35 s before the voice.
+- **On-screen speech gets a dialogue box**, not a subtitle: dark plate, thin metal border, corner ornaments, name plate on its top edge, text **typed over ~90 % of the voice**, blinking caret, soft chime on entry.
+- Chapter cards and a title card belong to the grammar. Hold ≥ max(1.8 s, speech + 0.6 s). Export the `.srt` from the data that drives the overlay.
 
 ## 5. Motion quality
 
-- **Everything moves on ones** (24 fps), eased: ease-in-out for camera orbits, ease-out for parts decelerating into a float, ease-in for a snap back.
-- **The camera always drifts**: slow orbits or push-ins; never a locked-off frame, never handheld, except a couple of frames of micro-shake on an impact.
-- **Exploded view**: parts spread along the axis (~2× product size), each with a small deterministic tilt and a spin proportional to its offset; long ease-out apart → short drifting hover → **very short ease-in snap** on a downbeat.
-- Objects lift out of cradles tilted toward camera and settle upright; lids hinge at the back and stand behind the object as a backlit halo.
-- Light pulses and sweeps are events on the beat grid, not free animation.
+- **Sprites step, everything else glides.** Walk cycles 4 frames at 6–10 fps, idles alternate two frames at ~1–2 Hz, blinks every few seconds, pose changes are instant cuts between drawings. Camera, lights, particles, beams and focus update every output frame (60 fps).
+- **Poses are data**: a parameter object per drawing; a new pose is a new table entry.
+- **Lights breathe**: every flame flickers (a few summed sines, about ±20 %). A light's level is one value that drives the sprite drawing, the point light (intensity ∝ level^~1.3), the glow opacity and its scale together.
+- **Weather is procedural**: slanted rain streaks; lightning as a scripted flash curve (strike, dip, re-strike, decay) lifting sky, fill and exposure together.
+- The world never shakes except for impact; the set never moves, only the camera and what lives in it.
 
 ## 6. Camera grammar
 
-A vocabulary, not a route. Opening and ending come from the topic.
+A vocabulary, not a route. Opening and ending come from the topic. Always look **down** on the world (never at eye level); every path is a monotone spline of a few keys, no overshoot; focus is recomputed every frame from camera to the subject.
 
 | Move | Expresses | Can serve |
 |---|---|---|
-| Sweep over a dark object, slow push | Contour before content | an unknown thing; a before-state |
-| Slow high 3/4 orbit | The whole object in one move | a mechanism opening; variants |
-| Macro, rack focus surface → part inside | Nothing to hide | an ingredient; a sensor |
-| Side macro orbit | Material contrast | layers; a seam |
-| Exploded view, axis ~40° to view, orbit | Technical beauty, suspension | architecture; a pause before a turn |
-| Straight-on front, slight push | Declaration | a single number; a name |
-| Top-down macro | A pattern at full size | channels; a circuit |
-| Top-down on the floor | The effect leaving the object | range; spreading energy |
-| Low orbit under the object | Monument, weight | durability; a flagship |
-| Slow pull-back into negative space | Room for type | a claim; a question |
+| Very high, very far, slow push; band on one tiny subject | Preciousness, a whole place as a map | where we are; scale; a landmark |
+| Medium-high 3/4, near-static drift | Two figures on one stage | a conversation; a handover; a choice |
+| Lateral tracking, camera leading slightly, foreground passing blurred | A path through a world | travel; a process with steps; a commute |
+| Dive low and close while a figure kneels or stops | The toy world suddenly personal | exhaustion; care; a secret |
+| Rising pull-back, focus handed from figure to object | The act spreads outward | consequence; a system switching on |
+| Orbit half-way round a building or prop | An object seen from all sides | a workshop; a machine; a monument |
+| Top-down, straight overhead, tilt band as a strip | A board game, a plan | routes; a schedule; a queue |
+| Rack focus between two depths in a locked frame | Attention changing hands | a memory; someone watching; before/after |
+| Return to an earlier framing, changed | The rhyme shows what changed | aftermath; growth; a season later |
 
-Framing: one hero, centred or on a strong diagonal, never cropped by the frame edge in a wide. Cut only on beats (bar lines where possible). Product films need **no spatial continuity** between shots: each shot is its own presentation stage, so hide or move anything that doesn't serve it. Transitions are cuts on the beat or a sweep passing through black; never dissolves or wipes.
+Framing: characters ~1/12–1/8 of frame height; the sharp band follows the subject's projected height (clamped ~.2–.8 of screen); with no character, use a fixed band height per shot. Transitions: short fades to black or cuts between sets; no wipes, no 3D spins.
 
 ## 7. Sound palette
 
-- **Minimal electronic, never piano-and-strings.** Timbres, as options: bowed-glass or wet-finger tones, granular crystal clouds, glass bells and FM glass plucks, a filtered tick grid for precision, a warm pad, sub drone, soft short kicks and claps, 808 bass (sine with pitch envelope, soft saturation, slides), noise and saw risers, a high glass ding. Minor and modal colours suit the dark studio.
-- **Lock every pulse, sweep and snap to the score**: write the cue map first and share one hit list between the score and the renderer; light pulses may follow a syncopated bass pattern exactly.
-- **Silence as a tool**: a short stretch of total silence (reverb tails cut too) before a release, at most a reverse whoosh inside it.
-- **Foley follows the material**: glass shimmer for sweeps (band-passed noise + inharmonic partials, panned with the strip); glass-metal friction for moving covers; magnetic clicks (sub-2 ms transient + 3–5 kHz metal resonances + low thump); air puffs for moving parts; a snap = a cluster of clicks ms apart + an inharmonic glass chord (partials ×2.76, ×5.4); glass-on-glass ticks.
-- **Voice**: restrained, low, launch-like, very few very short lines. Never a product name alone (ASR and viewers mishear it): give it a verb.
-- **Mix**: duck music ~12 dB and foley ~6 dB under the voice; limit the biggest bass peaks ~3 dB so loudnorm stays linear; −14 LUFS; grain 0.
+- **Music**: chamber-fantasy or cinematic colours (harp, celesta, strings, horns, low choir, timpani) or small folk instruments (lute, recorder, hand drum). Either one piece whose own arc matches the story, **cut inside it** at downbeats, or an original score; a downbeat can land on the frame of a visual event.
+- **Silence as a tool**: a hard stop into a reverb tail, a pad alone, or one heartbeat when the light nearly dies; a short breath (< 1 s) when something fails.
+- **Foley follows the diorama's matter**: footsteps per surface (wood, dirt, stone, snow), fire crackle, cloth, a UI chime for dialogue boxes and menus, small bells for things switching on, thunder after each flash, a deep boom with shimmer for a big ignition; ambience beds per set, crossfaded.
+- **Voice**: storybook narrator, slow (speed ~.82–.90); on-screen characters low-passed (~7 kHz) so they sit "in the world". Put invented names in the TTS `asr` field.
+- **Mix**: lines compressed and RMS-matched; per-line auto-duck ~10 dB (down only); −14 LUFS via `core/render/mux.sh`, grain 0.
 
 ## 8. Native moves
 
-A menu: use the ones your story needs. Adapting any topic: find **the invisible thing the product does** and make it visible as light inside glass.
+A menu: use the ones your story needs.
 
-- **Transparency.** The inside is the hero; rack focus from the shell to the part within. *Fits content like:* a juicer's blades; a watch movement; a supplement capsule's layers.
-- **Lensing.** A thick glass dome magnifies and bends what is behind it; macro through it feels like looking into a jewel. *Fits content like:* a camera module; a magnifying tool; a water filter.
-- **Dispersion.** A sweep crossing a thick edge becomes a moving spectrum. *Fits content like:* a prism lamp; a display's colour range; a skincare bottle.
-- **Light that travels inside.** Energy (charge, data, heat, sound) runs as light through channels. *Fits content like:* a battery filling; a router's data threads; a kettle heating.
-- **Caustics.** An internal pulse becomes a ring spreading over the floor. *Fits content like:* a speaker's range; a perfume's trail; a wireless charger's field.
-- **Exploded view and snap.** Parts float apart and snap back on a downbeat. *Fits content like:* a modular backpack; a pen's refill system; a repairable phone.
-- **Frost to clear.** A frosted shell clears (roughness and tint animate to zero) and the inside appears. *Fits content like:* a privacy feature; a fridge's contents; an honest price breakdown.
-
-## 9. Pitfalls of the medium
-
-- A manually updated mirror uses last frame's camera → call `scene.updateMatrixWorld(); camera.updateMatrixWorld()` first; the transmission pre-pass re-renders it → no-op its `onBeforeRender`, update once per frame.
-- A coloured emitter inside frosted glass tints the whole object; idle glow under a lens dome becomes a pale blob; AgX turns accents white; frosted glass on black is black; mirror chrome becomes a white disc → the rules in §2–§3.
-- An exploded view seen perpendicular to its axis is edge-on lines → axis ~40° to camera.
-- Pure profiles read as simple shapes (mushrooms, pot lids) → 3/4 views, lids upright behind.
-- Bass peaks without headroom push loudnorm into dynamic mode → limit them in the mix.
-- Concave glass facing camera prints the front card as a grey rectangle → card off.
-
-## 10. Engine
-
-In `demo/`: `studio.js` (strip env baked per frame, sweep, background, floor mirror + caustics + rings), `product.js` (glass / frosted / metal / guide materials, comet-pulse shader, `explode()`), `main.js` (staging, cameras, frosted subtitle bar, title glint), `story.js` (beat-grid timeline shared with the score), `music/score.py`, `mix.py` (foley + voice + ducking). New object: replace the geometry in `product.js` (e.g. a glass cylinder with a coiled light guide), keep materials and `studio.js`.
-
-## 11. Variation space
-
-You decide the object (always fictional), internals, accent, structure, opening, ending, camera path, pacing and music. All far from our demo:
-
-- Structures: **a line-up** (three variants compared by what glows inside); **a day in light** (one object through morning, noon and night, the strip kit rotating around it); **material stack** (one layer removed per beat until the core stands alone).
-- Openings: **inside first** (one internal part; the shell forms around it); **caustic first** (light on the floor, followed up to the object); **silhouettes** (several dark outlines; one begins to glow).
-- Endings: **floor only** (the object leaves, its caustic keeps pulsing); **cool down** (emission fades to bare strip outlines); **held macro** (no pull-back; one detail, the name small).
-
----
-
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
 <!-- END STYLE PAGE -->

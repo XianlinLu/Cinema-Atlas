@@ -1,112 +1,14 @@
 # Complete style specifications 26
 
 
-<!-- STYLE: cel-anime-80s -->
+<!-- STYLE: blueprint -->
 
-Cut on bars. Framing: cels readable against the painted plate; keep the lower ~120 px clear for subtitles. Transitions: cuts, white flashes, impact frames, tracking noise at a tape-related beat; no digital dissolves or wipes.
-
-## 7. Sound palette
-
-- **Instruments** (city pop, synth funk, anime-opening pop): saxophone or synth-brass lead, FM electric piano with a bell transient, slap bass, chorus-y 16th guitar chanks, gated-reverb snare and big toms, drum machine, arpeggiated analog synth, string pad, FM bell sparkle. Extended jazz-pop harmony (maj7, 9ths).
-- **Techniques, as options**: band-pass the score to cassette/AM when a diegetic source plays, then open it; a brass hit on a title; a drum fill left open for an effect; one beat of true silence before a peak; a semitone lift for a last chorus.
-- **Foley** (synthesized): engines from an RPM curve, rain, tire hiss, wind, bells, radio squelch, impacts, sparks, cassette clicks, crowd murmur, door buzzers, footsteps on wet pavement; tape accents get their own thunk, whine, hiss.
-- **Voice**: an English-dub feel, short lines; a second voice through a phone/radio band-pass (~380–2800 Hz). Verify every line with whisper.
-- **Mix**: limit then compress TTS, voices ~10 dB over ducked music (duck ~9 dB), beds ducked ~3 dB, choruses louder than intros, two-pass loudnorm to −14 LUFS.
-
-## 8. Native moves
-
-A menu: use the ones your story needs.
-
-- **Small flat hero in a huge painted world.** *Fits content like:* a first day in a big company; a child in a museum hall; a lone researcher at an observatory.
-- **Stillness as drama** (held close-up or harmony still). *Fits content like:* an exam result; a goodbye at a gate; an unveiling.
-- **Backlit light.** *Fits content like:* a lantern festival; a screen full of code; a lighthouse; stage lights.
-- **Speed grammar** (speed lines, looping plates, impact frames). *Fits content like:* a sprint final; a data packet crossing the world; a kitchen rush.
-- **Light-band sweep on a held cel.** *Fits content like:* a night train; a scanner reading a page; a heartbeat quickening.
-- **A song as an object** (tape, radio, jukebox changes the score). *Fits content like:* a band's origin; a family memory; a call-in show.
-- **Tape artefacts as punctuation.** *Fits content like:* found home video; a rewind to the past; an interrupted broadcast.
-- **Colour-model change** (one place, another hour). *Fits content like:* a day in a shop; a farm's seasons; before/after a renovation.
-
-## 9. Pitfalls of the medium
-
-- White cels bloom pink → bloom from the emissive canvas; weak, high-threshold bloom on colour.
-- Neon bleeds through characters → silhouettes stamped into the emissive canvas.
-- Black holes in highlights → clamp before S-curves.
-- Thick rim light swallows thin shapes → 2–4 px offsets.
-- Hair like tentacles, a face like a paper mask, moe eyes, uniform black lines → the drawing rules in §2.
-- Pink faces under coloured light → skin gets its own colour per set; weaker light sweeps on faces.
-- Front views are the hardest drawing → hide them behind a visor, a windscreen or backlight when you can.
-- Pseudo-3D points behind the camera flip into the sky → clamp z to the near plane.
-- Canvas silently falls back to a serif → `document.fonts.load` every weight before painting.
-- CRT detail inflates files → noise in the shader, only `noise=c0s=2:allf=t` in ffmpeg, CRF ≈ 23; loudnorm in two passes with `linear=true`; don't let a limiter flatten the dynamics.
-
-## 10. Engine
-
-In `demo/`: `cel.js` (path, cel, ribbon, flutter), `pal.js` (colour models), `head80.js` (80s head, 3 views × expressions), `hands.js`, `bg.js` (painted plates, crane plates, wet reflections), `fx.js` (rain, speed lines, flares, trails), `post.js` (WebGL tape + CRT pass: bloom, grade, subtitles, power-on, tracking noise), `hud.js`, `music/score.py` (numpy FM/slap/brass synthesis), `tools/`. `?test=model|close|side` draws model sheets, `?raw=1` skips the CRT pass. A minimal new use: a harbour sunset plate with its emissive pair, one cel boat shaded with `cel.js`, through `post.js`.
-
-## 11. Variation space
-
-You decide the structure, the characters, the world, the opening, the ending, the camera path, the pacing and the colour models. All far from our demo:
-
-- Structures: **slice of life in four seasons** (one place, four colour models, a small change each time); **two-hander dialogue** (a locked two-shot comedy that breaks into one fantasy sequence); **the mock opening credits** (a character roster introduced one by one, each with a pose and a name card).
-- Openings: **in the middle of a conversation** (lip flaps already moving, no establishing shot); **a TV being switched on** to an in-world broadcast; **a close-up of a drawing hand** in a classroom, then cut to the world it draws.
-- Endings: **a freeze-frame** on a laugh with a "to be continued" card; **the tape runs out** into blue screen; **a slow pan up to a starry sky** from a quiet rooftop, no dialogue.
-
----
-
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
-
-<!-- STYLE: scifi-toon -->
-
-# Sci-Fi Sitcom Toon — Style Prompt
-
-> Adult-animation sci-fi sitcom: thick boiling outlines, flat colour, a duo whose reactions don't match, a glowing portal, and one palette per world.
-> References (grammar only): adult-swim-era sci-fi sitcom cartoons (dialogue-driven comedy, reaction close-ups, boiling line, sci-fi hardware as household junk). Borrow the *grammar*, never the characters.
-
-## 1. Essence, and what it is not
-
-Hand-drawn-looking 2D TV animation for adults: **uniform thick dark outlines that boil**, **flat fills with hard-edged shadow shapes (no gradients)**, **big white eyes with tiny pupils**, **elastic mouths**, grotesque-but-cute creatures, and sci-fi hardware treated like household junk. The comedy is **dialogue-driven**: improvised-feeling talk, interruptions, awkward pauses, reaction shots, escalation, and a last-second reversal. The genre's engine is **a tiny, mundane goal pursued with absurdly large sci-fi means**: whoever could solve anything uses it for something petty, and someone else pays the emotional price.
-
-Not a kids' cartoon (dry humour, long pauses), not anime (no sparkly eyes), not a vector explainer (lines boil).
-
-**Copyright red lines (non-negotiable):**
-- Never reproduce any existing show's characters, silhouettes or colour combos (e.g. a spiky-blue-haired old man in a lab coat + a kid in a yellow shirt), names, catchphrases, burp gags, logos, or the look of any existing portal gun.
-- Invent your own cast, props and portal device. Never write the source show's name in the film or docs; one line "inspired by adult-swim-era sci-fi sitcom cartoons" is enough.
-
-## 2. Materials & rendering
-
-- **Line**: near-black (a slightly purple black reads best), ~7 px for characters and props, 4–6 px for background detail, round joins. **Line width is constant in screen space**: close-ups are "redrawn" at the same weight, never scaled up (transform points to screen, then stroke with an identity transform).
-- **Line boil**: resample every outline in screen space (~7 px steps) and displace along the normal with low-frequency noise, amplitude ~1.7 px; cycle **3 boil drawings at 12 fps**. Everything boils, including held poses and backgrounds: a still frame is never dead.
-- **Fill**: flat colours only. Shadows are hard-edged darker shapes clipped inside the fill (one per form, away from the light). Glows are 1–2 flat translucent rings, not gradients. Skies are **flat colour bands**.
-- **Faces**: big white eyes (touching in 3/4 view), 4–5 px pupils, heavy lids for deadpan, eye bags. Parametric mouths (open, width, curl, skew) with interior, teeth, tongue. Brows carry the emotion.
-- **Cast design**: silhouettes must read in solid black. Give each lead one absurd costume idea. Avoid white lab coat + spiky hair.
-- **Creatures**: every world may get one creature that is disgusting *and* adorable; keep it non-verbal (sound effects) so the film stays a dialogue between the leads. Check that anything behind furniture still shows face and upper body.
-- **The portal** (or whatever device moves between worlds): the only thing that glows. A lumpy rim with a thick outline, rotating spiral arms, a pale core, orbiting sparks, drips, a flat translucent wash over the scene while it's open. Open with a gentle overshoot (~12 %, back-ease ~0.3 s); a springy overshoot covers the actors.
-- **Screen graphics**: a retro-terminal tag (VT323) typed in, coloured per world.
-
-## 3. Colour logic
-
-- **One palette per world**, 3–5 colours, maximally different from the previous world in hue *and* value, so the audience reads "we jumped" from colour alone.
-- Line colour and eye white never change between worlds; everything else may.
-- Glow colour belongs to the travel device only: nothing else in any world may use it.
-- A deliberately bland palette (beige, brown) is itself a joke: use it for the world that is "suspiciously normal".
-- Examples of a sequence of worlds: sage lab → magenta and lime jelly → orange and teal; or grey office → ultraviolet and gold → mint and coral → beige. Our demo's values are in DEMO.md.
-
-## 4. Type & subtitles
-
-- **Subtitles**: bottom centre, a rounded heavy sans (Baloo 2 ExtraBold ~50 px), white with a ~11 px black outline, so they look like the cartoon's own captions, with a small **speaker pill** in the character's colour (boiling outline) on the left. Lines over ~1300 px wrap to two lines. Overlapping lines stack; the older one dims to ~70 %.
-- **Timing**: hold ≥ max(1.8 s, speech + 0.6 s) for narration; for rapid dialogue, `max(audio + 0.35 s, 0.9 s + chars / 17)`. Clip at world changes and **before a silent beat**, so the silence plays on a clean screen.
-- **Title**: chunky display lettering popped in on 12 fps steps on a musical hit. Choose a period look that is not the source genre's logo: **avoid acid green, slime drips and wobbly bubble lettering** together, which reads as a specific show.
-- Keep faces out of the subtitle band (bottom ~170 px) and the world tag clear of faces.
-
-## 5. Motion quality
-
-- **Characters on twos (12 fps)**: poses, mouths, blinks, walk cycles and boil step at 12 fps. **Camera moves, portal swirl, flying props and wipes on ones (24 fps)**.
-- **Acting over moving**: held poses with small changes (eye twitch, pupils sliding, a gulp, sweat drops). Idle life: breathing (±1 % squash), a nod driven by speech loudness.
-- **Anticipation → action** before every gesture.
-- **Squash & stretch** on landings (decaying cosine squash ~22 %), stretch while flying out of a portal; "sucked in" = scale toward the portal centre while stretching.
-- **Lip-sync from audio**: per line, RMS (open) and spectral centroid (wide vs round) at 24 Hz, sampled at the 12 fps drawing time. Exaggerate for screams (mouth ×1.5–1.9).
-- **Nervous jitter**: a 12 fps random offset of 3–6 px plus trembling pupils; amplitude grows with panic.
-- What never moves in a cold pause: everything but the boil.
+- **Camera and draw-on on ones (24 fps).** Continuous moves within a section, hard cuts on downbeats between sections; tiny camera bumps only for physical impacts (paper slap, stamp).
+- **Draw-on** truncated by arc length with a glowing nib at the head; items staggered within a layer; each layer starts on a beat.
+- **Drafting order**: centre lines → outlines → detail → hatching → dimensions → balloons → labels.
+- **Exploded views**: parts leave in sequence on subdivisions of the beat, eased, and return one per beat-group with a click.
+- **Mechanisms step on the grid** like an escapement: a gear advances one tooth per subdivision with a short ease-out; meshing phases computed so teeth really interlock; chains move with their sprockets.
+- **Machine acting**: angles, droops, volumes and gauge needles are the face. Failure = slowing, sagging, winding down over ~1.5 s; joy = snapping upright, a needle overshooting (back-ease).
 
 ## 6. Camera grammar
 
@@ -114,75 +16,194 @@ A vocabulary, not a route. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Medium two-shot | the relationship; who reacts how | dialogue; a standoff; a deal |
-| Hard cut to a close-up | an interruption, a face breaking | the cut-off line; the realisation; a lie |
-| Insert extreme close-up of an object | the absurd detail | a reveal; the problem itself; the wrong result |
-| Reaction close-up | the laugh lives on the face | after every absurd image |
-| Tight close-up + short shake on one word | panic | the key word; an alarm; a scream |
-| Rush zoom into the portal → swirl wipe | leaving a world | any jump between places, times or versions |
-| Same framing repeated across worlds | only the world changes | a montage; a comparison; a list |
-| Very slow push-in on a still two-shot | a cold silence | the pause after a reversal; a confession |
-| Wide with the device and both leads in frame | the whole situation at once | a callback; a trap; a fresh start |
-| Over-the-shoulder onto a screen | reading bad news | a message; a readout |
-| Whip pan between two faces | overlapping argument | a fight; a bet; a double take |
+| Whole sheet on the table | scale, the document as an object | establishing; a verdict; a series of sheets |
+| Medium on a figure, subject ~80 % of height, sky on one side | the design being drawn | drafting; explaining a part |
+| Track along a path of force (chain, pipe, wire, beam) | cause and effect | how it works; a sequence of operations |
+| 2× close-up cut on a downbeat | the mechanism's heart | gears meshing; a valve; a joint |
+| Locked-off, hold a beat | deliberation | a hand revising; a decision |
+| Oblique depth factor 0 → 0.5 | the flat drawing "turns" and gains thickness | from plan to object; a reveal of depth |
+| Section line sweeping across | inside vs outside | a cutaway; hidden structure |
+| Lateral pan across Fig. 1 → Fig. 2 → Fig. 3 | versions, steps, time | revisions; stages of construction |
+| Slow push-in, no voice | wonder | the one real thing |
 
-Rule: every absurd image is followed by a **reaction close-up**. Transitions go through the travel device (swirl wipes) or hard cuts; no dissolves.
+Keep storytelling shots close; full-sheet wides are rare. Keep the main figure at least `960/zoom` from any sheet edge you will frame. Transitions: cuts on downbeats, or fig-number rewrites on the sheet; no dissolves.
 
 ## 7. Sound palette
 
-- **Synthesized score, no samples needed.** A **theremin**-like lead (sine + a little 2nd/3rd harmonic, legato portamento ~70 ms, vibrato fading in ~150 ms after each onset, spring reverb) over analog bass, a square-wave arpeggio and a retro drum machine. Minor modes and chromatic lines suit the main theme.
-- **Genre cues per world** (options): surf guitar; polka accordion; toy-piano lullaby; elevator bossa (Karplus–Strong nylon guitar); brushed swing with vibes; tuba + slide whistle; warm Rhodes + a vocal "aah"; tremolo strings for panic.
-- **Techniques (options)**: a cue's first beat is the cut; a tempo that snaps cuts to a grid; rule of three becoming machine-gun (same stinger, shorter each time).
-- **Silence is the punchline**: hard-cut the music, reverb tails included, on a reveal and for a cold pause. Leave only room tone (fluorescent hum, a clock tick, a fridge).
-- **Foley (synthesized)**: portal open (sub boom + down-swept noise + rising swirl), hum, close "fwump", swirl whoosh per wipe, pop/boing, wet glorp/squish, slurp, chomp, blink "blip", click-beep, kazoo sting, squeaky toy.
-- **Voices**: a two-hander with contrasting voices: low, flat and slow for the deadpan lead (light saturation + a ~180 Hz bump for gravel); higher and faster for the nervous one (presence boost). A tiny creature may say one or two words, pitched up. Compress, RMS-match, add short early reflections so voices sit in the room. Duck music ~−7 dB under dialogue. Master −14 LUFS.
+- **Contrapuntal, mechanical music**: harpsichord, bassoon, strings spiccato, harp, celesta, music box, clavichord, a small wind ensemble. Imitative lines (an invention, a canon, a fugato) feel like interlocking parts; a short repeated motive can be the "gear".
+- **Foley follows materials**. Paper: roll crackle and slap, T-square wood slide, technical pen scratch (2–6 kHz grain, length = stroke length), lettering bursts, compass squeak, hatching strokes, eraser rub, tracing-paper rustle. Brass and wood: part clicks (resonances ~3–5 kHz), escapement ticks, chain rattle, spring twang, wind-down ticks that slow geometrically. Water: soft damped pats per drop, a light rain bed. Rubber stamp thump, pen cap click.
+- **Options for the arc** (in any order, use what the story needs): instruments dropping out with a written-out ritardando into true silence; a single questioning figure alone; a suspended chord held without resolution under the magic; a full cadence on the stamp; the theme in augmentation for a close; adding a section per mechanism that joins.
+- **Silence** may contain paper sounds only.
+- **Voice**: dry, understated, reading design notes, a few short lines. Leave the most emotional moment voiceless.
+- **Mix**: music ducks well under voice (~0.36 ×), foley by half; whooshes low-passed so they don't mask consonants. −14 LUFS. Little added grain (the paper already has it).
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **Parallel worlds.** Each jump = new palette, new cue, new creature. *Fits content like:* versions of a product; careers you could have had; the same city in five eras.
-- **Duo contrast.** Deadpan vs panic: the joke is in the difference between reactions. *Fits content like:* a veteran and a new hire; a parent and a teenager; an AI and its user.
-- **Rule of three → machine-gun.** Two slow wrong answers, then one-second worlds cut on the beat with the same rejection word. *Fits content like:* failed prototypes; bad date ideas; tax forms.
-- **The suspiciously normal world.** The pattern breaks; the calm is the joke. *Fits content like:* the one boring answer that works; a quiet office after chaos; the real customer.
-- **Dead-air reversal.** A long silence after the twist, then one line revealing a character's values. *Fits content like:* a price reveal; a fine print clause; a gift that wasn't wanted.
-- **Hardware as junk.** World-bending tech used for a petty chore. *Fits content like:* a quantum computer used for a grocery list; a rocket to deliver a sandwich; a time machine to fix a typo.
-- **Callback button.** The last line repeats the first so the story loops. *Fits content like:* a catchphrase of a brand; a morning routine; a running complaint.
+- **Drafting order.** The object draws itself as an engineer would, a layer per beat. *Fits content like:* a bridge; a violin; a kitchen renovation.
+- **Live annotations.** Dimensions measure moving parts and the numbers change; balloons fly with parts; a section line reveals the inside. *Fits content like:* a heart valve; a folding bicycle; a rocket stage separating.
+- **Fig. numbers as transitions.** "FIG. 1" struck through and rewritten "FIG. 2 · EXPLODED VIEW". *Fits content like:* versions of a product; phases of a construction; a recipe's stages.
+- **Projection as camera.** The oblique factor animates; exploded parts fly along the depth axis. *Fits content like:* a floor plan becoming a building; a circuit board; flat-pack furniture.
+- **A symbol made real** (once, if at all). A convention leaves the drawing language: a dimension arrow flies, a hatch becomes rain, a centre line becomes a road, a weld symbol sparks. *Fits content like:* an invention finally working; a city plan becoming a street; a dream becoming a plan.
+- **Cyanotype and water.** Drops bloom and soften lines. *Fits content like:* a flood-defence design; grief; a harbour wall.
+- **The title block as story.** Status field = the verdict; revision rows = history. *Fits content like:* a rejected permit; REV. 1–5 of a city; an approval after years.
 
 ## 9. Pitfalls of the medium
 
-- TTS reads hyphen stutters as words: write syllables ("buh, buh-broken"); respell words it mangles; pick names that survive a low voice.
-- Whisper mis-hears very short clips unless padded with ~0.6 s of silence.
-- A real interruption: generate the interrupted line *longer* than needed and truncate the audio where the other voice cuts in.
-- A springy overshoot swallows the actors: gentle back-ease.
-- Food and liquids need cues (surface detail, drips, steam) or they read as other objects.
-- Square-wave synth cymbals alias into harsh 8–20 kHz fizz: band-passed noise plus a little FM.
-- A sustained bass below ~40 Hz is rumble on laptop speakers: end an octave higher.
-- A cut music cue without its reverb tail cut is not dead silence.
-- `ffmpeg fps=1` contact sheets are offset up to 0.5 s: don't misdiagnose a shot boundary.
+- **Main figure near the sheet edge** → wides show the desk. Keep margins or enlarge the sheet.
+- **Upward explosions hit the header** → explode sideways and flatten long parts during the explode.
+- **Subtitles on the ink buffer** vanish off-sheet and can't occlude lines → separate overlay, premultiplied alpha.
+- **An object darkened by its own shadow** → zero the shadow channel only in its area.
+- **Per-lobe shading on a blobby shape reads as grapes** → one gradient across the union; crescents from a union-minus-shifted mask; fill unions as one path (`nonzero`) or overlapping fills make bubbles.
+- **A small payoff undersells the return** → the payoff object ~⅓ of frame height, centred, drawn stroke by stroke, subtitles off it.
+- **Line weights not scaled with zoom** → sausages in close-ups, vanishing wides.
 
 ## 10. Engine
 
-In `demo/`: `toon.js` (vector engine: matrix stack, screen-space boil, constant line width, flat shading), `chars.js` (parametric eyes, mouths, hands, noodle limbs), `worlds.js` (one function per world, creatures, the portal), `voice.py` (per-character processing + lip-sync envelopes), `asr.py` (padded whisper check), `music/score.py` (synthesized score from a cue list), `levels.py` (stem meters), `sheet.sh` / `strip.sh` (contact sheets, consecutive-frame strips). New shapes: build them with `toon.js` in world space; the stroke goes through the screen-space boil at constant weight.
+`demo/paper.js` (WebGL2 compositor: procedural cyanotype, ink bleed, wet stains, shadows, stamp, roll), `demo/draw.js` (drafting engine: camera, oblique projection, draw-on polylines, solids with paper fill, hatching, dimensions, balloons, text), `demo/sheet.js` (border, header, title block, parts list, notes, revision cloud, rain, hand shadow, stamp), `demo/film.js` (timeline on a beat grid: cameras, acting, subtitles, sound events). A new machine goes in its own module like `demo/machine.js`. File map and build: [DEMO.md](DEMO.md#build-notes).
 
 ## 11. Variation space
 
-You decide the premise, the cast, the worlds, the jokes, the opening, the ending, the camera path, the pacing and the palettes. All far from our demo:
+You decide what is designed, its figures, the flaw or turn (if any), the voice, the one real thing (or none), the camera path, the opening, the ending and the length.
 
-- Structures: **one world, many clocks** (the duo stays home and a device skips them through times of day, each time worse); **the job interview** (a panel interviews candidates from other worlds, each a different genre cue); **the tech-support call** (split screen between two worlds, one voice guiding the other through a disaster).
-- Openings: **mid-disaster** (the portal is already open and something is coming through); **the instruction manual** (a terminal readout explains the device before we see anyone); **the wrong world** (we start in the absurd world and only later see home).
-- Endings: **stuck elsewhere** (the device breaks and they settle in, happily); **the audience** (a creature from one world watches the whole film on a screen and rates it); **the cost** (a quiet final shot of what the errand cost someone, no joke).
+All far from our demo:
+
+- Structures: **a city through revisions** (one site plan, REV. 1 to REV. 6, each revision a decade, the title block filling with dates); **two sheets, one table** (two designs drawn in parallel that turn out to fit together); **a teardown in reverse** (the sheet starts full and parts are erased one by one until only the centre line of the idea remains).
+- Openings: **a single centre line** crossing an empty sheet on the first beat; **the stamp first** (REJECTED lands, then we see what was rejected); **tracing paper** lifted off a finished drawing to reveal a blank sheet underneath.
+- Endings: **the sheet folds up** along its creases into a pocket-sized square; **a coffee ring** lands on the title block and the tide line becomes the last circle of the design; **the lights go off** and the white lines glow faintly on the dark sheet.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: midcentury-toon -->
+<!-- STYLE: stained-glass -->
 
-# Mid-century Cartoon — Style Prompt
+# Stained Glass — Style Prompt
 
-> 1950s flat colour and limited animation for "follow along" films: colour printed a few pixels off its broken ink line, bodies that hold still while hands do the work, abstract colour-block rooms, a calm classroom narrator, and a cool-jazz combo.
-> References (grammar only): UPA's early-1950s shorts (*Gerald McBoing-Boing*, *Rooty Toot Toot*): colour and line on separate cels, geometric people, colour-plane backgrounds, limited animation. 1950s classroom films (Coronet, Encyclopaedia Britannica): direct address, one sentence per picture, numbered cards. Charley Harper and Mary Blair: soft atomic-age complements, geometric figures. 1950s appliance manuals: numbered medallions, curved arrows, round call-outs, sunbursts. Copy none of their characters, drawings, lettering or music, and never name them in a film.
+> A medieval stained-glass window seen from inside a dark stone hall, alive only where the sun touches it: light is the clock, the camera and the story.
+> References (grammar only): the window prologue of *Beauty and the Beast* (1991) (chapters pane by pane, a storyteller's pace); the glass knight of *Young Sherlock Holmes* (1985) (glass that cracks and recombines piece by piece); 12th–13th-century Chartres glass (colour logic, grisaille, leading). Copy none of their characters, compositions, subjects or music.
+
+## 1. Essence, and what it is not
+
+- **Cut pieces of coloured glass in dark lead cames**, faces and folds **painted in brown grisaille**.
+- Glass has no light of its own: it **glows only when the sun is behind it** and throws a soft coloured copy onto the stone floor; unlit, it is dark and milky.
+- Figures move **piece by piece**, rigid and stepped.
+- The room is always there: stone, a splayed embrasure, iron saddle bars, a floor that catches light.
+- **Secular**: no crosses, saints, halos or other religious imagery; borrow the craft, not the subjects.
+
+Not vector art with black outlines, not a kaleidoscope or Voronoi filter, not Tiffany Art Nouveau, not mosaic (mosaic reflects; glass transmits).
+
+## 2. Materials & rendering
+
+One formula for everything (a WebGL compositor), so every element sits in the same light:
+
+```
+glass   = tonemap( backlight(x,y,time) × transmittance × glass texture ) + weathering haze × room light
+surface = albedo × (room ambient + glow spilled from lit panes + point lights)          // stone, lead, iron
+floor   = flagstones × (ambient + projected colour-patch map, blurred + halo)            // perspective or top-down
++ additive light shafts with dust · bloom (bright glass eats into the lead: the "irradiation" effect)
+```
+
+- **Hue-preserving tone mapping**: per-channel `1-exp(-x)` turns cobalt pastel; blend to per-channel only at the very top so a sun disc burns white while blue stays jewel blue.
+- **Unlit panes**: weak sky light + room-lit weathering haze, figures ghostly but readable. **Lit panes**: backlight ~2–3×, a soft, slightly skewed moving band edge.
+- **Pieces**: smooth Catmull-Rom cuts (no deep concave corners). **Every piece is textured** (`multiply` in its clip): streaks at a per-piece angle, hue drift (±10 %), darker aged edges by the lead, ±9 % thickness variation. The shader adds seed bubbles, scratches and thickness clouds in world space; fade small features below ~0.6× zoom or they sparkle.
+- **Lead**: near-black, one planar network, thinner on small pieces, round joins, faint grey flange, solder blobs; only where colours meet (one colour = one piece).
+- **Grisaille**: tapered trace lines in translucent dark brown; **matting** (stippled wash, graded shade, soft band inside the lead); **scraped highlights** (a thin stroke beside each fold in the piece's own colour: the only highlight transmitted light allows). Patterns (mail, scales, plates) are grisaille arcs and bands.
+- **Faces**: almond eyes, heavy upper lid, big pupils, brow flowing into the nose. **Expression lives in brows and mouth**; change it by swapping the face piece, never morphing.
+- **Backgrounds**: hand-cut **lozenge quarries** (jittered lattice, shared vertices, a painted motif each); borders of a coloured band with pearls and a white fillet with a running vine.
+- **Room**: warm grey ashlar, a lighter embrasure, mullions; floor of **large irregular flagstones**, never the wall's running bond.
+- **Floor projection**: blurred, ~20 % desaturated, modulated by the stone, haloed, mirrored (the window's top lands farthest into the room). **Shafts**: additive with dust, near 0 at the window, peaking ~40 % down.
+
+## 3. Colour logic
+
+- Two hues **carry the picture** (one deep, one hot); three or four more only as **small touches**. Example (Chartres logic): cobalt ground, ruby, touches of gold, green, murrey.
+- Greenish white glass sparingly (faces, fillets, sky). **Flesh darker than you think**, or backlit faces burn white.
+- A story light (candle, lamp, screen) may take a colour no glass uses, so it reads as a source.
+- **The sun's colour is the clock**: blue-white dawn, near-white brightest noon, gold afternoon, deep orange dusk (raise intensity rather than redness), weak blue moonlight. Patch length follows sun height.
+- Stone and lead take colour only from spilled or projected light.
+
+## 4. Type & subtitles
+
+- **Subtitles**: a parchment **banderole** near the bottom (curled ends, gentle sag, thin rule), IM Fell English ~44 px in dark ink. It unfurls from the centre; text fades in only once it is ≥ 75 % open; pad the ribbon well past the text. Hold ≥ max(1.8 s, speech + 0.6 s).
+- **Titles**: incised Roman capitals (Cinzel 600) in the stone, dark cut, light lower lip, gilding, revealed by a moving band of light; small lines ≥ 30 px on screen. In the glass, text only as grisaille on a white-glass scroll.
+
+## 5. Motion quality
+
+- **Figures step at 8 fps**; light, camera, shafts and dust move on ones (24 fps): stepped light reads as flicker.
+- Rigid pieces on 2D FK (`setTransform(base · T(part))`, free draw order); long bodies are spine chains of banded pieces.
+- **Freeze rule**: a pane's figures use `min(t, t_lightLeft)`. Actions land on the beat.
+- **Crack**: jagged lines race from the impact in ~¼ s, bright with light, a short white flash and a 2-frame shake.
+- **Re-leading**: piece groups slide one beat each with a small outward bump along the lead, each ending in a weld spark; cracks become mending leads.
+- Glass never bends or morphs; things appear by being lit, not faded in.
+
+## 6. Camera grammar
+
+A vocabulary, not a route. Opening and ending come from the topic.
+
+| Move | Expresses | Can serve |
+|---|---|---|
+| Truck sideways with the band of light | Time passing, the story moving on | a sequence of steps; a day; chapters |
+| Locked close-up on one pane | This panel is "now" | a line being read; a character's decision; a detail |
+| Pull back to the whole window | The rule, or the whole story at once | learning the system; a summary; aftermath |
+| Tilt down the shafts to the floor, then top-down | The picture leaves the glass and becomes light | an event too big for its frame; a dream; a memory |
+| Hold through a crack, no cut | The event is the medium breaking | a turning point; a loss; a revelation |
+| Slow push toward a small light | Attention narrowing to one source | a discovery; a secret; hope |
+| Tilt up to a rose or tracery | Something above the panels governs them | a clock; a cycle; an overview |
+| Rack between two panes, one lit, one dark | Past and present side by side | before/after; two lives; cause and effect |
+| Low angle along the embrasure, glass raking | The window as architecture, scale | awe; an institution; a long history |
+| Return to an earlier framing under new light | The rhyme shows what changed | growth; nightfall; repair |
+
+Framing: subjects big (close-ups ~1.3–2.3× a lancet width); in a narrow lancet stack figures diagonally; a revealed thing near centre, ≥ ~1/8 frame width with glow. Transitions: moving light, shafts, a crack, darkness; never a dissolve, wipe or flip.
+
+## 7. Sound palette
+
+- **Instruments**: organ (pedal drone, soft stops, full), harp, hand chimes, tubular bells, recorder or a chant-like voice, water-glass notes, timpani; also hurdy-gurdy drone, psaltery, portative organ. No generic piano or strings.
+- **Mode families**: church modes (Dorian, Mixolydian, Aeolian, Lydian), open fifths, drones, parallel organum.
+- **Options**: free unmetred chant for darkness; one note meaning "the light" each time a pane wakes; an organ pedal that holds and then cuts out; a rising scale, one step per lit piece.
+- **Foley, material first** (synthesizable): struck glass = inharmonic partials ~1 : 2.32 : 4.25 : 6.63 : 9.38; crack = snap + pane thump + rain of tinkles; lead = stick-slip creak; glass sliding in a came = gritty band noise + faint squeal; solder = hiss + tick; air on light moves; stone-hall ambience; birds in the vault; iron ticking as it cools.
+- **Silence**: a hard stop, reverb tails included, only the glass's own ring or creak inside; a single long-reverb bell can close it.
+- **Mix**: big and reverberant; heavy hits avoid word onsets; music ducked ~9 dB under voice; −14 LUFS. **Voice**: a gentle, even storyteller, few short lines.
+
+## 8. Native moves
+
+A menu: use the ones your story needs.
+
+- **Light is time, and the camera.** Only the lit pane is alive; figures freeze when the light leaves. *Fits content like:* the steps of a recipe; a factory's shifts; four seasons of one farm.
+- **Glass projects onto stone.** A key scene plays in the floor patch, which stretches as the sun sinks. *Fits content like:* a memory seen larger than life; a sports play replayed as shadows; a data trend drawn by lengthening light.
+- **Glass cracks, lead mends.** Pieces slide along the leads into a new picture, leaving scars. *Fits content like:* a company's reinvention; an injury and recovery; an old building restored.
+- **A window holds its own light.** At night one pane glows from a source inside the story. *Fits content like:* a lighthouse keeper; a night-shift nurse; a server that never sleeps.
+- **The window as a diagram.** Lancets as columns, a rose as a wheel or dial, the border as a timeline. *Fits content like:* a product lineup; the parts of a cycle; a family tree.
+
+## 9. Pitfalls of the medium
+
+- Hidden leads show through front pieces → erase the surface under each piece before stroking its lead.
+- Pastel glass → hue-preserving tone mapping; darker flesh. Red dusk × blue glass = mud → keep blue alive, raise intensity.
+- Voronoi reads as a filter; flat fills read as clip-art → hand-cut lozenges, texture on every piece, heavy grisaille.
+- A sharp floor patch looks like a decal → blur, desaturate, stone-modulate, halo. Shafts at full strength at the window wash out the pane.
+- Top-down projection is flipped → put the wall at the frame bottom so figures stand upright (mirrored, correct).
+- Patch-map canvas size mismatched with the code draws into a corner of the texture → one constant size.
+- Carved text in a dark wide is unreadable → push in, park a light on it.
+
+## 10. Engine
+
+In `demo/`: `glass.js` (pieces, textures, lead, grisaille, lozenges), `comp.js` (WebGL2 compositor), `window.js` (lancets, rose, borders, wall, carving), `scene.js` (camera, floor projection, shafts, dust), `subs.js` (banderole), `test.js` / `frames.js` (model sheets and style frames from the real engine), `music/score.py`, `mix.py` (glass/lead foley). `knight.js` / `dragon.js` show the rigid-piece FK rig pattern; build your own subjects with it.
+
+## 11. Variation space
+
+You decide the window (lancets, a rose, a medallion, a clerestory), the subjects, the order of light, opening, ending, camera path and pacing. All far from our demo:
+
+- Structures: **a rose window as a dial** (petals lit in turn like hours, the centre the answer); **one tall lancet read bottom to top** (a tilt up a life or a process, medallion by medallion); **two windows facing each other** (the sun lights one side in the morning, the other in the evening; the floor between them holds their meeting).
+- Openings: **the floor first** (only a coloured patch on stone; tilt up to find its source); **a lit window from outside at night** (a figure passes a glowing pane, then we are inside); **the glazier's bench** (a single piece cut and leaded, becoming the first piece of the picture).
+- Endings: **clouds cover the sun** (every pane fades to grey at once; one line lingers); **a new pane leaded in** (an empty lancet filled with the last scene); **the camera leaves through the door** (the window small behind, its patch still on the floor).
+
+---
+
+How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: pictogram-motion -->
+
+# Pictogram Motion — Style Prompt
 
 
 <!-- END STYLE PAGE -->

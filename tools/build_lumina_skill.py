@@ -16,7 +16,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 LIB = ROOT / 'xianlin-lu'
 SKILL = ROOT / 'skills' / 'lumina-canvas-film'
-CAP = 19000  # UTF-16 code units, below both importer limits shown by the user
+CAP = 19800  # UTF-16 code units; retain margin below the 20,000-character importer
 TAIL = '\n<!-- END STYLE PAGE -->\n'
 REPO = 'https://github.com/XianlinLu/Code-Cinema-Atlas'
 
@@ -47,23 +47,23 @@ def blocks(text):
 
 def generate():
     order = re.findall(r'\[`([^`]+)`\]\([^)]*STYLE\.md\)', (LIB / 'styles/README.md').read_text())
-    assert len(order) == len(set(order)) == 51, 'Review catalog changes before changing the bundled style count'
+    assert order and len(order) == len(set(order)), 'Invalid or duplicate style entries'
     assert set(order) == {p.parent.name for p in (LIB / 'styles').glob('*/STYLE.md')
                           if not p.parent.name.startswith('_')}, 'Index and source styles differ'
     revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-    workflow_sources = {name: hashlib.sha256((LIB / name).read_bytes()).hexdigest()
-                        for name in ('AGENTS.md', 'DIRECTOR.md', 'TECHNIQUE.md')}
+    metadata = {slug: json.loads((LIB / f'styles/{slug}/style.json').read_text()) for slug in order}
+    catalog_hash = hashlib.sha256(json.dumps(metadata, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
     old_manifest = SKILL / 'references/style-manifest.json'
     # Keep the pinned library revision stable across unrelated skill-only commits.
     if old_manifest.exists():
         previous = json.loads(old_manifest.read_text())
         same = all(hashlib.sha256((LIB / f'styles/{slug}/STYLE.md').read_bytes()).hexdigest()
                    == previous.get('styles', {}).get(slug, {}).get('sha256') for slug in order)
-        if same and previous.get('workflow_sources') == workflow_sources:
+        if same and len(previous.get('styles', {})) == len(order) and previous.get('catalog_sha256') == catalog_hash:
             revision = previous['library_revision']
     manifest = {'format': 1, 'library_repository': REPO, 'library_revision': revision,
                 'style_count': len(order), 'offsets': 'Unicode code points; end-exclusive; fragments concatenate in listed order',
-                'workflow_sources': workflow_sources, 'styles': {}}
+                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v2', 'styles': {}}
     generated = {}
     page_no = 1
     page = '# Complete style specifications 01\n\n'
@@ -97,18 +97,19 @@ def generate():
         assert hashlib.sha256(restored.encode()).hexdigest() == entry['sha256'], slug
     generated['references/style-manifest.json'] = json.dumps(manifest, ensure_ascii=False, separators=(',', ':')) + '\n'
     lines = ['# Style index / 风格索引', '',
-             'All 51 styles are included with their full specifications. Names and categories below are canonical.',
-             'When the style is unknown, show ALL categories and names in the user\'s language, recommend 2–3, then use the native style picker.',
+             f'All {len(order)} styles are included with their full specifications. Names and categories below are canonical.',
+             'Honor a named style; otherwise infer a fitting style for the full script and include it in native script review. Open a native style-choice menu when the user selects that revision route.',
              'For the selected slug, read EVERY listed spec file and extract its `<!-- STYLE: slug -->` segment in file order.',
              'A segment ends at the next STYLE marker or END STYLE PAGE marker. Join its pieces without dropping any section.',
              'Do not load the other styles. `style-manifest.json` records exact fragment offsets and SHA-256 checksums.',
              'Paths inside specifications (`demo/`, `DEMO.md`, etc.) are relative to that style in the library, not this import package.',
+             'The current native-video workflow takes precedence over legacy code-engine execution examples; retain visual/voice grammar without claiming that engine code or external assets are bundled.',
              f'Library: {REPO}/tree/{revision}/xianlin-lu',
              'Gallery source: the library\'s `styleboard/` folder. Link a playable gallery only if it is available and verified; label a source-directory link as source.',
              'Style metadata below omits demo story descriptions so treatments can be written independently.', '']
     last_category = None
     for slug in order:
-        meta = json.loads((LIB / f'styles/{slug}/style.json').read_text())
+        meta = metadata[slug]
         category = (meta['category_en'], meta['category_cn'])
         if category != last_category:
             if last_category is not None:
@@ -122,8 +123,6 @@ def generate():
         lines.append(f"| {meta['en']} | {meta['cn']} | {slug} | {uses} | {files} |")
         last_category = category
     generated['references/style-index.md'] = '\n'.join(lines) + '\n'
-    generated['references/director.md'] = (LIB / 'DIRECTOR.md').read_text()
-    generated['references/technique.md'] = (LIB / 'TECHNIQUE.md').read_text()
     for name, text in generated.items():
         assert units(text) <= CAP, (name, units(text))
     return generated
@@ -150,7 +149,8 @@ def validate(generated, check):
         for part in path.relative_to(SKILL).parts:
             assert len(part) <= 64 and re.fullmatch(r'[A-Za-z0-9_-]+(?:\.[a-z]+)?', part), part
         assert units(path.read_text()) <= CAP, (path, units(path.read_text()))
-    print(f'{len(files)} files; 51 complete styles; maximum {max(units(p.read_text()) for p in files)} UTF-16 units/file; hashes verified')
+    style_count = json.loads(generated['references/style-manifest.json'])['style_count']
+    print(f'{len(files)} files; {style_count} complete styles; maximum {max(units(p.read_text()) for p in files)} UTF-16 units/file; hashes verified')
     return files
 
 

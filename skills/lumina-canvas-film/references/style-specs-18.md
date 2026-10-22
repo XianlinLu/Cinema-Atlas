@@ -1,194 +1,200 @@
 # Complete style specifications 18
 
 
-<!-- STYLE: spy-titles -->
+<!-- STYLE: urban-sketch -->
 
-- **Four inks**: ink black, paper cream, one hot colour, one warm secondary. Darker "shadow paper" variants of those inks only for depth.
-- **One dominant ground colour per scene**, changing with the location; figures and type in the other inks.
-- The hot colour is reserved for one accent on the hero and for danger; the secondary marks the object of the chase.
-- Background props go in a darker version of the ground, never in black, or they read as letters.
-- Examples: black `#1b1714` / cream `#efe4c9` / red `#d23a22` / mustard `#e2a52a`; ink `#161a22` / bone `#ece6d6` / teal `#1f8a8a` / orange `#f07a28`; black / pale pink `#f3d6cc` / cobalt `#2a46b8` / lemon `#f0d23a`.
-
-## 4. Type & subtitles
-
-- **Credits live in the set**, never in the subtitle band: one line per location, fully readable at some moment. Credits are fictional roles only, never real people's names.
-- **Subtitles** on a narrow paper strip (scissor-cut ends, slightly tilted) bottom-left, a small glyph from the film as bullet, a geometric OFL sans (e.g. League Spartan 600, ~44 px). Light strip on dark scenes, dark strip on light scenes; slides in from the left in ~0.18 s. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Hold each credit long enough to read alongside a subtitle.
-
-## 5. Motion quality
-
-- **Puppets on twos** (12 fps): poses and positions of figures, hands, letters landing, vehicles. **Camera, credit slides and grid growth on ones** (24 fps): a stepped camera judders.
-- Run cycles of ~8 drawings, one step per beat, a strong lean, the accent flying back. Walks one step per beat, coats swinging.
-- Credits slide in along grid lines and **stop dead on the beat** (short ease-out); letters land with a paper slap.
-- **Stop-time**: at a stab the whole picture freezes (background scroll included) for a couple of beats in total silence, then resumes.
-- Shattering: a scene sliced into strips parallel to a cut line that slide off alternately along the diagonal.
-
-## 6. Camera grammar
-
-A vocabulary, not a route. Graphic, flat, decisive. Opening and ending come from the topic.
-
-| Move | What it expresses | Can serve |
-|---|---|---|
-| Wide on a full credit line, then truck in | reading, then action | any location built from type |
-| Lateral tracking, one screen direction | pursuit; momentum | a chase; a race; a delivery |
-| Hard cut on a brass stab | punch; a new location | montage; a reveal; a gag |
-| Graphic match cut (same shape, same position) | rhyme; acceleration | wheel → coin → pupil → moon |
-| Locked single shape on a flat ground | mystery; an icon | a cold open; a clue; a logo |
-| Silhouette against a giant circle | the hero moment | a catch; a triumph; a stand-off |
-| Diagonal split into a grid | fragmentation; many at once | a split screen; a conspiracy; a team |
-| Vertical pan down a column of type | descent; a list | a building; a roster; a countdown |
-| Push into a letter until it fills frame | a letter becomes a place | a door; a tunnel; a window |
-
-Framing: strong diagonals (~30°), big flat grounds, figures small against type. Match cuts keep circle centres and sizes identical across the cut. No dissolves.
-
-## 7. Sound palette
-
-- **1960s spy big band**: stacked staccato trumpets and trombones in octaves with crash (the stab), surf guitar low-string twang through a spring reverb, walking upright bass, brushes or sticks, bongos and shakers, vibraphone, flute, organ stabs, harpsichord. Minor keys, chromatic lines, dotted rhythms. Original motifs only: avoid the famous chromatic crawl of the most famous spy theme and its minor-major-ninth ending chord.
-- **Stabs = edit points**: place staccato brass ~8 ms early so the sample's peak hits the frame.
-- **Techniques (options)**: a cut interval that shrinks as a chase accelerates; stop-time silence; a big chord for the title followed by a short button; a solo instrument alone for a quiet scene.
-- **Foley follows the material**: paper (cut "shh", slides, card slaps for letters landing, blind flips, a tear), metal (keys, chains, locks, clicks), tape (click, hiss). Environments only hinted: a jet pass panned, train wheels in tempo, roulette ticks slowing, wind, a phone ring, footsteps on stairs.
-- **Silence**: true zero, reverb tails included; a single tape click or hiss may remain.
-- **Mix**: music ducks ~7 dB under voice; a peaky mix needs a few dB into a limiter before loudnorm to reach −14 LUFS.
-- **Voice**: a briefing through a tape chain (band-pass ~220–5200 Hz, soft saturation, slow wow, hiss rising under the voice); a few very short lines.
+- **Ambience from the place**: paper room tone first, then the location once it has colour (birds, traffic, harbour gulls, market chatter). J-cut a place's sound a bar before we see it.
+- **Pen on cold-press paper**: band-passed noise (~1.6–7.5 kHz) with a fibre texture and grain clicks, one burst per real stroke; thousands overlap into a hiss during a fast sketch; brighter short strokes read like a hi-hat.
+- **Water and brush**: a wet brush "shhh" for blooms, a jar rinse, a drip.
+- **Foley follows objects** at sketch scale: fabric or paper flapping for things in the wind (rate and level from speed, pan from screen x), steps on the beat, bells, splashes.
+- **Music families**: a jazz waltz (walking bass in three, brushes, piano, clarinet or flute); a café accordion trio; solo nylon guitar; a string quartet pizzicato; a brass band for crowds. One colour instrument per area of the page works well.
+- **Silence as a tool**: a bar of true silence (ambience included) at the height of suspense; the first sound after it is the next gesture.
+- **Mix**: music ducks under key hits; foley high-passed ~90 Hz; −14 LUFS, moderate LRA.
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **Type is the set.** Each location is one line of credits and that line is its architecture (letters as pillars, words as carriages, a letter as a lock). *Fits content like:* a conference programme as a city; a menu as a restaurant; team names as a stadium.
-- **Credits are rhythm.** Credits land on beats; stabs are cuts. *Fits content like:* a product's features; a festival line-up; an award's nominees.
-- **Graphic match cuts.** Shape rhymes, the interval shrinking as tension rises. *Fits content like:* a coin → a planet → a clock; a gear → a wheel → a sun.
-- **The diagonal grid.** A diagonal cut multiplies into a grid, and the pieces later fly back along it to assemble something. *Fits content like:* a puzzle solved; a team forming; a logo assembled.
-- **Silhouette puppets.** Profile cut-outs whose acting is outline and timing. *Fits content like:* a heist; a courier on a deadline; a detective.
-- **Stop-time gag.** Freeze on a stab, silence, resume. *Fits content like:* a near miss; a double take; a price reveal.
-- **The object of the chase is the title.** What everyone pursues becomes the last thing assembled. *Fits content like:* a product launch; a book's name; a birthday name.
+- **Line before colour.** The pen draws a subject in real stroke order, then the wash drops in; the drawing is the spectacle. *Fits content like:* a cathedral façade; a chef plating a dish; a street musician.
+- **Colour as arrival.** Wash spreads from a source with a wet front, so an event paints the page; figures stay frozen line drawings until colour touches them. *Fits content like:* a sunrise over a harbour; a parade moving down a street; the lights of a market switching on.
+- **The one coloured thing.** A colourless sketch with a single tinted object that becomes the protagonist. *Fits content like:* a red umbrella in the rain; a yellow taxi; a child's kite.
+- **The page as frame.** Pull back until the whole page shows, edges dissolving, handwritten notes in the margin. *Fits content like:* a travel diary entry; a neighbourhood portrait; a day in a place.
+- **Carrot people.** Distant crowds as one wash blob, two leg lines and a head dot. *Fits content like:* a station at rush hour; a stadium; a beach.
 
 ## 9. Pitfalls of the medium
 
-- Every internal piece outlined with a gap looks like a mannequin diagram → merge pieces in an offscreen layer, cut only joint slits (`destination-out`), outline the whole figure.
-- A `clear()` that resets the transform silently kills the camera.
-- A figure fully hidden behind a letter reads as "nobody there" → let hat, nose and accent stick out. A stiff streamer reads as a tongue → multi-segment ribbon with a travelling sine.
-- A credit only ever seen partially is uncomfortable → always open wide on the full line.
-- Black background props read as letters → darker ground colour.
-- An object in the same ink as its ground vanishes → black backing.
-- Circular props dropped into a word cover neighbouring letters → lay the word out around a gap.
-- Match cuts fail if circle centres move across the cut.
-- Flat inks + grain make huge files at low CRF → a higher CRF looks the same.
+- **Straight edges in the colour field** from clipping by a bounding box → clip by the actual noisy distance.
+- **Rectangular masks around complex silhouettes** leave notches → mask with the real stepped silhouette.
+- **Characters losing colour** when they move into unpainted areas → sample arrival once (or tie it to the event), never at the current position.
+- **Static ink can't be occluded by later washes** → erase far ink inside nearer shapes before drawing; use carrot people for far crowds.
+- **IK feet pinned while blending poses** splay the legs → blend foot targets toward under-hip.
+- **Front-facing heads go bald** → draw the hair mass, then knock the face out of it.
+- **Big canvases in headless Chrome**: pack ink and time into RGBA byte textures yourself and upload the arrival field as a filterable float texture (`R16F`).
+- **Painting edge to edge** kills the sketchbook feel → leave margins and fray the edge.
 
 ## 10. Engine
 
-In `demo/`: `paper.js` (four inks, cached scissor edges, cut gaps, paper shadow, texture, silhouette layer with joint slits), `glyph.js` (League Gothic → opentype.js outlines → re-cut letters), `chars.js` (silhouette rigs, poses, run/walk cycles), `title.js` (custom cut title glyphs, diagonal split), `story.js` (tempo grid, single source of timing), `film.js` (timeline, acting, cameras, subtitles, sound events). `?sheet=1` renders a model sheet, `?frame=<scene>` a style frame. File list and build steps: [DEMO.md](DEMO.md) "Build notes".
+`demo/engine.js` (deterministic): `penStroke` + `drawPen` (fineliner with wobble, overshoot, gaps, draw-on), `rasterPen` (bakes stroke order into an ink + time layer), `wash`, `reserve`, `dab` / `foliage`, `arrivalField` (colour arrival per cell from sources), `compositor` (WebGL page: paper × wash revealed by arrival × ink revealed by stroke time), `figure` + `drawPrims` (sketched people), `sketchShape` (any shape in this style in one call), `handwrite`. `demo/poses.js` holds a pose library. API table and a minimal example that draws something new: [DEMO.md](DEMO.md#engine-reference).
 
 ## 11. Variation space
 
-You decide what is pursued, by whom, the locations (as credits), the inks, the opening and the ending. All far from our demo:
+You decide the place, the subjects, what colour does (always there, withheld, arriving), the voice (or none), the music family, the camera path, the opening, the ending and the length.
 
-- Structures: **no chase: a countdown** (ten credits, ten locations, a bomb-clock number built from type in each); **a heist in reverse** (the object is returned, location by location, to where it belongs); **two agents, one frame** (split diagonally, each side a different ground colour, until they meet).
-- Openings: **a full-frame title** that shatters into the sequence (the reveal moved to the start); **a telephone rings** in a single cut-out room; **the hero already falling** through a column of type.
-- Endings: **the title never assembles**, one piece missing, the hero walking off with it; **a slow pull-out** showing every location was one giant credit page; **a stop-time freeze** on the final stab, held.
+All far from our demo:
+
+- Structures: **a travel diary** of five pages, one per day, each page turned by the wind or a hand; **a single street corner** drawn at four times of day, the wash changing while the ink stays; **a recipe** where each ingredient is drawn from life at the market and the final dish is painted last.
+- Openings: **the blank page** with only the handwritten date, then the first line of the horizon; **a close-up of a coffee cup** on the page's edge, pulling back to find the city drawn behind it; **rain dots** landing on the paper and blooming into the first washes.
+- Endings: **the sketchbook closes** on the page; **the last figure walks off the page** into the blank margin; **the colour drains** back to ink as the evening comes, leaving one lit window.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: art-deco -->
+<!-- STYLE: shadow-puppet -->
 
-# Art Deco — Style Prompt
+# Shadow Puppetry — Style Prompt
 
-> Black lacquer, engraved gold line and airbrushed geometry: a 1930s poster that moves. Every composition has a centre axis, transitions open or close along it, and light arrives as bulbs switching on one by one.
-> References (grammar only): **A. M. Cassandre** posters (giant geometry, steep perspective, airbrush inside hard edges); **Chrysler Building / Rockefeller Center ornament** (setbacks, sunbursts, chevrons); **Busby Berkeley** overhead numbers overheads (human kaleidoscopes); **The Great Gatsby (2013) title sequence** (gold line drawing itself on black); **Gershwin-era symphonic jazz** (clarinet, piano, muted trumpet). Never copy a poster layout, a real building, a character, a typeface design or a melody.
+> Chinese shadow theatre: translucent dyed-hide puppets, carved like lace, pressed against a cotton screen and lit from behind by oil lamps.
+> References (grammar only): Lotte Reiniger's *The Adventures of Prince Achmed* (1926) for profile acting and lace-like scenery; Shaanxi / Huayin shadow theatre for carving, colour and gong-and-drum rhythm. Never reproduce a specific historical puppet, melody or recording, and never name them in the film.
 
 ## 1. Essence, and what it is not
 
-A world built from **gold keylines on warm black**, filled with **airbrushed hard-edged volumes** (Cassandre, Lempicka), organised around **one vertical axis**. Ornament *is* the picture: sunbursts are backgrounds, stepped arches are frames, a dial is a progress bar, a bulb marquee is a reveal. Motion is **mechanical and symmetrical**: things unfold from the centre, doors split along the seam, lights switch on in counted order. Native register: glamour with a clock ticking (an event, a deadline, a launch).
+A white cloth screen; behind it, flat puppets cut from **translucent dyed hide**, lit by an **oil lamp**. Colour arrives *by transmitted light*: dyes glow like stained glass, carved holes shine brightest, overlaps go darker. Puppets are jointed with **visible thread rivets** and moved by **thin rods** (neck and hands) that show as soft grey lines just off the screen. It is live theatre, not stop-motion: the screen **flickers with the lamp**, puppets **tremble in the hand**, loose parts **swing on their rivets**.
 
-Not a gold-foil slideshow (things move and have volume), not Art Nouveau (no whiplash curves, no flowers), not a flat vector poster (volumes are airbrushed and rimmed), not a 60s spy title (no silhouettes on flat colour).
+Not a black silhouette film (colour is the second protagonist), not paper-cut (the light comes *through*), not stained glass (no lead lines; pieces move and overlap), not flat vector cut-out animation.
 
 ## 2. Materials & rendering
 
-- **Ground**: warm lacquer black, never neutral grey-black; a night sky may drift toward a deep emerald near the horizon.
-- **Gold is a banded metal gradient** (dark – light – hot – light – dark); animate its `sheen` offset for a light sweep.
-- **The signature stroke** (`gline`): a dark engraved underline ~1.6 px wider than the line, the gold gradient line, and a hairline highlight on top. Optional glow and a parallel twin (`double`). Nothing gets a black cartoon outline.
-- **Volumes**: hard edge + airbrush (`airbrush`): a directional gradient from shade to light inside the shape, one consistent light direction (upper left by default), a thin gold rim on the lit side.
-- **Motifs** (sunburst, stepped arch / ziggurat, fish-scale, chevrons, fan, four-point sparkle, speed lines, clock face, dial) are structural (a background, a frame, a transition), not stickers.
-- **Perspective is real**: true one-point (mode-7 floors) and two-point perspective through a pinhole camera, so dolly, tilt and pan change perspective instead of scaling flats.
-- **Characters are deco too**: about 7 heads tall, tapered streamline bodies, faceted lacquer planes (Lempicka), almond or arc eyes, a one-stroke nose, airbrush + gold rim. Give each lead one or two silhouette marks readable at a quarter of frame height.
+**Rendering model.** Per pixel: `image = tonemap( lampLight × hideTransmission × clothTexture )`.
+- `hideTransmission`: a 2D canvas that starts **white**; every piece is drawn with `multiply`. Holes stay white, overlaps darken by themselves.
+- `lampLight`: per lamp a broad lobe plus a tight hotspot (~6 : 1), each flickering independently (a few % of ~7 Hz value noise plus a faster sine). Warm light, never white.
+- `tonemap = 1 − exp(−hdr)`, exposure ∝ `1/√(lamps lit)`: more lamps bleach the frame but keep it readable. Lamp count is a dial the story can turn.
+- **Cloth**: procedural weave (sin × sin, noise-warped), fibre speckle, low-frequency density blotches, darker edges at the frame. **Post**: warm-tinted bloom, a **warm vignette** (toward brown, never grey), slight saturation, soft S-curve, light grain; heat haze only when the story burns.
+
+**Hide and carving.** Multiply a tileable hide texture (mottling, fibres, specks) into each piece and restore its alpha with `destination-in` so holes survive. **Carving is density**: leave thin strips, cut out most of the area. Cut vocabulary: crescent rows (scales, tiles), diamond lattice, coin holes (round hole, square of hide inside), cloud collars and scrolls, tapered slits (cracks, rain, fur), strata along a ridge, leaf holes in a canopy. A dark carved outline (1.5–2.4 px) on every region. With `destination-out`, set `fillStyle = '#000'` first: fill alpha decides how much is cut.
+
+**Figures are jointed puppets**: 8–12 pieces, head ~1.2× natural with large headwear, sleeves in a different dye from the torso, round joint lobes with a rivet (dark ring + pale knot), arms by 2-bone IK from hand targets, held objects as separate pieces on the hand line. Sympathetic figures have *open-cut faces* (features as thin strips around a hole); antagonists solid faces.
+
+**Scenery** is carved set pieces on mostly empty lit cloth: one lace piece per element, a narrow carved ground strip, separate liftable strips for water or sky. Fire, smoke and moving water are carved pieces on rods, swapped and shaken, never particles.
+
+**Stage and backstage.** A lacquered frame (lintel, pillars, warm spill on its inner edges), optional blurred audience heads. Backstage = the same transmission canvas with the camera mirrored (`x → −x`), dark wood around, hanging lamps (additive flame glow; snuffed ones trailing dark smoke), hands and sleeves as **silhouettes with a warm rim** (mask minus mask shifted away from the light), rods sharp.
 
 ## 3. Colour logic
 
-- Three constants: **warm black ground, gold line and metal, ivory** for paper, gloves, light and type.
-- **One saturated accent reserved for the protagonist** (or the one object the story follows). It is the only large saturated area, so the eye finds it in any wide shot. A cooler jewel tone may carry secondary surfaces, never competing in area.
-- **The one-colour exception**: any single element can be drawn in its own colour through the same fill + keyline + glow (`color` option) while everything else stays gold.
-- Always expand hex to six digits in code (three-digit hex breaks colour mixing).
-- Examples of the triad (accent / jewel / metal): burgundy / emerald / gold; coral / sapphire / pale gold; jade / plum / rose gold. Our demo's actual values are in DEMO.md.
+- All colour is **transmitted**: a dye filters warm lamplight, so nothing is brighter than the lamp and every hue leans warm.
+- 3–5 saturated dyes + **raw hide** (the neutral) + **ink** (outlines, hair, boots). Holes are the brightest value.
+- Overlap is darkness: plan which pieces cross.
+- Brightness comes from the number of lamps, not grading. Night is fewer lamps, never added blue.
+- Thin things that must read (strings, shafts, text) are dark: pale pieces vanish on a bright cloth.
+- Example sets: *court* (vermilion, ochre, malachite); *river* (indigo, jade, one ochre); *harvest* (flame orange, gold, one green).
 
 ## 4. Type & subtitles
 
-- **Type (OFL)**: Limelight (titles), Poiret One (numbers, sign skeletons, plaques), Josefin Sans (subtitles, labels), Italiana (numerals).
-- **Titles are architecture**: a stepped gold title bar over an arch or sunburst, optional badge and wings; drawn on in gold, then a sheen sweep.
-- **Subtitle card** (`subtitleCard`): a lacquer bar (~88 % black) with stepped ends like the title bar, double gold keyline, Josefin Sans SemiBold ~40–42 px ivory, an optional small speaker icon per voice. It **unfolds from the centre** like every other title, so titles, subtitles and transitions are one system. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Numbers carry plot without narration: dials, clock faces, floor medallions, badges.
+- Subtitles belong to the theatre: a **storyteller's placard** (narrow dark-lacquer board, thin gold line, small carved seal), a label on a rod, or letters carved into hide. Classical OFL serif (e.g. Cormorant Garamond 600), 40–50 px, cream on dark, short slide in. Hold ≥ max(1.8 s, speech + 0.6 s).
+- **Titles are puppets**: dark hide plaques with letters cut out (`fillText` + `destination-out`, so words glow), a carved border, carried on rods, pressed on to enter, lifted off to exit.
 
 ## 5. Motion quality
 
-- **Characters step on twos (12 fps)**; camera, light, bulbs, gold draw-on and sheen run on ones (24 fps). A stepped camera reads as stutter.
-- **Everything unfolds from the centre**: a point → a hairline → bars open symmetrically → text rises → wings and sparkle.
-- **Draw-on follows the music**: a gold line grows at the speed of the phrase under it and lands on the hit.
-- **Bulbs have an ignition overshoot** (~1.6× flash settling in ~0.18 s) and a relay "chunk"; once a sign is lit, a fast chase may run across it.
-- **Mechanical easing**: doors, dials and hands move with firm ease-in-out and a small settle, like machinery; nothing floats.
-- **Performance beats get anticipation** and escalation in threes (once, twice, mash).
-- What never moves: the centre axis of a composition. Symmetry may rotate or open, but it never drifts off-centre.
+- **24 fps continuous** for puppets and camera; only swapped effect pieces (fire, water) step at 12 fps.
+- **Hand tremor** on every puppet (a few px, ~0.02 rad, low-frequency), stronger under tension.
+- Body glides with the main rod; **legs, plumes, tassels are simulated** (damped pendulums / spring chains driven by body acceleration, pre-simulated at a fixed rate for determinism).
+- Operatic phrasing: shuffling run → hop → crouch → **freeze pose on a percussion accent** (~1 s, only loose parts quiver) → head turn.
+- Faces never change; attitude = head angle + body tilt (up = resolve, down = sorrow).
+- **Press on / lift off**: arrivals come large and blurred onto the cloth and snap sharp (~0.5 s); exits grow, blur and fade (~1 s).
+- A new lamp flares with overshoot; a snuffed lamp gutters with fast flicker.
+- Never moves: the cloth, the frame. Nothing morphs: pieces rotate on rivets, slide on rods, or are swapped.
 
 ## 6. Camera grammar
 
 A vocabulary, not a route. Opening and ending come from the topic.
 
-| Move | What it expresses | Can serve |
+| Move | Expresses | Can serve |
 |---|---|---|
-| Symmetric split (two door leaves hinged at the edges; or a revolving-door wipe) | a threshold crossed | a new place; a new chapter; a reveal behind a façade |
-| Leaves sliding shut over the live shot | a door closing on a moment | leaving; a decision made; the end of an era |
-| Extreme low-angle Cassandre tilt | scale and aspiration | a goal far above; a tower, a rocket, a monument |
-| Architectural section (pull out to a cutaway of the whole building) | progress through a structure | climbing, descending, a process in stages; a company's floors |
-| Busby Berkeley overhead, mirrored and rotating | people become pattern | a team, a release, a celebration, a system of parts |
-| Push-in on a dial, medallion or clock | the number is the plot | a deadline; a count; a milestone |
-| Match-cut on shape (circle → circle, ray → ray) | two places, one rhyme | jumping between departments, cities, eras |
-| Low oblique along a sign or marquee | light travelling letter by letter | a name revealed; a launch; a score being counted |
-| Pull back from detail to skyline | where the moment sits in the world | aftermath; a city-wide effect; scale |
+| Audience seat (whole stage, heads below) | "This is a show" | a legend; a lesson; a framed memory |
+| Push through the frame onto the cloth | Entering the tale | a story within a story; focus |
+| Lateral pan across a wide cloth | Extent, a place laid out | a journey; a disaster's reach; a procession |
+| Follow a puppet, slight zoom | Being with one figure | a pursuit; a working day |
+| **Crash zoom** of a few frames on a percussion hit | The drum becomes the camera | an entrance; a pose; a reveal |
+| Whip pan along a moving piece | Cause to effect | a message sent; a strike |
+| **Locked wide** | Every step of a change is seen | counting; repetition; stages |
+| Medium-close, empty cloth between two pieces | Distance, hesitation | a choice; a parting |
+| Close on a carved detail | Craft as meaning | a vow; a tool; a clue |
+| Tilt from ground strip to top of cloth | Height, hierarchy | a tower; heaven and earth |
+| Truck round to the back (mirror view) | The trick revealed | behind the scenes; who pulls the strings |
+| Pull back from cloth into the dark room | The tale becomes an object | aftermath; a story ending for the night |
 
-Framing: the centre axis is sacred; an asymmetric frame must resolve to it within the shot. At an emotional peak the protagonist fills ≥ ~1/3 of frame height (smaller, the face reads as a prop in the ornament). Transitions: splits, revolves, arch openings, shape matches; never a generic dissolve or slide.
+Puppets in profile; most of the cloth stays empty. When zoomed in, clamp the camera to the screen rectangle (no black bars); push on frame centre unless diving into a lamp. Transitions: lamps dimming, a blurred foreground pillar wipe, a piece lifting off in light, a flash to warm white; never a generic crossfade or digital wipe.
 
 ## 7. Sound palette
 
-- **Symphonic jazz of the 1920s–30s, not a 60s big band.** Options: stride or concert piano, clarinet (trill; a glissando by time-varying resampling of a long note), strings (tremolo, rushes, pizzicato), muted trumpet commentary, trombone and sax section, walking pizz bass, brushes or sticks, tubular bells, harp glissandi, banjo, xylophone runs, celesta.
-- Rhythm families to choose from: foxtrot, Charleston, tango, a slow torch-song ballad, a fanfare in the manner of a newsreel.
-- **Techniques (options)**: one hit per unit of counted light; accelerate by dividing the beat; plant a theme in fragments so its full statement is a payoff; low-pass a band that is physically far away and open it as we approach; move a period narrator through acoustic spaces (horn, radio, PA, live mic) to make distance audible.
-- **Foley by material**: brass clicks, bronze clang + chain, iron treads, marble heels, silver trays, wooden doors + spring twang, paper flutter, knife-switch "chunk" + filament hum, relay ticks, elevator ding, champagne cork.
-- **Silence as a tool**: before the most important sound, drop to one small diegetic sound (a clock tick, wind) and cut back in with that sound alone.
-- **J/L-cuts** carry architecture: the next room's sound enters a bar before its door opens.
-- Mix: duck music ~−9 dB under voice (less under a period announcer who is part of the texture), beds −6 dB, −14 LUFS, light film grain.
+- **Percussion first, not piano and strings** (gong-and-drum pattern thinking, 锣鼓经): low barrel drum, hard high clapper drum (woodblock), cymbals, small gong with rising pitch ("tai"), big gong with falling pitch ("kuang"); also a bamboo clapper board, pellet drum, sanxian pluck, a bamboo flute for quiet.
+- **Bowed and reed voices**: a bright nasal fiddle (erhu-like: pitched up, nasal formant, pitch-curve resampling for slides and vibrato), plain pentatonic (**huan-yin**) or sorrowful microtonal (**ku-yin**: raised 4th, lowered 7th); a shrill suona-like reed (oboe + 1.2–3 kHz formant + saturation) at most once.
+- **Techniques, as options**: a single tap inside a silence; one big gong per decisive hit; a heartbeat drum under dread; accelerating rolls into an entrance; one hit per visual step; a gong scrape to change space; a hard stop (≤ 30 ms, tails included).
+- **Silence**: hard-cut the whole bed; at most one sound inside (a breath, a tap, a sizzle).
+- **Foley follows the materials**: wooden clapper (醒木), match strike, lamp "fwoomp" and "pfft" + sizzle, rod taps on cloth, dry leather flaps on lift-off, leather steps, creaks of hide and wood props, leather thwacks, cloth rustle, backstage room tone.
+- **Voice**: a storyteller, few short lines, small-theatre reverb; music ducked ~12 dB, foley ~4 dB, voice ≥ 12 dB above the bed; −14 LUFS; check each line with whisper alone and on the final mix.
 
 ## 8. Native moves
 
-A menu: use the ones your story needs.
+A menu: use the ones your story needs; put the strongest at the peak.
 
-- **Counted light.** A bulb sign lights one letter per beat or per event, so the audience can count. *Fits content like:* the countdown to a product launch; the letters of a city name lighting as a train arrives; votes tallied into a winner.
-- **Threshold doors.** Every scene change is a door split along the seam. *Fits content like:* the departments of a company; the rooms of a museum; stages of a career.
-- **Machine kaleidoscope.** People or objects become a mirrored, rotating pattern that locks into a symbol. *Fits content like:* a team becoming a logo; gears of a supply chain; a choir becoming a clock.
-- **Dials carry the plot.** A floor indicator, a clock or a gauge moves instead of narration. *Fits content like:* a funding thermometer; the altitude of a climb; a stock ticker at the opening bell.
-- **The architectural cutaway.** Pull out until a building is a section and the protagonist a coloured dot with speed lines. *Fits content like:* data moving through a server stack; a letter through a post office; a skier down a resort.
-- **Sheen sweep / draw-on.** Light crosses a gold object on a hit; a gold line engraves itself at the speed of a glissando. *Fits content like:* unveiling a trophy; a map route; a signature on a treaty.
-- **The one colour.** One element keeps its own colour in a gold world. *Fits content like:* the one product among competitors; the patient among doctors; the new idea in an old firm.
+- **The light is the world.** Lamp count drives heat and colour. *Fits content like:* city lights spreading at night; a fever rising and falling; servers switching on one by one.
+- **Off the screen = big and blurry.** A piece pulled toward the lamp grows and blurs. *Fits content like:* a rumour growing; a memory fading; a deadline pressing onto the cloth and snapping sharp.
+- **Go behind the screen.** Lamp, hands, rods. *Fits content like:* how a product is really made; who controls a market; a teacher revealing the method.
+- **Carved and translucent.** Holes glow, overlaps darken, open faces vs solid. *Fits content like:* an x-ray of a system; good and bad actors in a fable; layers of a city.
+- **Hand-held.** Tremor and swinging parts. *Fits content like:* a nervous interview; a tightrope; a toddler's first steps.
+- **Piece swap.** One carved piece on a rod replaced by another. *Fits content like:* seasons; a machine's states; weather over a harvest.
+- **Strip lift-off.** A band of scenery lifted to reveal another. *Fits content like:* geological layers; before/after a flood; an old town under a new one.
 
 ## 9. Pitfalls of the medium
 
-- Bulb signs from glyph skeletons break on curves (G, S, R): Zhang–Suen staircase pixels fool a neighbour-count junction test → use the **crossing number** and weld chain ends within ~14 px.
-- A generic cartoon character looks pasted in → characters are deco (§2).
-- Fish-scale reads as brickwork → lower half-circles row by row, each overlapping the previous row, plus an inner arc.
-- Door leaves over a flat "interior" read as a blank frame → draw only the leaves, closing over the live shot.
-- A gold point on pure black trips `blackdetect` → lift the background wedges and glow slightly.
-- Period loudspeaker distortion is unintelligible under music → gentle drive; whisper-check every line on the final mix.
+- Flat clip-art look → hide texture, denser openwork, deeper dyes, carved outlines everywhere.
+- Figures unreadable in profile → bigger head, fuller lower body, collar piece, contrasting sleeves.
+- Radiating shapes read as saw blades or petals → flame tongues with a fat base, belly and hooked tip, alternating curl.
+- Grey corners when overexposed → warm vignette.
+- Thin pale pieces vanish → make them dark.
+- Mirror view flips pieces when rotation uses the x scale for both axes → x scale for x, y scale for y.
+- Smoke with `lighter` is invisible on bright cloth → dark wisps, warm additive only near a lamp.
+- Push-in centred on an edge lamp shoves figures out → push on frame centre.
+- Beds leaking into a silence → hard-cut them.
+- Headless screenshots time out under GPU load → retry.
 
 ## 10. Engine
+
+In `demo/`: `carve.js` (piece sprites, `cut` / `cutLine` / `cutTaper`, pattern library, hide texture, rivets), `gl.js` (WebGL2 compositor: lamp field × transmission × cloth, mirror, bloom, haze, warm fade), `stage.js` (frame, audience, pillar wipe, cut-letter plaques), `backstage.js` (rim-lit silhouettes, flame, smoke), `hud.js` (placard), `scenery.js` (landscape pieces, ground strip, fire), plus the jointed rig with IK and pendulum parts; `?test=model|frame|hands` draws sheets from the real engine. A first test unlike the demo: carve a lantern-seller with a lattice basket, press it onto one lamp, light three more and watch the frame bleach.
+
+## 11. Variation space
+
+You decide the story, the figures (or none), what the lamp means, what leaves the screen, the opening, the ending, the camera path, the dyes and the pacing. All far from our demo:
+
+- Structures: **a procession** (one long pan; each figure adds a dye until the cloth is a full street); **two puppeteers** (rival hands argue through their puppets; backstage shows who is winning); **a workshop** (a puppet is carved, dyed and riveted on the cloth, then performs its own making).
+- Openings: **backstage first** (rim-lit hands and rods before the front); **one hole of light** (the screen all dark hide; one carved hole glows and widens); **mid-show** (the camera finds a performance already in full percussion).
+- Endings: **the lamp is carried away** (the cloth darkens from one side); **the puppets rest** (lifted off one by one, laid flat on a dim table); **the audience leaves** (the heads stand and go, the cloth still glowing).
+
+---
+
+How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: ukiyoe -->
+
+# Ukiyo-e — Style Prompt
+
+> Edo-period woodblock prints brought to life: flat colour blocks, carved ink lines, bokashi skies, paper you can feel, and a camera that moves over the print like an unrolling handscroll.
+> References (grammar only): Hokusai's *Thirty-six Views* (one constant subject placed differently each time; bold geometric cropping); Hiroshige's *Fifty-three Stations* and *Hundred Famous Views* (small figures, rain lines, extreme foreground framing); the anime *Mononoke* (2007) (print texture alive in motion, flat layers sliding, seals as screen language). Never reproduce a specific famous print (no copy of *The Great Wave*, *Red Fuji*, *Sudden Shower over Ōhashi*), and never copy their characters or compositions.
+
+## 1. Essence, and what it is not
+
+Every shot is **a complete woodblock print**: a sheet of washi, a thin double ink border, flat areas of colour printed from separate blocks, a black key-block line on top, a vertical title cartouche and a red seal. The world is flat on purpose. Depth comes from stacked horizontal layers, mist bands and bold cropping, never from perspective rendering, lighting or shading.
+
+What makes it read as *printed* rather than *vector*:
+- **Paper** is always visible: warm washi, long fibres, slight edge ageing.
+- **Each colour is its own block**, slightly **out of register** (1.5–2.5 px) with the key line.
+- Large colour areas show **woodgrain** and **baren rubbing** (uneven ink density, circular streaks) and fine **goma-zuri** specks.
+- **Bokashi**, hand-wiped gradients, in skies and water.
+
+Not a flat vector illustration with a paper overlay (no woodgrain, no misregistration), not Chinese ink wash (no bleeding washes, colour is printed, not painted), not anime cel shading (no light and shadow on forms).
+
+## 2. Materials & rendering
 
 
 <!-- END STYLE PAGE -->

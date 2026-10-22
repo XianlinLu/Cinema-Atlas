@@ -1,200 +1,214 @@
 # Complete style specifications 17
 
 
-<!-- STYLE: silkscreen-poster -->
+<!-- STYLE: one-line -->
 
-- **One ink, one beat.** Facts print last, when they are read. *Fits content like:* museum hours; a ferry timetable; tasting notes.
-- **Split fountain.** Several inks in one pull fill the frame with colour. *Fits content like:* a festival's night sky; a sunset beach bar; a rainbow of colourways.
-- **Palette re-ink.** Same poster, another palette = time passing, a season, a variant. *Fits content like:* summer vs winter hours; three jacket colourways; day and night at a market.
-- **Registration slip → snap.** Loose layers clamp into register with one hit, before the key facts. *Fits content like:* the date of a race; a launch price; a ticket sale opening.
-- **Paper as a colour.** The unprinted sheet is the brightest element. *Fits content like:* a ski slope; a lighthouse beam; fresh snow on a roof.
-- **The route as a printed layer.** A dashed accent line stamped segment by segment. *Fits content like:* a bus line; a marathon course; a delivery path.
-- **The series wall.** Every print ends up hung together as the final lockup. *Fits content like:* a city's four districts; a band's tour dates; a product family.
-
-## 9. Pitfalls of the medium
-
-- Stroke edge effects draw internal lines on unioned paths → fills only (fill, then fill shifted inside a clip).
-- A full-rectangle screen shadow muddies the print → ring shadow.
-- Cool shadow facets next to water read as water → shadows in the near ink.
-- Jagged ink beads read as paper edges → a round bead.
-- Parallax alone reads as "the mountains are moving" → paper gaps and thickness while loose, snapped to zero with a sound.
-- Silhouette wipes hold a dark blank → centre on the switch so full cover lasts ~1 frame.
-- Very wide banners are slivers in 16:9 → about 4:1.
-- Random coloured dots on the table read as confetti → a real workbench (planks, grain, muted stains, tape).
-- Too many items at honest reading times overrun the length → print items side by side in the same pulls, or let secondary ones be read on the final wall.
-
-## 10. Engine
-
-`demo/engine/silk.js` prints **any shape** in this style from a `Path2D`: `makeTextures`, `paperSheet`, `ink(ctx, {path, knock, paint}, {color, reg, clip, sheen, trap})`, `wipeRegion`/`wipeFront` (ragged pull), `squeegee` (blade, beads, split fountain), `screenFrame`, `inkFinish`, `bandSteps` (the gradient substitute), shape helpers. `demo/engine/poster.js` (template, banner, `pickInk` contrast), `demo/engine/scenes.js` (planes you can reorder or extend), `demo/film.js` (timeline and shots). API table and a minimal example that prints a new shape: [DEMO.md](DEMO.md#engine-reference).
-
-## 11. Variation space
-
-You decide the subject, the scenes and their planes, the palettes within the colour logic, the number of posters, the camera path, the opening, the ending, the instrument family and the length. Use cases are **grammar for the order and duration of information**; build your own timeline from the user's facts.
-
-| Use case | Information order (print order) | Hold per layer | Length |
-|---|---|---|---|
-| **Trail / attraction guide** | place → per item: scene → name → difficulty → distance → time → footer | title ~3 s; name ≥ chars/12 + 1 s; stat row ≥ 2.2–3 s after its last item | 30–40 s, 3 items |
-| **Event / festival poster** | scene pulls → headline → date → venue → call to action | headline 2.5 s, date + venue 3 s, final 3 s | 15–20 s |
-| **Destination series** | one template, a palette per place: name → one fact → series wall | 2.5 s per poster + 4 s wall | 20–30 s |
-| **Product drop** | layers around a flat product silhouette → name → colourway ×3 (re-ink) → price / date | 1.8 s per colourway | 12–18 s |
-| **Seasonal / hours notice** | one poster re-inked per season → season + hours | 2 s per swap | 10–15 s |
-
-All far from our demo:
-
-- Structures: **one poster, many runs** (re-inked for each of four nights, the line-up changing in the band); **a street walk** (one multi-plane truck down a street, each shop sign printed as we pass); **a misprint story** (registration drifts until the last pull lands true on the date).
-- Openings: **the empty screen** (light through a blank mesh, a stencil being exposed); **the accent first** (a lone product in the bright ink on bare paper); **the finished wall at night**, then back to the table.
-- Endings: **the drying rack** (prints clipped in a row, swaying); **the poster in use** (pasted on a bus shelter, rain starting); **the last pull is paper** (the squeegee runs dry, leaving a white silhouette).
-
-Swapping `demo/content.json` and rebuilding is a technical check that the engine re-flows, not a way to make a film.
-
----
-
-How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
-
-<!-- STYLE: swiss-motion -->
-
-# Swiss Motion Graphics — Style Prompt
-
-> International Typographic Style in motion: a modular grid, one typeface, one signal colour, and movement as exact as a printing press.
-> References (grammar only): 1950s–70s Zurich posters (Müller-Brockmann, Hofmann, Gerstner, Crouwel) for the grid, flush-left type, scale contrast and "designing programmes"; modern identity systems in motion (Experimental Jetset, Pentagram) for snaps on the beat. Never copy a specific historical poster's composition (no concentric-circle or fan layouts lifted from Müller-Brockmann), never use Helvetica or Akzidenz font files, never name a real institution on a poster.
-
-## 1. Essence, and what it is not
-
-- **Pure 2D graphic design animated on a grid**: flat paper, black type and bars, a very light grey and **one** saturated signal colour.
-- **Every element snaps to the grid, every move lands on a beat, nothing bounces.**
-- **Rigor with one exception**: the whole frame obeys a system, so the one element that doesn't becomes a character.
-- **Extreme scale contrast**: a giant numeral next to tiny technical notes.
-
-Not a keynote (no gradients, no glow, no device renders), not kinetic typography for a lyric video (words don't fly, spin or bounce), not data visualisation (bars have mass as graphic form, not as charted quantities, unless the grid gives them that meaning), not a Bauhaus pastiche of primary shapes.
-
-## 2. Materials & rendering
-
-- **Frame grid**: 1920×1080, 12 columns, ~96 px side margins, 24 px gutters, 24 px baseline. The frame can act as a **spread**: a left page (the programme: numeral, rule text, notes) and a right page (the artifact).
-- **Artifact grid** derived from the content (Gerstner): what the columns and rows *mean* is a design decision. **Choose module sizes that give the elements mass**; too many thin columns make a layout look like a chart.
-- **Surfaces**: page, paper, ink, signal colour, grid lines in two or three light greys (on page, while building, on paper). No gradients, no shadows, no particles, no grain (mux grain 0).
-- **Bars and blocks** are flat rects; consecutive cells of one unit merge into one bar, overdrawn 1 px at seams (antialiasing shows hairlines, especially when rotated or scaled).
-- **A secondary voice** can be light-grey elements under the black ones: depth without a second colour.
-- **A 2D camera matrix** (centre, scale, rotation) for all moves.
-
-## 3. Colour logic
-
-- **Paper, ink, greys, and one signal colour.** Only one thing carries the signal colour; that makes it the protagonist. It is the only thing allowed to be inexact.
-- Overprint is allowed: black type on the signal colour.
-- The signal colour can be red, orange, ultramarine or green; choose it for the topic, then never add a second.
-- Examples: `#EAE9E5` page, `#FFFFFF` paper, `#111111` ink, signal `#E30613`; or `#F2F0EA` / `#141414` / signal `#FF5A00`; or `#E9ECEF` / `#0B0B0B` / signal `#1F3FFF`.
-
-## 4. Type & subtitles
-
-- **One family for the whole film**, an OFL neo-grotesque (Archivo, Inter, Schibsted Grotesk, Instrument Sans…), several weights. Letter-spacing ~−2 % at ≥ 90 px. Headlines can be lowercase. Load every weight with `document.fonts.load` before drawing.
-- **Flush left, ragged right**; everything on a grid line; big white space is part of the layout. Giant numerals are **optically** flush left (subtract the glyph's left bearing).
-- **Subtitles are part of the layout**, not a bar at the bottom: each line sits at a column start in the current composition (a small grey lead-in + a large bold statement, or a caption like a museum label), each word clip-revealed on its whisper timestamp. Hold ≥ max(1.8 s, speech + 0.6 s); assert it in code.
-- **Caption rows**: small (~19 px) medium-weight notes with a 1 px rule above; technical notes in a corner (module sizes, counts, a bar counter).
-
-## 5. Motion quality
-
-- **Two curves only**: a precise ease `cubic-bezier(.7,0,.2,1)` for snaps; linear for lines being drawn, playheads and the exception. No overshoot, no spring, no bounce.
-- **Durations are note values** at the film's tempo. A snap starts one note value early and **lands on the beat**.
-- **Entrances are wipes or clip-reveals, never fades**: words rise out of a clip rect from below the baseline and leave upward; lines grow along their length; paper appears by a wipe; big numerals climb in eased steps ("one module at a time").
-- **Deletions are knife cuts**: a thin line crosses the element, then the element collapses to its midline.
-- **Ripples are ordered by distance** from their cause, a couple of units per subdivision.
-- **The exception moves differently**: linear, unsnapped, perhaps pausing mid-flight; a coordinate readout beside it can turn from "on grid" to "off grid".
-- Smooth 24 fps, no stepping: digital precision, not hand-made.
-
-## 6. Camera grammar
-
-A vocabulary, not a route. The camera moves only with the precise ease and only on beats. Opening and ending come from the topic.
-
-| Move | What it expresses | Can serve |
-|---|---|---|
-| Locked spread | cause (left) → effect (right) | a rule applied; a before/after; a comparison |
-| Hard pan by one page or column | the next step in a system | a sequence; a catalogue; a timeline |
-| Rotate 90° and stop | the same thing read another way | a poster as a score; a chart as a map |
-| Pull out to a wall of artifacts | one programme, many outputs | a brand system; a product range; a series |
-| Push into one module | detail; the unit of the system | a pixel; a letter; a single data point |
-| Grid extends past the page | the system is bigger than the artifact | scale; ambition; a break from constraints |
-| Split frame into equal cells | parallel cases | options; variants; team members |
-| Vertical scroll through a column | reading; a list | a manifesto; a spec sheet; a timetable |
-
-Framing: everything on the grid; the signal element may sit off-grid only when it is being the exception. Transitions are wipes, knife cuts, camera moves and re-flows; never dissolves.
-
-## 7. Sound palette
-
-- **Music with a grid of its own**: a steady pulse whose subdivisions give snap durations. Options: motorik / krautrock kit and bass, minimal techno, marimba or vibraphone patterns, a mechanical piano ostinato, a drum machine with a glockenspiel; one instrument added per new rule is a clear build.
-- **Picture and music can share one data file** (a column → pitch, a row → onset), so a graphic can literally be the score.
-- **Techniques (options)**: drop the drums for the one moment of the exception; a near-silent bar before a reveal; thin the band during a reveal so every note is audible.
-- **Foley follows the materials of print**, dry and close, no reverb: letterpress clack, ruling pen "tss", guillotine snick, paper slap and slide, numeral thunk, block snap, felt thump for a landing, rubber stamp, typewriter carriage.
-- **The exception can be the only element that sings** (a sine glide following its position).
-- **Silence**: a hard stop of everything on a downbeat; the next snap reads as an event.
-- **Mix**: voice compressed and ≥ 6 dB above music, music ducked ~10 dB under voice, −14 LUFS.
-- **Voice**: cool, crisp, rule-like sentences; prefer voices with bright consonants.
-
-## 8. Native moves
-
-A menu: use the ones your story needs.
-
-- **The grid means something.** Columns and rows become a quantity (notes, hours, floors, years). *Fits content like:* a building's floors and rooms; a week's timetable; a city's districts.
-- **Snap = beat.** Every arrival is a percussion hit. *Fits content like:* a product's feature list; the steps of a recipe; a countdown.
-- **Programme.** Rules applied one by one to one artifact, then the same programme generating many. *Fits content like:* a brand identity; a typeface family; a set of stamps.
-- **Extreme scale contrast.** A giant element as chapter card beside tiny notes. *Fits content like:* a record statistic; a year; a price.
-- **The exception.** One element breaks the grid, linear and unsnapped. *Fits content like:* an inventor; an outlier in the data; a rebel employee.
-- **Knife cut.** An element deleted by a line. *Fits content like:* budget cuts; editing a text; removing a feature.
-- **Re-flow.** Everything else rearranges around a change, nearest first. *Fits content like:* a team reorganised; traffic after a road closes; a layout adapting to a phone.
-
-## 9. Pitfalls of the medium
-
-- Too many thin columns look like a chart → fewer, wider modules.
-- A "better" composition that isn't obviously better → one strong diagonal with long/short rhythm, a larger signal element, bleeds, type over colour. Merely tilting is not enough.
-- Rotating and labelling at once reads as noise → rotate, hold, then add labels.
-- Merged bars show seams after rotation → overdraw 1 px.
-- Elements that share the camera matrix leak into other shots → draw them only when on screen.
-- Canvas `letterSpacing` affects `measureText` → measure after setting the font.
-- Onsets that fall between frames flicker → put visual onsets on whole frames.
-- Whisper splits or merges words and pads the first word → align by letters, clamp to 0.
-
-## 10. Engine
-
-In `demo/`: `ease.js` (`cubic-bezier(.7,0,.2,1)`, `snap(t, t_arrive, dur)`, `steps()`, `track()`), `film.js` (layout system, clip-reveal text, knife cuts, bars from a score, rotation reveal, wall of artifacts, caption rows), `main.js` (fonts, whisper word times, `?nosub=1`, `?poster=1`), `score.json` (the shared data file for picture and music), `tools/words.py` and `tools/subs.py` (word timings, asserted subtitle intervals). File list and build steps: [DEMO.md](DEMO.md) "Build notes".
-
-## 11. Variation space
-
-You decide the system, what the grid means, the exception (or none), the signal colour, the opening and the ending. All far from our demo:
-
-- Structures: **a timetable** (a 24-row grid of hours fills with the topic's day, one row per beat); **an alphabet** (A to Z, each letter a module of the topic, the grid completing as a specimen sheet); **a comparison** (two systems side by side on a split spread until one element crosses the gutter).
-- Openings: **a single dot** placed on the page, then the grid growing from it; **the finished artifact** that is then dismantled into its rules; **a giant numeral** filling the frame, which turns out to be a detail of a small layout.
-- Endings: **the empty grid** after every element has been cut away; **a single word** flush left in the corner; **the exception leaves the frame** and the system closes over the space it left.
+- Structures: **a line that is a graph** (a data series drawn as a horizon; each peak and trough becomes a scene); **two lines** that start in opposite corners and are drawn in alternation until they meet; **a loop** (the line draws a scene and then retraces its way back to the start, which now means something else).
+- Openings: **mid-line at speed**, the pen already running across the paper; **a finished drawing** whose line then unravels into the story; **a word written in script** whose last letter becomes the first scene.
+- Endings: **the line runs off the edge** of the paper and keeps going; **the ink runs out** and the last stroke fades into dry scratches; **the pen stops in mid-air** over the paper before the last stroke.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: spy-titles -->
+<!-- STYLE: whiteboard -->
 
-# 60s Spy Title Sequence — Style Prompt
+# Whiteboard Explainer — Style Prompt
 
-> A cut-paper, four-ink opening title sequence for a film that never existed: silhouettes move through sets built out of the credits themselves, every brass stab is a cut, and a title is assembled from the pieces.
-> References (grammar only): Saul Bass's titles for *North by Northwest*, *Anatomy of a Murder* and *Vertigo* (flat opaque inks, abstraction down to silhouettes, type as structure); the 2002 homage by Kuntzel + Deygas for *Catch Me If You Can* (a cut-paper chase through graphic sets, lateral tracking). Not a gun-barrel opening, not a tiptoeing cartoon panther, not a copy of any real title's logo, lettering, characters or shots.
+> An explainer drawn live on one glossy dry-erase board: single-line handwriting that is actually *written* stroke by stroke, floating markers with no hand, magnets that can move, an eraser that can rewind, and a camera that travels across the board instead of cutting.
+> References (grammar only): RSA Animate / Cognitive Media (one continuous board, the camera travels instead of cutting, a full-board view); minutephysics (one sentence = one drawing, the simplest geometry that carries the idea); Steve Reich's *Piano Phase* (two copies of one figure at two tempi as a structure). Never copy their drawings, characters, hands or music.
+
+Suits explainers, usually science or "how does X work"; the length follows how many ideas the board has to hold.
 
 ## 1. Essence, and what it is not
 
-- **Flat, opaque inks on paper**: four colours, no gradients.
-- **Hand-cut edges** on every shape; pieces layered with cut gaps and small paper shadows.
-- **Abstraction down to silhouettes**: figures in profile, all acting in outline and timing.
-- **Typography is the picture's structure**: credits are architecture, props, vehicles.
-- **Music cuts the picture**: brass stabs are edit points.
-- A title sequence is a story in itself: one goal, a few locations, one reveal.
+- **One physical whiteboard.** Everything the viewer learns is drawn in dry-erase marker in front of them, in real handwriting order.
+- **The board is a map**: each idea lives in its own region; the camera travels between regions, often led by the pen. Distance on the board = distance in the argument.
+- **Real marker, not animated text**: ink pools where the nib lands, dry streaks and speckle, strokes overshoot and don't quite close, ghosts of old lessons remain, a glossy sheen drifts slower than the board, and **every stroke makes a sound**.
+- **No hands.** Markers float with a real cast shadow that grows when they lift, park outside the frame between phrases and fly back in. Magnets and the eraser move on their own. Never draw a hand, an arm or a cursor.
 
-Not flat vector motion graphics (the edges are cut, the paper is physical), not a halftone print style (no dots), not a Swiss grid (diagonals, jaunty type, playful), not a spy parody with gadgets and gun barrels.
+Not Blueprint (no blue sheet, no drafting conventions), not Crayon Picture Book (no wax texture, no children's story), not a kinetic-type explainer (text is handwritten stroke by stroke, never animated as blocks).
 
 ## 2. Materials & rendering
 
-- **Scissor-cut edges**: every polygon resampled every ~9–10 px and displaced along its normal by low-frequency noise (amp ~1.2–2.2 px, larger for bigger shapes) plus a rare 1–2 px notch. **Cut the edge once in the piece's local space and cache it**, so a moving cutout keeps the same edge, exactly like real cutout animation (screen-space edges crawl).
-- **Paper layering**: separate pieces are separated by a ~2.4 px cut gap in the ground colour and cast a small paper shadow (offset a few px, blur ~5, alpha ~0.3). Whole figures get the gap as an outline, so a black figure reads in front of a black letter.
-- **Paper texture**: one full-frame texture multiplied on top (mottling + faint fibres), a sparse "ink void" speckle on dark ink, faint squeegee streaks; film grain in the mux (~6).
-- **Silhouette figures**: tall stylised adults (~7 heads), identity by hat, coat cut, shoes and **one colour accent** that doubles as a motion indicator (a tie or scarf streaming back when running). Pieces **merge into one outline** inside the figure, with only thin slits at shoulder, elbow, hip and knee. Hands are sharp wedges; no faces except an eye slit in close-ups.
-- **The object of the chase** sits on a black backing (an ink keyline) so it reads on any ground; it is the brightest thing in frame.
-- **Type**: a condensed OFL display face (e.g. League Gothic) for credits, glyph outlines extracted (opentype.js) and **re-cut** per letter (edge noise, ±0.8° rotation, ±1.5 px baseline jitter). A title in custom geometric cut glyphs (straight cuts + arcs, uneven weights, staggered baselines), never a real title's lettering.
+- **Board**: a warm white gradient, a faint scuff and micro-scratch tile, a few dozen **ghost marks** (old words, circles, arrows) at 5–10 % in grey or pale blue, and a soft diagonal **window sheen** (white, 10–16 %) moving at ~0.35× the camera: this one detail sells "glossy".
+- **Ink**: alpha ~0.94, composited with **multiply** so overlaps darken like real marker. Width 6–11 px for drawing, ~13 % of cap height for lettering.
+- **Stroke character**: resampled every ~0.6 × width; low-frequency hand wobble along the normal (a few px, long wavelength) plus a finer tremor; chisel-tip width modulated by direction; a pressure ramp at the start and a small taper at the end; circles start at an angle and **overlap past closure**; rectangles are four strokes with small corner overshoot; a darker pooled dot *inside* the start of long strokes.
+- **Dry-marker texture**: a speckle-and-streak tile subtracted from the ink layer (destination-out), locked to board space, faded out when the camera is wide.
+- **Lettering**: a single-line (single-stroke) font written in stroke order, each glyph with small rotation, baseline and scale jitter. Missing symbols (μ ≈ → × − ✓ ² ° ±) are hand-defined.
+- **Props**: dry-erase markers (white barrel, colour band and cap in the ink colour, felt nib), a felt eraser, magnets (glossy, with specular highlight and soft cast shadow). Frame, tray and wall appear only if the camera ever goes past the board edge.
 
 ## 3. Colour logic
+
+- **Three marker colours at most**, each with a meaning held for the whole film: one dark ink for things and structure, one for signals / measurement / process, one accent for the thing that matters (one accent per region).
+- **Monochrome variant**: everything in the dark ink, one element in the accent (the "only colour").
+- Ghost marks and board stay neutral; the accent never appears on props except its own marker cap and the hero magnet.
+- Example sets: black `#23262c` / blue `#2a5cb3` / orange `#d97757`; black / green `#2e8b57` / red `#c8363a`; navy `#1f2a44` / teal `#1f8a8a` / purple `#7a4fb3`.
+
+## 4. Type & subtitles
+
+- **Handwriting only**: a single-line hand (e.g. EMS Tech, OFL) for all board text; titles large (~120–200 px cap height), labels 30–70 px.
+- **Title and end card are written on the board** in the same hand.
+- **Burned subtitles**: an off-white rounded label (~90 %), a handwriting-like face (e.g. Architects Daughter ~44 px), dark text, a short accent-colour marker dash. Split at clauses, ≤ 44 characters per line, bottom ~12 % of the frame kept free for them in every shot. Hold ≥ max(1.8 s, speech + 0.6 s).
+- **Writing finishes on the word**: a term appears exactly when the narrator says it.
+- A label is fully in or fully out of every shot it appears in.
+
+## 5. Motion quality
+
+- **Hand speed**: every stroke follows a slow-fast-slow curve (`u − sin(2πu)/2π × 0.8`). Strokes are scheduled into a **time window** and the engine solves the speed, so writing always finishes on time.
+- **Pen hops** between strokes lift in proportion to distance (shadow slides and blurs); long gaps send the pen off-frame to park and back shortly before its next stroke.
+- **Magnet**: drop with a shrinking shadow; slide with a small lift; lift-off and sink possible.
+- **Eraser**: constant speed along a path, a wide band at ~90 % strength (a ghost always remains).
+- **Speed**: faster than real hands (a sped-up lesson) but never so fast the stroke order is lost: a label ~0.3–0.8 s, a title ~3 s.
+- Camera on ones with real motion blur when it moves fast.
+
+## 6. Camera grammar
+
+A 2D camera over a large board (e.g. 8000 × 4500): position, zoom interpolated in 1/z so pushes feel like dollies, a little roll. A vocabulary, not a route. Opening and ending come from the topic.
+
+| Move | What it expresses | Can serve |
+|---|---|---|
+| Pull back from a tiny drawing | scale | a surprising size; context |
+| Ride the line the pen is drawing | one idea leads to the next | a transition; a process; a path |
+| Hold still | read now | an equation; a definition; a list |
+| Whip to a new region | a new idea after a pause | a twist; a "but" |
+| Return to an earlier region | a callback, for free | reusing a result; a comparison |
+| Split view of two regions (zoomed out enough for both) | two things at once | a duet; before/after |
+| Slow push into one symbol | this term is the point | a unit; a variable; a name |
+| Track along a long diagram | sequence, time | a timeline; a pipeline; a journey |
+| Pull back past the board edge to the wall | the whole lesson as one picture | a summary; a scale jump |
+
+Motion blur: when the camera moves more than ~14 px per frame, render and average sub-frames (≤ 4 px apart). No cuts on the board; if a cut is needed, it is a whip.
+
+## 7. Sound palette
+
+- **Every stroke sounds**: band-passed felt-on-gloss noise (a hiss band ~2–7.5 kHz + body ~0.5–1.5 kHz) enveloped by the stroke's own speed curve, a tiny nib tick at the start, stick-slip grains, and on some long strokes the **dry-erase squeak** (a 1.5–2.6 kHz sine with 7–13 Hz vibrato). Each colour sounds slightly different. Pan = the stroke's screen x; closer camera = louder.
+- **Props**: magnet on steel = click + metal modes + a low board thump; eraser = felt rub modulated by its zig-zag; cap off/on; marker tray bounce.
+- **Room**: low room tone; a single diegetic ticker (a wall clock, a fridge hum, a projector fan) can own a silence.
+- **Music** options: a solo piano figure; a small jazz trio with brushes; plucked strings and kalimba; a synth arpeggio for tech topics; clockwork minimalism (marimba, pizzicato, woodblock, glockenspiel). Mickey-mouse details: a rising whistle for growth, pings for signals, a harp run for a fall.
+- **Techniques to pick from**: adding one instrument per step of a mechanism; a key change when the frame of reference changes; a full stop into silence before a surprise; the previous cue reversed and squeezed for a rewind; two copies of one figure at two tempi (phasing) for anything that diverges, snapping into unison when resolved.
+- **Mix**: voice on top (compressed, light room), music well under voice and ducked further under speech, foley ~11 dB under voice; −14 LUFS.
+
+## 8. Native moves
+
+A menu: use the ones your story needs.
+
+- **Writing in stroke order.** The reveal is the explanation: a formula term by term as it is spoken. *Fits content like:* compound interest; the Drake equation; a recipe's ratios.
+- **The pen leads the camera.** Transitions are drawn lines the camera rides. *Fits content like:* a nerve signal; a supply chain; the water cycle.
+- **Magnets.** The only things allowed to move on a board: give the hero to a magnet; slide, lift, drop, sink it. *Fits content like:* a delivery truck on a route; a cell in a bloodstream; a player on a pitch.
+- **The eraser rewinds.** Wiping a trail backwards reads as undoing time. *Fits content like:* an undo in software; reversing a chemical reaction; "what if we hadn't…".
+- **Two pens at once.** A live duet comparing two quantities. *Fits content like:* two savings plans; two runners; a population vs its food supply.
+- **Ghosts of the old lesson.** A faint previous drawing becomes relevant. *Fits content like:* a theory replaced; last year's forecast; a first draft.
+- **The full-board view.** Every region seen at once as one picture. *Fits content like:* a system diagram; a history; a map of a field.
+
+## 9. Pitfalls of the medium
+
+- **One pen, too many jobs** drifts later and later → give each drawing a deadline window and let overlapping jobs go to another pen.
+- **Minimum stroke duration × many dashes** makes a dashed line take seconds → dashes need their own floor.
+- **A pooled-ink dot bigger than the stroke start** leaves halos on every letter → keep it inside.
+- **Punctuation vanishes** (a font period is a 1 px stroke) → render sub-width strokes as dots.
+- **Labels half-cut by a push-in** look sloppy.
+- **Motion blur with few sub-frames** strobes text.
+- **Eraser paths** crossing labels you want to keep.
+- **Voice and phoneme set mismatch** (a British voice with US phonemes) mispronounces → match the language code to the voice; ASR-check.
+
+## 10. Engine
+
+`demo/engine/wb.js`: hand-drawn shapes (`line`, `curve`, `poly`, `arc`, `circle`, `rect`, `arrow`, `dashed`, `hatch`), `text()` in writing order from a single-line font (`loadFont`), `Stroke`, floating `Pen`s, `Timeline.draw(pen, shapes, t, {by})` (solves hand speed to a deadline), `Timeline.erase`, `Timeline.cue`, keyed `Camera`, `Board` (ink multiply, dry texture, erasers, sheen, props), prop drawers. API table and a minimal example that draws something new: [DEMO.md](DEMO.md#engine-reference).
+
+## 11. Variation space
+
+You decide the topic's object, the board layout, the colours within the logic, the voice, the music family, the camera route, the opening, the ending and the length.
+
+All far from our demo:
+
+- Structures: **a proof** (one claim at the top, the board fills downward step by step, each step boxed when proven); **a debate** (two pens, two halves of the board, each drawing its side until the drawings meet in the middle); **a timeline** (one long horizontal line ridden left to right, with events hanging off it).
+- Openings: **a question mark** drawn huge in the centre, then shrunk to become a dot in the first diagram; **an erased board** where the ghost of a wrong answer is still visible; **a magnet dropping** onto an empty board with a clack.
+- Endings: **the answer circled** twice and the pen capped; **the board wiped** except for one line that survives; **a push into the smallest symbol** on the board, which becomes the title.
+
+---
+
+How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: urban-sketch -->
+
+# Urban Sketch · Pen & Wash — Style Prompt
+
+> A sketchbook page drawn on location: fine sepia fineliner lines that wobble, overshoot and never quite close, with loose transparent watercolour dropped on top. The colour sits slightly off the lines, spills over them, and dissolves into cream cold-press paper at the page edge.
+> References (grammar only):
+> - Urban-sketching sketchbook pages: line first, then wash; colour off-register; handwritten date and place in the corner; the page edge breaking up into dabs.
+> - *Paperman* (2012): a monochrome world with one coloured object.
+> - *The Red Balloon* (1956): an object as the protagonist, the camera following it across a city.
+> - Jazz waltz (the Vince Guaraldi school): 3/4 swing, walking bass, brushes, a woodwind lead.
+>
+> Nothing is copied from these: no characters, melodies, layouts or type.
+
+## 1. Essence, and what it is not
+
+Reportage drawing, made on location in a few minutes. Two layers that stay visibly separate:
+
+1. **Ink.** One thin, near-constant line (a 0.3–0.5 mm fineliner) in dark sepia. It wobbles slightly, overshoots corners by a few pixels, breaks mid-stroke, and suggests rather than describes: a few window marks instead of a grid, scalloped fragments instead of a whole tree outline.
+2. **Wash.** Transparent watercolour glazed on top, **misregistered** by 1–3 px from the line, sometimes spilling past it, leaving paper white for highlights and figures (reserves). Dried edges are darker (pigment pools at the rim), and pigment granulates into the paper tooth.
+
+**The page is part of the image**: warm cream cold-press paper with large-scale mottling and fine tooth. Nothing is painted edge to edge; the painting frays into leaf-sized dabs and white holes, leaving margins for handwriting.
+
+Not Watercolor Brush (no line-free wet-in-wet painting, no painterly edges without ink), not Whiteboard (no marker, no explainer diagrams), not Chinese Ink Wash (no brush calligraphy, no monochrome ink tones). Line and wash, both, always.
+
+## 2. Materials & rendering
+
+- **Paper**: two octaves of fbm mottling (a few %), a tooth tile multiplied over everything, figures included.
+- **Ink**: ~96 % coverage; world line width thinner far, thicker near (e.g. 1.3–3.4 px); wobble ~1 px; overshoot 3–8 px; a third to half of long strokes get one small gap. Strokes are baked with their **draw time per pixel**, so the shader plays back stroke order.
+- **Wash**: 2–3 rough-edged layers, multiply, alpha ~0.4–0.65, offset from the line by about one line width, a dried edge at 30–40 %; granulation = pigment × (0.82 + 0.36 · fbm).
+- **Colour arrival field**: every pixel has a time at which colour reaches it. The wash is revealed through it with a ragged wet front (darkened band just behind the front) and noisy edges. Figures bloom from a point with a noisy circular clip.
+- **Foliage**: pale base wash, then light and shadow masses, then small leaf dabs coloured by light direction, holes at the rim, scalloped ink only on the outline.
+- **Sky**: a few big soft washes at low alpha, fading upward; clouds are reserves with a tinted belly.
+- **Buildings**: local colour; shadow side mixed ~45 % with a cool violet-grey; distant blocks mixed ~50 % with a haze colour.
+- **Figures**: a 3D skeleton in orthographic projection; torso from cross-sections; limbs as organic tapered tubes; hair and head as one mass; face left blank (one nose tick in profile); shadow side mixed with violet.
+- **Page edge**: a noisy boundary, a white-dab band inside, a coloured-dab spray outside.
+- Deterministic: same seed, same marks.
+
+## 3. Colour logic
+
+- **Ink is one colour** (dark sepia or warm black); it never changes.
+- **Wash is local colour, lightly**: few pigments, mixed on the page; shadows are the local colour mixed toward one shared cool violet; distance mixes toward one haze.
+- **Paper white is the brightest value**; it is reserved, never painted.
+- **Colour can be withheld**: a page may be ink-only with colour as an event (one tinted object, colour arriving with a cause).
+- Example palettes: park in summer (lawn `#c3c96f`, leaves `#7fa04a`, sky `#9fbcd6`, limestone `#d8c6a0`); harbour morning (sea `#7fa6b8`, hulls `#c9573f`, rope `#c8a86b`, sky `#bcd0dc`); winter market (roofs `#8b93a6`, lights `#e2b04a`, awnings `#b8483e`, snow = paper).
+
+## 4. Type & subtitles
+
+- **All text is handwriting on the page**, written on left to right with pen sound, and moves with the camera: a corner note (e.g. Reenie Beanie: day, time, weather, place), titles and colophon in a casual hand (e.g. Caveat 500–600), left-aligned in the blank margin.
+- **Subtitles**, if there is a voice: handwritten lines in the page margin or a caption strip written into the lower margin, never a generic overlay box. Hold ≥ max(1.8 s, speech + 0.6 s).
+- The style works well without any voice.
+
+## 5. Motion quality
+
+- **Figures boil at 12 fps** (line wobble and wash seeds change every 1/12 s). The static page does not boil (it is a real page); the camera moves every frame, smoothly.
+- **Performance**: anticipation, action, follow-through; footsteps on the beat.
+- **Invisible forces are drawn**: wind as ink curls that draw on and erase from the tail, trailing dabs; sound as ink lines; heat as wavy strokes.
+- **Colour never snaps**: it blooms from a point or arrives through the field.
+- Stroke-order draw-on for anything that "appears".
+
+## 6. Camera grammar
+
+A 2D camera over a large page (e.g. 5120 × 2880). Designed moves use cubic easing; follow shots use a critically damped spring on a lead-ahead target, so the camera lags like a hand-held follow. A vocabulary, not a route. Opening and ending come from the topic.
+
+| Move | What it expresses | Can serve |
+|---|---|---|
+| Push-in | attention; a detail observed | a face; a sign; a small event |
+| Lateral follow on a spring | travel, pursuit | an object carried; a walker; a vehicle |
+| Crane up | a new level, a view opening | a skyline; a tree; a balcony |
+| Whip-tilt with slight roll | sudden change of direction | a fall; a gust; a surprise |
+| Punch-in with a short shake | impact | a catch; a collision; a door slam |
+| Pull back to the whole page | scale; the sketch as an object | a summary; a place in full |
+| Tilt into the margin | from picture to words | notes; a date; a title |
+| Slow pan across a line-only area | the world before colour | a quiet start; memory |
+| Hold while the pen draws | the act of noticing | a subject being drawn |
+| Page turn to a new spread | another time or place | a travel diary; a sequence of days |
+
+Framing: subjects ≥ ⅓ of frame height at story beats; a small key object gets a faint paper halo (reserve) so it reads over busy foliage. Transitions: camera travel on the page, page turns, or colour arriving; no dissolves.
+
+## 7. Sound palette
 
 
 <!-- END STYLE PAGE -->

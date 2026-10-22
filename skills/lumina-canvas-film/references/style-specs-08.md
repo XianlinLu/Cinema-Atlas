@@ -1,202 +1,169 @@
 # Complete style specifications 08
 
 
-<!-- STYLE: watercolor -->
+<!-- STYLE: news-package -->
 
-- Structures: **a journal kept over one year** (locked page per month, each painted over the last); **anatomy of one object** (a single specimen dissected into labelled parts, each part a painted close-up); **a recipe or process** (steps painted top to bottom on one tall sheet, tilting down).
-- Openings: **a finished painting** that we then watch being painted backwards to its first stroke, and forwards again; **a close-up of wet pigment** spreading, pulled back to show what it became; **a hand-written question** on blank paper, answered by painting.
-- Endings: **the page left unfinished**, brush lifted mid-stroke; **a close-up of one detail** as the rest fades to paper; **the sheet dries and is filed** into a stack of other pages.
+- **120 BPM grid**, beat 0 at the end of the sting (1.5 s). Every cut and wipe on a beat or half-beat.
+- **Shot lengths**: sting 1.5 s; rundown 4–5 s; story shots 3–7 s; a map long take (6–12 s) as the bulletin's breath; a comparison stays until every item has been fully on screen ≥ 2.5 s.
+- **A package action every 0.5–1 s** inside a shot (flip, count, stamp, tick, strap change, map light, line step). No frame flat for more than 1 s; a strong action within 0.5 s of every cut.
+- **Date every story**: a weekly bulletin's items happen on different days; the date sits in the rundown row, the eyebrow line, the readout or the document.
+- **The order inside an item**: what (the name or the number) → how big (the line, the bars, the price board) → who it hits or who said it (bars, documents, a quote) → the verdict stamp.
+
+## 8. Sound palette
+
+| Layer | What | Level |
+|---|---|---|
+| Anchor voice | one narrator, one sentence per graphic, starting 0.1 s after the cut; HP 90 Hz, 3:1 compression. Default: the library's Kokoro (`core/tts/tts.py`, free, Apache 2.0) in English or Chinese. The user's own recording, or another TTS they have a key for (for example Doubao, as in the demo), replaces it — never required | music ducked ≈ −7 dB and its 1.2–5 kHz band thinned under speech |
+| News theme | 120 BPM, minor key: spiccato violins in root–fifth–octave eighths, pizzicato bass on the beat, horn pads, a low-passed 16th-note saw pulse, kick on 1 and 3, snare on 2 and 4 | full under the rundown and the first story |
+| Section moods | markets: violins down an octave, tremolo, four-on-the-floor kick (heartbeat); policy: pizzicato and horns only | |
+| Signature hits | sting tutti; glockenspiel notes as the rundown rows land; timpani on hard cuts and story changes; one beat of silence before the biggest break, then the heaviest hit of the film; a held drone after the verdict stamp; a major-key lift for the last story; tutti on the end card | |
+| Foley | whoosh on wipes, flap clicks on split-flaps, stamp thump + clack, trading-room ticks under market charts, map clicks per lit country, a sonar ping on a city, paper and typewriter ticks on documents, click + glockenspiel on ticks | |
+| Room | server-room hum under a tech plate, soft air under maps | very low |
+
+Master −14 LUFS, true peak −1.2 dB (`core/render/mux.sh`). Samples: VSCO 2 CE and VCSL (CC0); foley synthesised (`core/audio/sfx.py`).
+
+## 9. Native moves
+
+1. **Sting becomes the bug** — the brand plate slams in, then flies to the corner and stays there for the whole bulletin; opening and programme are one object.
+2. **Strap tab = category** — the strap's tab changes category (模型 MODELS, 市场 MARKETS, 监管 POLICY …) with a white flash when a new story starts; no separate item cards between stories.
+3. **Rundown, then ticked off** — the same list opens and closes the bulletin; at the end each row gets its tick.
+4. **Spec card** — a launch reduced to its proportions: the whole and the part on one scale, then what it runs on, joined by a bracket to the total.
+5. **Strap that never leaves** — one strap group from the first story to the recap; words flip, the strap itself never exits mid-programme.
+6. **Split-flap before/after** — old and new value on one board, each tile flipping from the old to the new.
+7. **Breaking the threshold** — a line advances one period per step towards a dashed threshold; the music stops for one beat before the last step and the crossing gets the heaviest hit.
+8. **Date in the eyebrow** — every graphic's eyebrow line carries source and date in mono caps, so a weekly round-up never blurs which day each item happened.
+9. **City sends the letters** — on a map long take, documents fly out of the sending city to their addressees; one world→screen function keeps labels and documents attached through push and pan.
+10. **Quote card + verdict stamp** — the official's own words in type, with name, occasion and date; an underline on the key word as the voice says it; one stamp.
+
+Where each move lives in the demo's code: [DEMO.md](DEMO.md) (build notes).
+
+## 10. Material
+
+1. **Facts first.** Every on-screen number and every sentence of the voice comes from an official source (the company's own page, the exchange's data, the institution's press release or speech), recorded in `demo/FACTS.md` with claim, URL, quoted wording and any arithmetic. When a fact exists only in a news report, attribute it on screen and in the voice ("据…报道 / … reports") and keep to the plain claim; never put a single report's allegations about a real company or person on screen.
+2. **Data.** Draw charts from real series only; when you have just a few reported numbers, draw a *schematic* line, tag it `SCHEMATIC`, and label only what you know. Exchange closes: the exchange itself, the central bank's statistics portal, or a market-data file whose source you log.
+3. **Pictures: ask in this order.**
+   a. **The user's own images** — photos, b-roll stills, their logo and colours (the package is rebuilt around their brand). Use these first.
+   b. **Generated illustrative plates**, if the user wants them. Before generating, tell the user how many images and what each shows (one line per plate). With the Codex CLI installed and able to generate images, `demo/tools/gen_image.py` (driven by `demo/tools/gen_plates.sh`) makes them and saves JPEGs to `demo/assets/plates/`. With any other image tool (an API or a web app), give the user the prompts and the target file names; they generate the images and drop them into `demo/assets/plates/`. Prompts ask for no text, letters, logos, flags or people.
+   c. **No generated images**: public-domain, CC0 or CC BY photographs (licences below), or abstract backgrounds drawn in code (gradients, grids, light fins — the package already carries the frame).
+   Whatever the source: every word on screen is typeset in code, never baked into an image; a generated plate is only ever an illustration behind a graphic, tagged `ILLUSTRATION / 示意` for as long as it is visible, and never stands in for the event, a place in the news, or a person. No generated anchor.
+4. **Photo and footage licences** (judge each file on its own page, not the search result):
+   - **Wikimedia Commons**: CC0, public domain or CC BY (credit author, title, licence on the end card and in `CREDITS`). Not used: CC BY-SA, "no known restrictions", unclear licences, YouTube re-uploads, colourised or "restored" versions.
+   - **U.S. federal agencies** (NASA, NOAA, NARA, USGS…): public domain; check the page does not credit a contractor or third party.
+   - **Internet Archive**: only items whose page states public domain, CC0 or CC BY; U.S. works published before 1931 are public domain.
+   - **Library of Congress / national archives**: read each rights statement; "no known restrictions" is not enough.
+   - **Institutions' audiovisual services** (for example the European Commission's): read their reuse terms per item; many require attribution and forbid implying endorsement.
+   - **Maps**: Natural Earth (public domain), via `world-atlas` TopoJSON.
+5. **Before downloading, tell the user** what you will fetch, from where and under which licence. The finder copied into this style, `demo/tools/footage.py` (`search commons|archive|nasa`, `fetch`, `used`, `md`), logs licence, author, page and the seconds used into `SOURCES.jsonl` and writes `SOURCES.md`. Keep `raw/` under ~1.5 GB.
+6. **Logos**: never use a company's logo for a company in the news; set its name in type.
+7. **People**: public figures in the news can be named on a profile strap; no close-up or slow motion of private individuals.
+8. **Voice and music**: ask whether the user has a recorded anchor, a preferred voice or a theme of their own before synthesising one.
+
+## 11. Pitfalls
+
+- **Package left behind.** If the strap, source line or tags are drawn once on top of everything, a wipe changes the picture under yesterday's headline and the strap catches up 0.3–0.5 s later. Draw them per picture, inside the wipe's clip.
+- **Leftover layout.** Removing subtitles or a crawl without moving the content down leaves a dead band above the strap.
+- **Masked type peeking in.** A push-in title clipped by a mask shows its top edge before it moves if the travel distance doesn't clear the mask; start it fully below and don't draw at progress 0.
+- **Words stronger than the source.** "Request for information" is not "investigation" or "penalty"; write "no fine, no case opened" or "for the first time" only if a source says so — and check the institution's own pages, which can contradict a report ("first requests" may have gone out months earlier).
+- **Thresholds depend on the reference.** "Bear market" = −20 % from *which* high? Name the reference on the axis; from a different peak the claim can be false.
+- **Attribute what only a report says.** When the official source does not name the companies, the graphic carries "据… 报道 / reported by …" and so does the voice.
+- **A schematic posing as data.** Rolling counters on a close price flash values that never existed; set the close with a mask push instead. Don't label axes the data doesn't support.
+- **Source lines under the strap.** Right-aligned mono 13 px: ≤ 36 characters.
+- **Stamps over key words.** A stamp hit can mask the voice ("fines"); take the brass off the stamp and low-pass its clack.
+- **Gold on paper** has too little contrast: use ink or dark olive.
+- **Generated plates** carry stray corner marks: crop them in `prep.py`.
+- **Short preview text.** Rundown rows are previews of the stories; `readcheck` flags them as short in the opening — they return in the recap and as straps, so accept the flag or leave them out of `TEXTS`.
+- **Names in synthetic speech.** Spell brand names, model numbers and abbreviations the way they should sound in the TTS text (a respelling, a number written as a word, an abbreviation without dots) while the strap and subtitles keep the real spelling; when speech-to-text mishears an unusual name, put the expected transcript in the line's `asr` field instead of rewriting the line.
+
+## 12. Variation space
+
+Decide per film: the channel's name, plate and accent colour; how many items (one lead with a long package, three or four equal items, a five-item round-up); which full-frame graphics each item needs; where the long take goes; the anchor's voice.
+
+- **Three structures:** rundown → items → rundown ticked (round-up); one lead package with a correspondent two-box and a short "also today" grid; a countdown of items (election-night, sports results).
+- **Three openings:** sting → rundown; cold open on the biggest graphic, then the sting; sting straight into the first story with the rundown as a recap only.
+- **Three endings:** rundown ticked → end card; a "coming up next week" teaser card; the last stamp freezing into the end card.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: ink-wash -->
+<!-- STYLE: satellite-briefing -->
 
-# Chinese Ink Wash — Style Prompt
+# Satellite Briefing — Style Prompt
 
-> Xieyi ink painting on rice paper, animated: blank paper is space, one brushstroke is a mountain, a wave, a gesture or a cut.
-> References (grammar only): Shanghai Animation Film Studio's *Feelings of Mountains and Water* (1988) (blank-paper space, ink bloom, guqin pacing, figures in a few strokes); the bamboo-forest fight of *Crouching Tiger, Hidden Dragon* (weightlessness, stillness before action). Copy none of their characters, compositions or music.
-
-## 1. Essence, and what it is not
-
-An ink painting (水墨) painted and unrolled before you: black ink on warm rice paper in five tones, plus **one** red, the vermilion seal. No Western outlines: forms are made by **loaded brushstrokes** whose dark edge *is* the contour (没骨, "boneless" painting), by **wet washes** that bleed into the paper, and by **dry, fast strokes** where the paper shows through the bristle tracks (飞白, "flying white").
-
-Most of the frame is **empty paper** (留白): water, sky, mist, silence. Things are *painted into existence*, not cut to.
-
-Not watercolour (no colour washes), not vector art with a brush texture (no flat fills or closed outlines), not a calligraphy title sequence.
-
-## 2. Materials & rendering
-
-- **Paper** is procedural, in the compositor, never a texture file: warm rice paper (around `#F2ECDE`), cloud mottling, long fibres, pulp flecks, grain that fades when zoomed out (or it shimmers), a light vignette; anchored to the world.
-- **Ink** is stroke opacity multiplied onto paper (never an overlay), in five tones (墨分五色):
-
-| Tone | Opacity | Use |
-|---|---|---|
-| 焦 jiao (burnt) | ~.96 | calligraphy, the sharpest lines, moss dots |
-| 浓 nong (thick) | ~.82 | contours, dark edge of loaded strokes |
-| 重 zhong (heavy) | ~.60 | secondary lines, folds |
-| 淡 dan (light) | ~.34 | mountain bodies, robe and body washes |
-| 清 qing (clear) | ~.16 | far mountains, faces, mist |
-
-- **Brushstroke model**: centreline × pressure profile × width noise, plus 4–60 **bristles** whose ink load drops along the stroke and breaks on long-scale noise. `dry` runs from a solid wet stroke to flying white (dry strokes are bristle tracks only).
-- **Loaded stroke**: bristles darker on one side, so the stroke carries its own contour: this makes bodies, rocks and waves read as ink, not vectors.
-- **Two layers**: the wet one bleeds in the compositor (noisy blur, **edge pigment accumulation**, granulation); the dry one only gets fibre jitter and paper tooth.
-- **Masses**: soft polygons, jittered edges, a gradient; never flat fills.
-- **Landscape**: mountains dissolve downward into mist bands, with 披麻皴 texture and 苔点 moss dots on near ranges only; rocks are outline → axe-cut texture → shadow wash → dots.
-- **Water is blank paper**, moved by faint dry streaks and open ink rings. Solid water: Song-dynasty **parallel wave lines** (dense near the edge) or a pale body with a few huge loaded strokes along its face.
-- **Figures are xieyi**: one pale body mass plus two loaded strokes, burnt-ink lines for limbs; features, if ever shown, in 3–5 strokes.
-- **Calligraphy**: an OFL brush font is only a **skeleton**: trace centrelines in stroke order, pressure from glyph thickness, hidden-tip entry (藏锋), tapered exits.
-
-## 3. Colour logic
-
-- Ink only, from cool grey at low density to warm black at full density. No other hue in the world.
-- **One vermilion** (around `#B02E22`), for the seal and at most one tiny accent in the story (an object the protagonist carries). The accent finds the protagonist in wide shots and can rhyme with the seal. Never a red wash, never red type.
-- Values carry depth: far = pale and soft, near = dark and textured. If a frame gets busy, remove ink rather than add tone.
-
-## 4. Type & subtitles
-
-- Subtitles are **inscriptions (题跋)**: a classical italic serif (Cormorant Garamond italic), ink-coloured, no box, ≤ 2 lines, placed in each shot's empty paper. A small vermilion square marks the start of each line. They appear wet and dry in a fraction of a second. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Titles are written on the painting itself, in vertical columns in its empty space, with a vermilion 白文 seal drawn by code (lines knocked out of a slightly irregular red square, with ink-paste speckles). They move with the world.
-- Screen-space overlays reset the camera transform.
-
-## 5. Motion quality
-
-- **Figures step at 12 fps** (on twos); their position, the camera, blooms, ripples and splatter move on ones at 24 fps.
-- **Stable strokes on twos**: seed every stroke by its index and compute bristle breaks along *normalized* arc length × a fixed reference length, so flying-white gaps don't crawl every drawing. Allow only a small "boil" on the width noise.
-- **Painted into existence**: strokes appear in drawing order.
-- **Stillness before action** (when a decisive stroke is the event): hold, with at most a slow push-in, then let the stroke cross the frame in a few frames. Consequences start only after the stroke has finished.
-- Nothing is tweened like a vector shape: things are painted, bloom or dissolve into mist.
-
-## 6. Camera grammar
-
-A vocabulary, not a route. Opening and ending come from the topic.
-
-| Move | Expresses | Can serve |
-|---|---|---|
-| Locked frame on the paper | The page is the stage; things are painted in | a thing forming; a line being read; a still decision |
-| Right-to-left pan (handscroll) | Time and distance as one painting | a journey; a history; a process |
-| Vertical tilt (hanging scroll) | Height, stages stacked | seasons; a climb; generations |
-| Lateral tracking, lead room, slow far parallax | Motion through a world | travel; a chase; a commute |
-| High wide, a tiny figure in blank paper | Smallness, solitude | loneliness; nature's scale; one life among many |
-| Low angle, dark mass towering, slow push-in with shake | Weight, threat | an obstacle; a storm; pressure |
-| Hard cut to an extreme close-up | A break in the flow (the style's only hard cuts) | a decision; a shock; a memory |
-| Push into an ink bloom or mist | Passing between states | memory; dream; a season turning |
-| Pull back until a mark joins the whole | The part was inside something larger | a summing-up; irony of scale |
-| Return to an earlier framing | The rhyme shows what changed | aftermath; growth; before/after |
-
-Framing: 60–80 % empty paper; dark foreground may pass along the frame bottom. Transitions are ink blooms, pans along the scroll or mist; never a generic dissolve or a wipe.
-
-## 7. Sound palette
-
-- **Guqin-led, not piano and strings**: guqin (`core/audio/pluck.py` `guqin`: open and stopped strings, slides, vibrato, glassy harmonics, sweeps), a low breathy xiao, big drum and timpani for mass, frame drum for steps, a small gong for a seal. Chinese pentatonic modes.
-- **Cue to the picture, never loop**: unmetred plucks suit emptiness, a pulse suits movement, rolls suit mass; painted strokes can each land on a pluck.
-- **Silence is literal**: zero the whole bus (music, ambience, reverb tails) with short fades. At most one sound inside it (a drip, one ring). Place it where the story holds its breath.
-- **Foley follows the material**: ink drop (short "tink" + soft wet thud), brush air (band-passed noise with bristle grains, never a metal whoosh), steps on water (small splash), splatter (wet ticks), seal (wooden thump + paper crackle).
-- **Voice**: calm, few lines, like colophons that don't explain the picture. Duck music ~8 dB and ambience too; verify each line with whisper on the final mix.
-
-## 8. Native moves
-
-A menu: use the ones your story needs.
-
-- **One stroke is everything.** *Fits content like:* a product born from one line; a city growing from a single street; a day beginning with one bird.
-- **Emptiness is matter.** Removing ink reveals paper white. *Fits content like:* a door opening in a wall; a crowd parting; an absence in a family portrait.
-- **Brush = gesture = action.** Stroke order becomes choreography. *Fits content like:* a dancer's phrase that spells a word; a signature; a chef's knife work.
-- **Flying white (飞白).** One fast dry stroke across the frame, strongest out of a silence. *Fits content like:* a sprint finish; a decision; a comet.
-- **Ink bloom transition.** The next scene grows inside a spreading drop with a dark tide-line (noisy radial mask; world-anchored for elements, in the compositor for scenes). *Fits content like:* memories; seasons; one era giving way to the next.
-- **The handscroll.** One long painting panned right to left, seen whole at last. *Fits content like:* a history; a supply chain from field to hand; a day in a street.
-- **Splitting a mass.** Halves clipped either side of the cut; one rises and fades, one slumps; splatter stays. *Fits content like:* breaking a record; a barrier falling; an idea splitting in two.
-
-## 9. Pitfalls of the medium
-
-- Dry brush looks like dashed lines → breaks from long-scale noise and an ink load that drops along the stroke.
-- Parallel semi-transparent strokes make bodies look like organ pipes → one base mass + two loaded strokes.
-- Big side-brush strokes look like a hairbrush → a gradient mass + a few low-dryness strokes. Gradients in vertical bands leave seams → a cached per-pixel layer.
-- A stroke body split between wet and dry layers loses density → full body in the dry layer plus a wet halo.
-- Clipping calligraphy with the font outline notches the junctions → font as skeleton only.
-- Uniform hatching inside a wave turns it into a wire mesh → loaded strokes along the face.
-
-## 10. Engine
-
-In `demo/`: `ink.js` (brush engine: strokes, bristles, loaded strokes, masses, blots), `comp.js` (WebGL rice-paper compositor: bleed, edge pigment, paper, bloom), `land.js` (mountains, cun, cliffs, pine, reeds, ripples), `wave.js` (gestural wave), `glyph.js` (skeleton-traced calligraphy), `seal.js` (vermilion seal), `hero.js` (xieyi figure rig), `subs.js` (inscription subtitles), `music/score.py` (guqin writing with `core/audio/pluck.py`); `?test=sheet|pose|frame` pages draw model sheets from the real engine.
-
-## 11. Variation space
-
-You decide the structure, the characters (or none), the landscape, the opening, the ending, the camera path, the pacing and where the red goes. All far from our demo:
-
-- Structures: **one character, stroke by stroke** (no figure; each stroke of one large character opens into a vignette of the topic); **a hanging scroll** (a tilt from sky to ground through four stages, tone deepening); **two brushes in dialogue** (alternating strokes answer each other until they meet in one bloom).
-- Openings: **in motion** (a figure already painted and moving; the world washes in around it); **ink first** (a fully inked frame; ink is lifted where light or a road appears); **the bristles** (a wet stroke fills the frame; only when it lifts do we see what it drew).
-- Endings: **one small mark** (close on a footprint or a leaf while the ink around it dries; no pull-back); **evaporation** (the painting un-paints in reverse stroke order); **mid-gesture** (the brush stops before the last stroke lands).
-
----
-
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
-
-<!-- STYLE: impasto -->
-
-# Impasto · Palette Knife — Style Prompt
-
-> Thick oil paint laid with a palette knife: big, flat, sharp-edged planes of colour, raked by light so every ridge of paint shows. Clarity first: value structure before texture, hard edges at the focus, calm planes everywhere else.
-> References (grammar only): the opening titles of *The Umbrellas of Cherbourg* (1964) (overhead choreography read as moving colour); palette-knife street paintings (Leonid Afremov and the genre around him) (knife mosaic, vertical wet reflections, warm lights against cool shadow); Sorolla / Sargent (few, decisive strokes and strong light); Edgar Wright's music-locked editing (one action, one sound, one cut). Never copy their images, compositions, melodies or characters, and never name them in the film.
+> Real satellite imagery of a real place, graded down to an analyst's grey, with thin white measurement lines drawn on the ground: a lock-on reticle, outlines, a range line, one reading. One continuous zoom built from stacked imagery plates carries the viewer from orbit to the ground and back, and time can run inside one locked frame.
+> References (grammar only): open-source investigation films that annotate satellite pictures (thin lines on imagery, one claim per screen, measuring as the plot); the Eameses' *Powers of Ten* (one continuous change of scale with a readout); NASA Earth Observatory's *World of Change* (one place, time running). Copy none of their layouts, typefaces, icons or music; never name them in the film.
 
 ## 1. Essence, and what it is not
 
-A moving oil painting made of knife strokes. Each stroke is a real object: a slanted plane of paint with a ridge where the blade pressed, a lip where it lifted off, broken streaks where the paint ran out, two colours dragged into each other. The world is **repainted from its strokes every frame**, but static paint never moves: only things that move in the story move. Light rakes across a height field, so the paint has body.
+- **The ground is a photograph**: real, licence-clean, georeferenced satellite or aerial imagery of the actual place. Nothing on the ground is drawn, stylised or generated.
+- **Two layers, two truths**: the imagery is what the satellite saw; the hairlines are what the analyst measured. Marks are thin, white, sparse, and sit on real coordinates.
+- **The grade moves with the story**: orbit in true colour, the analysis layer in grey, colour back only where the story turns.
+- **Scale is the camera**: one zoom from orbit to the ground built from nested plates, with an altitude readout and a scale bar from the same camera.
+- **One finding per screen**, in the single accent colour.
 
-The look is clear and graphic (readable like a children's book at thumbnail size) but has the tactile surface of impasto at 100 % crop.
-
-Not a Van Gogh swirl filter (strokes boiling everywhere), not a brush texture over flat vector art, not watercolour (paint is opaque), not a "painterly" photo filter (strokes are designed, not sampled from noise).
+Not Data Storytelling (a chart on paper), not Sci-fi Hologram HUD (no glowing wireframes or invented chrome), not Blueprint, not Isometric Infographic (real nadir or oblique views, no diorama), not a keynote (no slides, header bars or chapter numbers).
 
 ## 2. Materials & rendering
 
-- **Value first.** Design each set as a flat, value-planned illustration (3 values minimum), then convert it to strokes. If the reference doesn't read at 480 px wide, no brushwork will save it.
-- **Stroke sizes by importance and depth.** Coarse to fine: large planes in sky and walls, a few px only at edges and faces (per shape: `maxR`, `detail`, `dir`).
-- **Strokes never cross shape groups**, so silhouettes stay crisp. Lost edges are opt-in (put two shapes in the same `group`).
-- **Thin underpainting** (the reference itself, blurred ~1.5 px) under the strokes, so the canvas never peeks through as outlines.
-- **Knife stroke**: longer than wide (≈ 1.7–3.1 × radius long, 0.95–1.45 × radius wide), slanted ends, small angle and value jitter (≈ ±13°, ±6 %). Solid objects that must read as silhouettes (figures, props) get little or no ragged run-out.
-- **Light** rakes over a height field; wet or glossy surfaces get slightly more specular.
-- **Reflections** (wet ground, glass, water) are **explicit stacks of short horizontal knife dabs** under each light source, broken and fading; never a painted rectangle.
-- Render supersampled (2×). **No film grain**: grain plus compression eats the knife edges.
+- **Plates**: georeferenced rasters with a lon/lat box, sampled in a shader where the camera ray hits the ground, nested by resolution (world → region → detail) with feathered edges so finer plates dissolve in as the camera descends.
+- **Globe**: ray–sphere from a perspective camera, a thin atmosphere rim, limb shading at orbit only; compute |C|² − R² in double precision (float32 fails below a few tens of km).
+- **Time**: dated plates share one grid. A soft scan front (a satellite pass, never a hairline) swaps them: north → south forward, south → north for a rewind. Growth can run outward from the old edge, ordered by a distance map.
+- **The analyst's grade** (one uniform from colour to grey): luminance with local contrast and clarity, a shoulder so salt, snow and cloud stay below white, toned blue-black → cool silver up to ~65 % grey, a fifth of the chroma. White belongs to the marks.
+- **Marks**: a 2D overlay through the same world → screen function: hairlines 1.2–2.6 px with a dark halo, dashes for history and claims, brackets, ticks, leader lines. Lines draw on; outlines print behind the scan.
+- **Screen space only for instruments** (altitude, scale bar, imagery credit) and the transcript strip. Everything else is anchored to the ground.
+- **The claim layer** is a printed map drawn in the shader from a distance field of the old outline: paper grain a few pixels wide at any zoom, halftone ink, coast and waterlines, graticule, the serif name.
+- **Post**: light grain in ffmpeg, a vignette, directional blur only on whip pans.
 
 ## 3. Colour logic
 
-- Planes of mixed, slightly broken colour; each stroke may drag a second colour (`c2`) into the first. No gradients made by blending pixels: gradients are made by stroke-to-stroke steps.
-- Warm light against cool shadow is the default temperature structure; the brightest, purest chroma is reserved for the story's subject (a prop, a crowd, a light source), not the background.
-- **Colour can be an event.** Every stroke can hold a grey and a colour version; a monochrome world with one coloured exception, or a world re-laid from grey to colour, is native to the medium. The grey version is the luminance of the same strokes, slightly cool, with a small colour residue.
-- Examples of palettes that fit: an after-rain sunset (cobalt → peach → gold sky, ochre facades, full-chroma props); a harvest field (straw yellow, burnt sienna earth, one viridian tractor); a night kitchen (umber shadows, sodium-lamp orange, one cold blue window). Choose from the topic.
+- Neutral ground: grey, roughly 3–65 % in value. White means *measured*.
+- One accent (warm, e.g. amber) for the single reading on screen, never decoration.
+- A second hue may mark the **claim** the imagery tests (a map, a plan, a promise): flat, cartographic, never used for anything measured.
+- True colour is evidence: at orbit, and again only where the story turns (the field that greened, the water that returned).
+- No false-colour ramps over the imagery.
+
+Example (our demo): ground #070B0E → #A1A7A9, marks #F2F5F6, reading #FFBE55, map blue rgb(46, 112, 206).
 
 ## 4. Type & subtitles
 
-- Titles are **laid in with the knife** (a stroke-by-stroke `appear` sweep of about a second) and can be taken off by the world (washed by rain, scraped, painted over). They move with the world.
-- Small text (credits, data, captions) stays crisp DOM text over the painting: knife strokes can't carry small letters.
-- A serif display face (e.g. Cormorant, OFL). Subtitles, if there is a voice: plain serif, ≤ 2 lines, in a calm plane; hold ≥ max(1.8 s, speech + 0.6 s).
+- **Roles**: a light condensed grotesk for the reading (96–130 px, e.g. Barlow Condensed); a monospace for instruments and dates (20–34 px, e.g. IBM Plex Mono); a sans for labels in the film's language (24–42 px); a serif only for the claim layer and the title. OFL, self-hosted, CJK subset to the characters used.
+- **Labels attach to the ground** with a leader line. The reading sits in the right third beside what it measures, label above, source note below ("Landsat, measured").
+- **Subtitles are a transcript strip** at the bottom left: a 2 px white rule, a dark plate fading right, left-aligned, each line on one line (measure with the real font, `nowrap`; split a long sentence into two cues). If the film is bilingual, the film's language on top.
+- Nothing below 20 px at 1080p, the imagery credit included.
+- Hold subtitles ≥ max(1.8 s, speech + 0.6 s); a rolling counter reports its landing value; labels stay ≥ characters ÷ 4.5 + 1.5 s (CJK).
 
 ## 5. Motion quality
 
-- Static paint is static. Only the things the story moves move (weather, figures, props, ribbons, light). Smooth 24 fps, no stepping: clarity is the brief.
-- Moving figures are procedural strokes rebuilt each frame from **fixed seeds**, so their paint doesn't boil (walk cycles, IK arms, props that open and close).
-- Actions sit on the music grid: a change of direction, a pop, a swell lands on a beat.
-- Anticipation → action → follow-through on every gesture (lift before the strike, dip before the snap, swing after the stop).
+- The camera never stops: distance interpolates in log space, segments ease, holds keep a 2–5 % creep or a slow rotation. No frozen frame longer than a second.
+- Marks arrive by being made: a line grows, an outline prints behind the scan, a counter rolls and lands with a small pop, a reticle snaps with overshoot.
+- Time changes are scans, never dissolves; their spacing tells the speed, and the camera moves with them (accelerating as the steps shorten, braking on the last).
+- Never moves: the ground under its annotations, the instrument positions.
 
 ## 6. Camera grammar
-
-A vocabulary, not a route. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Slow truck + push on a wide | a world observed; patience | a place; a routine; a crowd |
-| Push-in through a silence | inner pressure | a doubt; a decision; giving up |
-| Tilt-up from the ground or a reflection | discovery from below | a small character entering; a first sight |
-| Pull-back from a close-up | reaction; the world answering | consequence; a reveal of who is watching |
-| Rotating crane-out, overhead | pattern emerging from many | choreography; traffic; a gathering |
-| Same wide, repeated | before/after | change of colour, season or time |
-| Locked frame, light moves | time and weather as the actor | a day passing; a storm arriving |
-| Macro slide along the paint surface | the matter itself | a texture; a crafted object; a map |
-| Whip-pan into a new painted plate | energy, a jump | a list; montage; travel |
+| Oblique orbit, limb in frame | scale, context, distance | an opening; a return; a title card |
+| Dive (log zoom, tilt to nadir) | going to look for yourself | a reveal; checking a claim |
+| Locked nadir frame, slow creep | evidence, comparison | time running in one place; a measurement |
+| Push-in on a point | singling out | one town, one dam, one field |
+| Track along a line | travelling a distance | measuring; a river, a road, a border |
+| Whip pan with blur | a new subject at the same altitude | the counter-example; "meanwhile" |
+| Climb back to orbit | consequence, perspective | an ending; a summary |
 
-Framing: keep the camera **inside the painted plate** (`half = W/2/zoom`), or the canvas shows. The subject gets the hard edges and the smallest strokes; everything else stays in big calm planes. Transitions: paint-over sweeps and scrapes, hard cuts on beats; no dissolves (two layers of knife ridges turn to mud).
+At key moments the subject fills a third of the frame height; reading right, subtitles bottom left, instruments in the corners. Transitions: scan-line swaps, a map layer switched off, zooming through plates, whip pans, the reticle opening into a title card. No crossfades between unrelated places, no hard cuts inside a zoom.
 
 ## 7. Sound palette
+
+- **Telemetry**: FM pings (a lock-on ping worth bringing back), dry ticks on the grid that divide to accelerate, noise scans (rising for a rewind, falling forward), servo whines, a ratchet for a range line.
+- **Weight**: timpani, bass drum, gran cassa, bowed cymbal, a tam-tam reversed when time runs backwards. Measurements land on a pitched hit.
+- **Synthesis**: a pulse bass with audible 2nd and 3rd harmonics, detuned-saw pads under a low-pass, risers for dives.
+- **Beds**: orbit hum, radio hiss, data chatter; the place's own ambience (wind, water, a far horn), sparingly, often as J- or L-cuts.
+- **One option for the shape**: keep the palette dry (electronics, skins, metal) and let one wet timbre (glass, water, bowed metal) mark the turn.
+- **Silence**: music and foley stop, a thin bed stays, impacts may decay into it; the first sound after it is the turn. A short suck-out (0.2–0.45 s, music and foley down ~25 dB) before the heaviest impacts makes them land.
+- **Mix**: voice ~10 dB over music; the two or three designed impacts are the loudest moments (out of the bus compressor, with mid-range body, e.g. a low-brass stab); 20–60 Hz about 15 dB under the full band (high-pass ~40 Hz, impact weight at 60–120 Hz); −14 LUFS, true peak ≤ −1.2 dB. Voice: a calm analyst, short declarative lines.
+
+## 8. Native moves
 
 
 <!-- END STYLE PAGE -->

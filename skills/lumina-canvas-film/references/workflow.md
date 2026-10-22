@@ -1,56 +1,73 @@
-# Library workflow adapted to Lumina
+# Autonomous workflow and durable state
 
-Topic/style selection resolves the prerequisites of the library workflow. The topic card is a Lumina adaptation requested by the user; it is not an extra production approval stage. Preserve this sequence once topic and style are fixed:
+## Execution priority
 
-**Brief → Treatment → Look → Storyboard only when requested → Produce → Self-check and deliver.**
+This workflow implements the user's current sequence. It supersedes the previous optional-storyboard and code-rendering-only execution rules. Preserve the selected style's visual, camera, rhythm and sound grammar, while using Lumina's actual image, speech, video and editing capabilities. Read the two supplied SOPs for method, not their sample story. The relevant methods are already adapted in this package; access to those private pages is not required for routine execution.
 
-## 1. Brief: one consolidated round
+Required capabilities: native Question cards, real image generation, reusable speech/voice identity, video generation with appropriate audio conditioning or a separate lip-sync path, task status, editing/export, and a way to continue asynchronous work. Inspect actual schemas before starting. Use supported node connections and asset handles, not nonexistent @names or model IDs guessed from examples. If a required capability is absent, use one native recovery card to identify the missing capability and available supported alternatives. If Question itself is absent, state the concrete host limitation and leave the project blocked before paid media calls; a Skill cannot register a missing tool.
 
-Skip details already supplied. In one message or one native question batch, ask for:
+## Stage machine
 
-- Facts, names, logos, products, or other topic requirements only the user can decide.
-- The user's own assets: recordings or preferred voice, music, photos, logos, fonts; for evidence styles also data, imagery, scans, CAD, or measurements. Supplied material takes priority over style fallback sources.
-- Language only if unclear; default voice and subtitles to the user's language.
-- Whether the user wants to approve a storyboard first; default no.
-- Actual missing production requirements, after inspecting available capabilities. With shell access and the installed library, check the core setup and include reported blockers in this same brief. Add voice/music dependencies only if needed. Without such tools, do not pretend an install check ran.
+| Stage | Real work | Allowed next stage |
+|---|---|---|
+| SCRIPT | Infer the concept/style, write full script and natural timing estimate | WAIT_SCRIPT |
+| WAIT_SCRIPT | Present the full version; native approval | CHARACTERS only on approval |
+| CHARACTERS | Create and inspect each recurring character's 16:9 front/side/back sheet | WAIT_CHARACTERS |
+| WAIT_CHARACTERS | Show all sheets with stable role labels; native approval | VOICE_BRIEF only on approval |
+| VOICE_BRIEF | Native voice-profile choices for each speaking role and narrator | AUDITIONS after answered profiles |
+| AUDITIONS | Generate actual 20–30 second audition files, validate and attach playable previews | WAIT_AUDITIONS |
+| WAIT_AUDITIONS | Native approval of actual role/audio versions | MASTER_TABLE only on approval |
+| MASTER_TABLE | Build atomic shots, generate exact shot speech, measure audio, lock integer timing | WAIT_TABLE |
+| WAIT_TABLE | Present complete table and audio previews; native approval | SHOTS only on approval |
+| SHOTS | Automatically render and check every planned shot with correct locked assets | ASSEMBLY when all required shots pass |
+| ASSEMBLY | Edit, mix, synchronize, export, and inspect one final video | COMPLETE only after checks pass |
+| RECOVERY | Native choices only for a genuine blocker or creative revision | Resume the affected stage |
 
-Wait for the reply, summarize the resolved brief in a few lines, fill other gaps with sensible defaults, then start. Do not return with another generic questionnaire. A later genuine asset/access blocker can require user input.
+No text-only “please confirm” between stages. The return of a positive native choice continues execution in the same resumed agent turn. Routine polls, internal checks, splitting a shot for model limits, or repairing technical parameters do not create extra user gates when the approved creative content remains unchanged.
 
-Defaults from the directing method: 30–60 seconds, 1920×1080 at 24 fps, voice/subtitles in the user's language, final loudness about −14 LUFS. These are intended film settings; on a static canvas they are production notes, not achieved output properties. Honor explicit duration, vertical format, no-voice, or no-subtitle instructions.
+The mandatory gates approve a bundle and its contents: character approval may cover all sheets, audition approval may cover all playable role samples, and table approval includes its exact shot speech. Offer focused native choices to revise only an affected role or row. Large bundles must show every item; do not approve unseen items by omission. A role with no lines has no audition; if there are no visual characters, record CHARACTERS as not applicable and continue to the actual speaking/narration roles. Do not invent assets to fill a stage.
 
-## 2. Treatment before demos or drawing
+## Script and timing
 
-Read `director.md`. Pick 1–2 benchmarks suited to this topic and style: learn their grammar, not their characters, compositions, music, marks, or shots. Write an original treatment before opening demo descriptions or demo code. Use `TREATMENT.md` when files are supported; otherwise create a clearly labeled treatment note in the host.
+Generate a complete script from the idea before asking for its approval. Retain the user's full supplied script and dialogue; translation, omission, new characters or a different ending must appear in a newly reviewed script. Never compress a long story into a few 30-second multi-scene generation requests solely to match a model's per-call maximum.
 
-The treatment must contain all eight source requirements:
+Estimate duration from dialogue at a natural pace, actions, emotional pauses, hooks, and transitions. Present an estimate at script review and the measured sum at table review. Actual speech plus picture handles determines the minimum of dialogue shots. No speaking faster or deleting words to fit. A fixed user target is a creative constraint resolved in script review, not permission to truncate approved lines later.
 
-1. Three possible story structures and the chosen one with reasons.
-2. Logline and setup → turn → ending.
-3. Benchmark: what to learn and what not to take.
-4. Shot list with framing, angle, camera move, duration, and reason.
-5. Second-by-second beat sheet.
-6. Cue map: tempo, bar grid, instrumentation, cuts, key actions, subtitles.
-7. Sound design table: ambience, main foley, music state by section.
-8. Subtitle/title design consistent with the selected style.
+## Persisted production manifest
 
-Keep one subject, one goal, one turn, an opening hook within three seconds, an ending that echoes, and one medium-native move at the emotional peak. Do not bend the user's topic toward a demo.
+Use a project file or persistent canvas note, not conversational memory alone. Use stable IDs and preserve unrelated canvas content. Store at minimum:
 
-## 3. Prove the look
+```json
+{
+  "schema_version": 2,
+  "project_id": "stable-project-id",
+  "stage": "WAIT_SCRIPT",
+  "script": {"version": 1, "asset_id": "actual-note-id", "approval": {"status": "pending", "version": 1}},
+  "film_ratio": "16:9",
+  "characters": {},
+  "voices": {},
+  "table": {"version": 1, "script_version": 1, "approval": {"status": "pending", "version": 1}},
+  "gates": [],
+  "shots": [],
+  "jobs": [],
+  "next_action": "call_native_script_review"
+}
+```
 
-Characters: a model sheet with turnaround, 3–4 expressions, 2–3 key poses, palette, plus two style frames. No characters: three style frames, including the signature shot. Use the real drawing method and inspect against every selected STYLE invariant. A mock-up cannot prove a code renderer's output.
+Replace example handles with real returned IDs; this is a data shape, not an executable host API. Character records store image version/approval and real master/panel IDs. Voice records store owner, version, selected profile, actual audition/voice ID and approval. Shot records store all approved dependencies and job outputs. Gate records store gate ID, artifact/version, returned decision and time. Job records store request fingerprint, model/task kind, attempts, node/task ID, status, output IDs, measured metadata, error/request/log IDs and next poll/resume action. Never record a job as done merely because the node was created.
 
-## 4. Storyboard only when requested
+Write long artifacts with structured file/note arguments or verified chunks; avoid embedding JSON, dialogue, quotes, dollar signs, or newlines into shell command arguments. On partial note-write failure, preserve the full script/table in storage and repair the write; do not shorten approved content to make escaping easier. Re-read written artifacts before asking approval.
 
-If the user requested storyboard review, make 6–9 key shots on one sheet with shot number, framing, duration, and line. Show the logline and uncertainty, then stop and wait for explicit approval. A topic or style selection does not approve this later storyboard. Without that request, proceed after the look check.
+## Background continuation and retries
 
-## 5. Production
+Persist before submitting, after receiving an ID, and after every state change. Reuse a running task on resume. On uncertain submission, query its ID or use actual idempotency support before considering a new call. Register the host's supported completion callback/continuation, or keep polling through its status tool. Keep progress truthful: queued, running, generated, checked and approved are distinct states. A background acknowledgment does not justify a final “done” message.
 
-Follow `technique.md`: voice → speech check → score (voice/score may run concurrently) → animation → mix → render. One timeline drives picture, music, foley, and subtitles. Films are made in code; do not replace the pipeline with video generation or stock footage. In canvas-only mode preserve these as planned shot/camera/sound/cue specifications and clearly report the actual deliverable.
+If the host forces the current turn to end, it must also expose a durable automatic continuation for unattended work. Persist its actual continuation handle. If it does not, mark the limitation explicitly rather than claiming the Skill can continue by itself; present native recovery options once. Do not ask the user to type “继续” after each job. Stay responsive with brief progress updates during long runs.
 
-Use the full style's sound palette and native transitions. Preserve the directing method's rhythm, silence, readable holds, camera variety, signature shot, character performance, and motion-continuity checks.
+Limit concurrent work to actual provider quotas. Independent shots can run concurrently; an extension waits for its real predecessor. Follow `generation-guards.md` for retry bounds. Retain successful outputs and rerun only the failing job and genuinely affected dependents.
 
-## 6. Review and deliver
+## Revisions and final acceptance
 
-Apply `director.md` §11 and `technique.md` §8. Film review includes contact sheets, 0.2-second key-action strips, full-speed playback with sound, ASR checks for voice, timing, loudness, and black/invalid-frame checks. Compare the treatment with the demo only after the treatment exists; structure, opening, signature shot, camera path, score shape, ending must differ on at least four of six axes.
+A revised script invalidates impacted characters, voices, table rows and videos; a new voice invalidates its auditions, speech and affected speaking shots; a changed image invalidates dependent image/video inputs. Unchanged roles and successful unrelated shots stay locked. Reapprove the revised artifact through native Question before paying for affected downstream media.
 
-For completed film mode deliver MP4, poster, SRT when applicable, treatment, CREDITS, source, and one-command build. For evidence work also deliver FACTS. For canvas mode deliver the actual canvas and its available notes; do not claim missing video, sound, playback review, or exports. Work in the user's project, not the library's `styles/` or `core/`. Keep user output free of toolkit sign-offs and watermarks; retain actual third-party credits.
+COMPLETE requires all planned shot IDs exactly once on the edit timeline, actual exported video, intended ratio, measured duration, synchronized approved speech/narration, no unplanned gaps or repeated extension prefixes, and playable output. Inspect image/voice identity, lips, missing/extra lines, source licenses and any required subtitles. If an inspection cannot be performed, report that exact remaining check instead of claiming a pass. Deliver the final video, shot table, asset/voice map, script version, credit/source list, and available editable project/subtitles. Do not finish with a plan in place of a movie.

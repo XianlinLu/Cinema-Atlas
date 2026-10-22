@@ -1,43 +1,57 @@
 # Code-Cinema-Atlas
 
-**An original Lumina canvas-agent skill for cinematic visual storytelling.**
+**Cinema Atlas Video Director — a Lumina workflow by Xianlin-lu.**
 
-This repository contains a Lumina-focused directing workflow that turns one idea into topic choices, a selected visual style, and a cinematic canvas or film. It uses native single-choice questions for undecided topics and styles, then follows brief → treatment → look → optional storyboard approval → production → review. The final output depends on the canvas and rendering tools available in the session.
+Turn one idea into a finished video while keeping creative approvals in Lumina's native **Question** cards. The agent drafts the full script, locks character and voice assets, prepares a shot production master table, generates every shot, and assembles one playable film. It continues automatically after each returned approval; ordinary use does not require typing “continue” between stages.
 
-The Lumina skill and its adaptation in this repository are written for this project by its maintainer. A complete project of a separate filmmaking toolkit is kept in `xianlin-lu/`, with its internal directory structure and license notices preserved.
+The required sequence is:
 
-## Skill
+1. Full script and rhythm-based duration → native script approval.
+2. One **16:9 front/side/back sheet** per visual character → native character approval.
+3. Native voice-profile choices per speaking character and narrator → actual **20–30 second auditions** → native audio approval.
+4. Full shot production master table, exact dialogue/voice bindings and measured timing → native table approval.
+5. Automatic shot generation, bounded technical recovery, editing, audio synchronization, export and final inspection.
 
-- [Lumina Story Director](skills/lumina-canvas-film/SKILL.md) — generate topic candidates, recommend 2–3 of the library's 51 styles, and invoke the host's native choice tool before production.
-- The import folder has **43 files**, including the complete specifications of **all 51 styles**, partitioned without losing text. The agent loads the selected style through an index, preserving its look, color, typography, motion, camera, sound, native moves, and pitfalls.
-- Every file stays below **19,000 UTF-16 code units**, compatible with both the 20,000-character import warning and the 30,000-character editor shown in Lumina.
-- `SKILL.md` contains the operational instructions. `agents/openai.yaml` is optional OpenAI-compatible interface metadata; native question cards require a question tool exposed by Lumina. The skill discovers the available schema at runtime and cannot enable a missing tool.
-- No `.skillignore` file is included because the importer accepts only `.md`, `.txt`, `.json`, `.yaml`, and `.yml` files.
-- Skill and folder names use lowercase letters and hyphens for import compatibility.
+All **59 film styles** are available through their complete specifications. Read the selected style by index, preserving its visual grammar; the current native production workflow governs execution over legacy engine examples. Documentary/evidence requirements remain in force where a style requires real source material.
 
-Import only `skills/lumina-canvas-film/`, replacing the previous skill package instead of appending old references. Keep the full `xianlin-lu/` toolkit outside the importer. Rebuild or check the package with `python3 tools/build_lumina_skill.py` or `python3 tools/build_lumina_skill.py --check`; add `--zip <path>` to create a ZIP containing only the import files. The builder verifies exact style reconstruction and hashes, file count, supported extensions, names, and per-file lengths. This validation does not prove that Lumina exposes a native choice tool or a code-rendering environment.
+## Import into Lumina
 
-## Source snapshot
+Import only [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/). Replace the previous package as a whole; do not append it to old reference files or upload the entire repository.
 
-The `xianlin-lu/` directory contains the complete tracked file set and original directory layout from the project. Its README files and license notices are retained within that directory. Check those notices before redistributing or reusing its contents.
+- **49 files**, all in supported Markdown/YAML/JSON formats.
+- Every file is below **19,800 UTF-16 code units**, retaining margin below the earlier 20,000-character import limit.
+- The full 59-style specification texts are partitioned without loss, indexed, reconstructed and hash-checked during packaging.
+- `SKILL.md` defines the workflow. Five focused references cover state/continuation, native gates, characters/voices, shot tables/prompts and generation safeguards. Style index, manifest and specification fragments supply the library.
+- `agents/openai.yaml` is optional OpenAI-compatible UI metadata. It does not install a Lumina tool.
 
-## 使用说明
+Native cards require the host's actual Question tool. Full unattended production additionally requires generation, task status, editing/export, stable asset access and automatic background continuation. The Skill discovers exposed schemas; it cannot enable missing host features or override content checks. The live UI has been inspected for the Question tool, but the new complete paid-media pipeline has not been run end to end here.
 
-这是一个面向 Lumina 的导演工作流：从用户的一句想法中生成选题候选，通过原生单选卡片确定未定的主题和风格，再依次完成需求确认、创作方案、风格验证、按需分镜审批、制作和检查。交付画布还是完整成片，由当前会话实际可用的绘制与渲染工具决定。
+## Request reliability
 
-本仓库中的 Lumina skill 及其适配内容由本项目维护者撰写。另有一份完整的电影制作工具包项目文件保存在 `xianlin-lu/` 目录中；该目录保留原有内部结构和许可声明。
+Audition masters, short voice-identity references and exact shot dialogue are separate assets. Requests validate the active model's actual per-file and aggregate audio limits. Real extension inherits its source ratio; it must not submit a conflicting fixed ratio. Voice ownership, approved versions, real asset IDs and shot timings are checked before generation. Policy rejections stop blind retries and use native choices for legitimate asset revision or provider review; successful generation is not promised for blocked material.
 
-## Skill 内容
+Build and validate with:
 
-- [Lumina Story Director](skills/lumina-canvas-film/SKILL.md)：根据想法生成主题候选，从固定的 51 种风格中推荐 2–3 种，并在制作前调用宿主原生选择工具。
-- 导入包共 **43 个文件**，无损收录 **51 种完整风格规范**。Agent 依据索引按需读取选定风格，保留其材质、色彩、字体、运动、镜头、声音、媒介原生动作和禁忌。
-- 所有文件均低于 **19,000 个 UTF-16 代码单元**，同时兼容之前 20,000 字符的导入限制和当前 30,000 字符的编辑器显示。
-- 交互规则写在 `SKILL.md` 中；`agents/openai.yaml` 只是兼容 OpenAI 的可选界面元数据。原生选择卡片需要 Lumina 提供实际提问工具，Skill 会运行时识别其参数，不能启用宿主缺失的工具。
-- 不包含 `.skillignore`：导入器只接受 `.md`、`.txt`、`.json`、`.yaml` 和 `.yml` 格式。
-- Skill 和目录名仅使用小写字母与连字符，以兼容导入器的命名规则。
+```sh
+python3 tools/build_lumina_skill.py
+python3 tools/build_lumina_skill.py --check --zip /path/to/lumina-cinema-atlas-v2.zip
+python3 -m unittest discover -s tests -p 'test_lumina_preflight.py' -v
+```
 
-仅导入 `skills/lumina-canvas-film/`，整包替换旧版本，避免追加已过时的参考文件。完整的 `xianlin-lu/` 工具库保留在仓库中。通过 `python3 tools/build_lumina_skill.py` 重建导入包，或加 `--check` 检查一致性；加 `--zip <路径>` 可生成仅含导入文件的 ZIP。构建器检查完整风格的复原与哈希、文件数、扩展名、命名和单文件长度；这些检查不代表已经在 Lumina 内验证原生弹窗或代码渲染环境。
+`tools/lumina_preflight.py` checks normalized requests and production state without submitting media. These Python helpers and tests remain outside the import folder.
 
-## 项目文件
+The `xianlin-lu/` directory holds the filmmaking toolkit project. Its style specifications and catalog have been refreshed to 59 entries. The Lumina import does not include all demo engines, images or audio; the rest of the toolkit is a separately preserved project snapshot. Follow the corresponding license notices when reusing materials.
 
-`xianlin-lu/` 目录保存全部项目文件，并保留其内部目录结构、README 和许可证文件。重新分发或复用其中内容时，请先遵守对应许可声明。
+## 中文介绍
+
+**Cinema Atlas Video Director** 是 Xianlin-lu 面向 Lumina 制作的视频创作工作流。用户给出一句想法，Agent 先写完整剧本，按照原生 **Question 选项卡**完成关键审批，再自动生成全部分镜并合成可播放成片。确认后立即推进下一阶段，常规流程无需用户反复在输入框中写“继续”。
+
+流程为：**完整剧本确认 → 16:9 角色三视图确认 → 逐角色试音要求选择 → 20–30 秒真实试音确认 → 镜头生产总表确认 → 自动生成全部分镜、配音对齐、剪辑与交付**。片长按剧本节奏估计，再依据逐镜音频实测和镜头时间轴锁定，不强行压缩为固定短片时长。
+
+导入包完整收录 **59 种风格规范**，共 **49 个文件**，每个文件低于 **19,800 个 UTF-16 代码单元**。Agent 按需读取选定风格，保留材质、色彩、字体、运动、镜头、声音、原生动作及注意事项；原代码引擎示例不会覆盖当前原生视频制作流程。
+
+在 Lumina 中仅导入 `skills/lumina-canvas-film/`，整包替换旧版。不要叠加旧参考文件，也不要上传整个仓库。试音母版、声纹参考片段和镜头实际台词分开管理；每镜绑定正确的角色图、声音版本和实测音频，并在提交前检查参考音频时长、总预算、任务类型、续写画幅和审批状态。版权检测拦截不会被无限重试或规避，而是通过原生选项选择真实的新素材方案或平台复核。
+
+完整自动运行需要 Lumina 实际提供原生 Question、图像/音频/视频生成、任务状态、剪辑导出及后台自动续跑能力。Skill 会识别实际工具参数，但无法开启宿主缺失的能力。当前已只读检查到原生 Question 工具；本次完成了打包、内容一致性和参数/状态检查，尚未在 Lumina 内执行新版完整付费媒体流程。
+
+构建器、参数预检工具和测试文件保留在仓库外层，不随 Skill 上传。完整工具包位于 `xianlin-lu/`，其中风格规范与目录已同步为 59 种；导入包不包含全部演示工程和媒体素材，复用素材时请遵守对应许可。

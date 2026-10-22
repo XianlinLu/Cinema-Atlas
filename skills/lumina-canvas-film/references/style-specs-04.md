@@ -1,175 +1,159 @@
 # Complete style specifications 04
 
 
-<!-- STYLE: data-physical -->
+<!-- STYLE: city-symphony -->
 
-- **The unit is an object.** One plate, block or coin equals one stated quantity, and the rule is said on screen once ("1 plate = 10 GW"). A heavier material marks every tenth unit, so the stack is its own ruler.
-- **Scale is exact.** Heights, counts and areas are computed from the data; rounding is one unit at most and written in the facts. Two series compared on the same base use the same unit.
-- **Studio light, real matter.** Metal reflects an HDRI, wood shows grain, acrylic transmits; nothing glows, nothing is outlined, no fake UI.
-- **Growth is assembly.** Data increases by pieces being placed, one after another, with weight and sound; it never scales or morphs.
-- **The pull-back.** At least once the chart is revealed as a made thing: a dial, a table piece, a landscape of stacks.
-- **Every number has a source on screen**: real published statistics (or the user's own figures), credited in frame.
+| Score texture | Cut length | Frames | Use |
+|---|---|---|---|
+| Opening hit + eighth-note arpeggio | 2 bars → 1 bar | 120 → 60 | the opening still, the first single-camera time-lapse |
+| Eighths | 2 beats → 1 beat | 30 → 15 | dawn, match cuts |
+| Triplets against eighths (3:2) | 1 beat → ½ beat | 15 → 7/8 alternating | morning, the montage of streets |
+| Sixteenths, full ensemble | grid cells light every 1–2 frames; cells re-cut every sixteenth | 1–4 | the grid |
+| Arpeggios stop, one long chord | 3–4 s, one or two shots | 90–120 | the brake: the slowed thing, the archive split |
+| Sixteenths + triplets + horns | ½ beat → 4 frames → 2 frames | 7 → 4 → 2 | dusk to night, the reverse flashback |
+| Dry cut of the whole ensemble, reverb left ringing | hard cut to black on the bar line | — | the hard stop |
 
-Not Isometric Infographic (no icons, no flat colour coding), not Glass Product Render (the object is data), not Data Storytelling (no paper chart or inked axes), not Dark Tech Keynote (no black stage or neon), not Brick Toy (no toy proportions, no characters).
+Rules:
 
-## 2. Materials & rendering
-
-- **Pieces**: thin boxes or cylinders instanced in the thousands, each with a few-millimetre random offset and yaw, a ±7 % value change and a hairline gap: that is what makes a stack read as stacked, not as a bar.
-- **Material per series**, chosen so two series separate in one glance at thumbnail size: brushed metal against tinted acrylic, pale wood against dark stone, copper coins against paper. A third material (e.g. brass) only for the ruler pieces, shared by every series.
-- **Base**: a real-texture slab (wood veneer, stone) with inlaid marks: a tick ring, the series' paths, the labels of categories or years, cut into the surface at the base's own scale, lit with the scene.
-- **Rendering**: PBR (transmission for acrylic), an HDRI at low intensity for reflections only, a warm key at 20–35° with long soft shadows, one or two cool rims so metal and acrylic separate from wood at distance; GTAO, physical depth of field, 2× supersampling, a light vignette.
-- **Screen space only for type**: readings, verdicts, the source line, subtitles, the title card. Every reading is pinned to its object through the same world → screen function as the camera.
-- **Post**: grain light (the background is pale), no lens flares, no chromatic aberration.
-
-## 3. Colour logic
-
-- The set is warm and neutral: a seamless greige sweep, the base in a natural material, the series in material colours (silver, pale teal, brass, oak). Material, not paint, separates series.
-- **One accent** (e.g. signal orange) for the reading or verdict that matters on this screen; nothing else is accent-coloured.
-- Ink is near-black at two strengths (value, then labels at ~60 %).
-- No rainbow series palettes, no colour ramps on the objects, no dark mode.
-
-Example (our demo): sweep #C4BEB4, walnut base, aluminium #C8CCD1 (metal), acrylic #9FD3D6 with teal attenuation, brass #D2B07A, ink #1C1D20, accent #D4521C.
-
-## 4. Type & subtitles
-
-- **Roles**: a light grotesk for numbers (e.g. Inter 200–300; the hero reading 130–170 px, a stack reading 46–56 px); a sans for labels and verdicts in the film's language (e.g. Noto Sans SC 500, 24–46 px); a monospace for units, years and source lines (20–24 px); a serif only for the title. OFL, self-hosted, CJK subset.
-- **A reading** = a dot on the object, a 1.4 px leader, a small swatch of the series' material, the category line, then the value and unit, on a translucent paper plate (~84 %). Two readings of one pair stack in one column, larger value on top.
-- **The source line** (dataset, publisher, year, licence, e.g. "数据：IRENA (2026)，经 Our World in Data 整理 · CC BY 4.0") is in frame with the data, small (20–22 px, ink at ~60 %) in a corner away from the subtitles, at least from the first reading to the summary, and on the title card.
-- **A verdict** sits in the upper-left third on its own plate in the accent colour, underlined by a growing rule; it appears only after the readings it judges have been still for ≥ 2.5 s.
-- **Subtitles**: bottom-left, a 2 px ink rule and a paper plate fading right; if the film is bilingual, the film's language on top; each line one line only, measured with the real font (`nowrap`), split into two cues rather than wrapped. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Labels hold ≥ CJK characters ÷ 4.5 + 1.5 s / letters ÷ 15 + 1.5 s; a counter reports its landing value; nothing below 20 px.
-
-## 5. Motion quality
-
-- On ones, 24 fps; the camera never stops (2–5 % creep on holds).
-- **Cascade**: a stack assembles bottom-to-top in 0.5–1.0 s, each piece dropping a few centimetres with an ease-out.
-- **Feed**: one period's increase arrives piece by piece from out of frame, quintic ease-out, a yaw that unwinds ("placed", not "dropped"), 8–16 pieces per second, the counter rolling with the pieces landed.
-- **A single heavy object** falls with gravity, lands with one small damped bounce, its shadow tightening.
-- Readings fade in with a 16 px rise and draw their leader; they leave by fading, never by sliding.
-- Never moves: the base, a piece once landed, the ruler pieces.
-
-## 6. Camera grammar
-
-| Move | What it expresses | Can serve |
-|---|---|---|
-| Macro dolly along a stack's edge, rack focus | the unit is real and countable | the rule "1 piece = X"; a single record |
-| Low lateral track along the series | time passing; growth | a decade; a ranking; a sequence of sites |
-| Locked three-quarter frame on two subjects | comparison | before/after; A against B; a crossover |
-| Crane with the rising top | accumulation | one year's increase; a target being reached |
-| Pull-back to near top view | the whole as an object | a summary; a ratio; an ending |
-| Slow orbit around the base | the installation as sculpture | a title; a breath |
-
-The subject fills at least a third of the frame height at key moments; readings live in empty background, never over the subtitle strip; comparisons keep both subjects completely in frame. Transitions are camera moves inside one set (one continuous take where possible); no cuts to a chart, no wipes, no page turns.
+- **Cuts land on beats.** All cut times come from one function, `bar(n, beat)` in `tools/timeline.py`; shot lengths are never typed in seconds. The music is rendered from the same file.
+- **One long single-camera time-lapse is the clock.** It returns three or four times (night → dawn, noon clouds, a one-second nightfall, a day/night flicker), always from the same position, so the viewer knows the time without a caption.
+- **Density follows the score.** The editor never cuts faster than the current subdivision, and the slowest picture sits under the place where the arpeggios stop.
+- **Shape match cuts** on the beat: clock → clock, arch → arch, grid of streets → grid of cells. A small-to-large punch-in on the same shape is allowed.
+- **The grid** is the split screen of this style: 1×2 → 2×2 → 3×3 → 4×4, one stage per half bar or bar, the new cells lighting up in a scattered order over the previous stage within 0.3 s (never back to black), gutters 6 px black; in the last beat the cells re-cut on every sixteenth.
+- **Counterpoint split**: two halves, archive left, today right, the same kind of place or shape; the gutter grows from the centre in 8 frames.
+- **Day/night flicker**: the same camera, a noon frame and a night frame alternating every 2 frames; a pair of same-position photographs alternating every 2 frames.
+- **Reverse flashback**: in the last bar before the hard stop, earlier shots return in reverse order, 4 frames each, then 2 frames each.
+- Transitions: hard cuts only, plus the hard cut to black. No dissolves except fades from black for the page and the end card.
 
 ## 7. Sound palette
 
-- **The material's own sound** is the foley: metal plates tick bright and short (inharmonic partials 3–8 kHz), acrylic toks duller (1–3 kHz), wood knocks, coins ring. A cascade is a burst of these at the landing times, scaled down as density rises.
-- **The ruler sings**: every ruler piece (each 10th) rings a pitched mallet note, one timbre per series (e.g. glockenspiel for metal, glass harp for acrylic), climbing a pentatonic scale with the count — the chart becomes an arpeggio.
-- **Score**: mallets and air — marimba ostinato, bowed and struck vibraphone, harp, glass, a soft synth pad and a pulse bass with audible 2nd/3rd harmonics; horns for a turn. Accelerate by subdivision (8ths → 16ths), not tempo.
-- **Impacts**: a turn or a last object lands on punch (60–120 Hz) + bass drum + timpani + a bell; the two or three designed impacts are the loudest moments.
-- **Silence**: a 0.3–0.6 s suck-out (music and foley −30 dB) before each designed impact; a thin studio-air bed stays.
-- **Mix**: voice ~10 dB over music, ruler notes under the voice, −14 LUFS, true peak ≤ −1.2 dBTP. Voice: calm, precise, short sentences.
+- **Music only.** No narrator, no source sound (the footage soundtracks are other people's music), no sound effects. A narrator would turn watching into listening and would fight the score for the structure; that is why the style has none. If a voice is ever required, one short line at the very start or end, never over the cuts.
+- Orchestration (sampled, CC0 — `core/audio/sampler.py`): pipe organ (full and soft stops, pedal), winds staccato (flute, clarinet), strings (spiccato cellos and violins, sustained cellos, violins, double bass), horn pair for the last two bars, concert bass drum on section downbeats, suspended-cymbal crescendos into the hits, glockenspiel only for numbers locking.
+- Writing: arpeggios over a one-chord-per-bar progression; additive layering (eighths → triplets over eighths → sixteenths); the *break* is all arpeggios stopping at once into one held chord (maj7 or 9th); the return is a full-organ hit; the hard stop is a dry cut of every instrument in 15 ms with the reverb tail left ringing; the coda is one soft chord that does not resolve, with the opening figure returning in quarter notes under the end card.
+- Reverb: `S.room(size .7, mix .28)` for the body, `size .78, mix .36` for the coda. Master to −14 LUFS / −1.2 dBTP with `core/render/mux.sh` (grain 0: the grain is already in the picture).
 
-## 8. Native moves
+## 8. Native moves (and how they are built)
 
-- **The unit close-up.** Push into the side of a stack until one piece fills the frame; bracket one piece ("= 10 GW") and one ruler piece ("= 100 GW"). *Fits content like:* tonnes of CO₂ as steel plates; a budget as banknote bricks; a population as wooden discs.
-- **The paired climb.** Two series on one base, one material each, built year by year as the camera tracks; the crossover is held still with both readings before the verdict. *Fits content like:* imports vs exports; renewables vs fossil capacity; two companies' revenue.
-- **The feed.** One period's increase arrives piece by piece onto last period's level, the counter rolling with the landings. *Fits content like:* this year's new hires on last year's team; a quarter's sales; a record harvest.
-- **Chart to installation.** Pull back until the bars are a dial, a skyline or a table piece; the base's inlaid marks become its typography. *Fits content like:* twelve months as a clock; regions as a map-shaped base; product lines as a city.
-- **The last object.** One single heavier piece (a brass puck, a coin, a weight) lands on the base carrying the final number engraved. *Fits content like:* a total; a ratio; a target met.
+| Move | Code |
+|---|---|
+| **Light river** | `tools/prep.py`: integrate the speed curve to source time; each output frame averages the source frames in its window (cap `blend`). Speed 40× / blend 30 at night, 37.5× / 24 for clouds, 75× / 30 for a one-second nightfall. |
+| **Speed ramp** | `speed=[(t, v), …]` keyframes, smoothstep between them, same integrator. |
+| **Brake into slow motion** | ramp 2.2× → 0.3× with `interp=3` (ffmpeg `minterpolate` mci, bidir) for soft subjects; `mix=True` (crossfade of the two nearest frames) for thin lines such as cables, where motion compensation tears. |
+| **Crowd → tracks** (people as data) | `Trails` in `tools/render.py`: background = per-pixel median of the whole fixed-camera shot; blobs that differ by > 22/255 (scipy `ndimage.label`, area 8–900 px at half size) are people; each centroid joins the nearest one from the previous frame (< 70 px) with a 2 px line; lines fade × 0.9 per frame; the plate is darkened and desaturated as the tracks appear (0.15 → 0.55 s). Fixed cameras only. |
+| **Traffic → light** | a static or slowly drifting top-down aerial at 5× with full frame blending. |
+| **Grid** | `grid_plate()`: pool clips of 30 frames held in memory at 960×540; stages from `GRID_STAGES`; light-up order scattered; last beat re-cuts cells every sixteenth. |
+| **Counterpoint split** | `split_plate()`: archive 4:3 centre 960 px | today centre 960 px, 6 px gutter grown from the centre. |
+| **Day/night flicker** | two 15-frame clips from the same camera (noon, night), alternating every 2 frames. |
+| **Photo that moves** | a same-position photo pair alternating every 2 frames. |
+| **Number lock** | `lock_digits()`: one digit locks per sixteenth, the others roll; `counter()`: ease-out count-up; music adds one glockenspiel note per lock. |
+| **Day ring** | a thin 24-hour ring bottom-right with a sodium hand and a 3-hour arc: it runs with the film's day, **freezes and dims during the brake**, and **spins backwards during the reverse flashback**. It is a graphic, not a clock reading. |
+| **Reading light on a page** | scanned page, 16:9 window pushed 1.06 → 1.56 page widths, side light (bright top-left), paper tint (1, .93, .80), a Gaussian band (σ 95–140 px) over the quoted line growing to +38 %. |
+| **Hard stop** | picture cuts to black on the bar line; the music's dry signal is cut in 15 ms on the same frame; only reverb remains. |
 
 ## 9. Pitfalls of the medium
 
-- Two materials too alike (bright aluminium vs clear acrylic) read as one series: give one a tint or a finish change, and check at thumbnail size.
-- Long shadows and warm reflections turn metal brown at distance: add a cool rim light and keep the base darker than the pieces.
-- Thin pieces moiré at 2–3 px per layer: random per-piece value and offset, 2× supersampling.
-- A reading pinned to a moving object can leave the frame: clamp it to a safe box.
-- Counters that roll by time instead of by landed pieces lie; tie them to the object count.
-- Rounding to whole pieces can invert close values; when two values are within one unit, say so on screen or choose a finer unit.
-- Transmission streaks at low angles: acrylic roughness ≥ 0.2, tinted attenuation.
+- **Watermarks and slates hidden in CC footage**: corner logos (scale from the centre until they leave frame, within 1.5×), opening thank-you cards, end-card music credits, title text over the first shots. Check a 1-second contact sheet (`tools/secsheet.py`) of every source before choosing in-points.
+- **Hidden cuts inside sources.** Hyperlapse reels hide 2–3-frame jump cuts and whip transitions; frame blending across a cut makes ghosts. Scan with `ffmpeg … select='gt(scene,0.25)',showinfo` and keep every clip's source window inside one shot.
+- **Too much blending** turns noon clouds into grey mush: about 40 % shutter (24 of 60 frames) looks better than 100 %.
+- **Grey-world balance kills night**: it washes sodium light to white. Strength 0 for night shots.
+- **Tracking needs a fixed camera.** A drifting drone flags every building as motion. Use a median background only on tripod shots; for moving aerials use blending instead.
+- **Motion-compensated slow motion tears thin lines** (cables, rails, text): use the crossfade mode there.
+- **Text over bright sky** disappears: put number cards over the dark half of the frame or add the soft darkening; never a box.
+- **A slow face is not a free subject.** Do not make an identifiable ordinary person the slowed or close-up hero. Slow a thing; show people as crowds, tracks or ghosts. Public figures and people in news events are a different case.
+- **Numbers drift.** Official pages update; quote the page and the year, keep the quote in `FACTS.md`, and recheck before the last render. Prefer one clean figure over a range.
+- **CC BY credits are long.** Each one needs author, full title and licence on the end card. Treat them as fine print (16 px, 29 px line pitch, the licence and changes on one header line) and keep the end card short (4–5 s); a 10 s card of text on black loses the audience. The film's last moving shot runs on under the card, darkened.
+- **Don't end on dead black.** After the hard stop, the coda is a page (≈1 s), then the quote laid over one last moving city shot (≈4 s, just long enough to pass `readcheck`), then the end card over the same shot.
+- Commons rate-limits (HTTP 429): search and download serially with back-off (`tools/s.sh`, `tools/f.sh`); for long 4K files download only the needed excerpt (`tools/seg.py`) or the 1080p transcode.
 
-## 10. Engine
+## 10. Footage: where it comes from
 
-- `demo/set.js` — `buildSet(scene)` (HDRI, warm key + cool rims, base with inlay canvas, instanced pieces per material, the last object) and the landing schedule (`SHEETS`, `EVENTS`, `landed(stack, t)`); change `PAIRS`, the unit and the materials for any single or paired series.
-- `demo/film.js` — cylindrical camera keys (`track`, `core/lib.js`) with focus on a target point, the reading kit (`pairLabels`, `verdict`, `plate`, `swatch`), counter, subtitles (`SUBCHECK`), `TEXTS`, `EV`. `demo/mix.py` — material foley (`tick_alu`, `tok_acr`), ruler notes, suck-outs, master.
-- **Extra packages and packs**: beyond `setup.sh deps` only the studio HDRI, `sh tools/fetch.sh hdri` (Poly Haven, CC0, 12 MB); with narration `setup.sh deps voice`; for a sampled score `sh tools/fetch.sh instruments vsco2ce` / `vcsl` / `freepats`. The walnut veneer is in `core/assets/polyhaven/`. Anything you add (a spreadsheet reader, other textures) goes into a private venv / node_modules in the project folder, never into `$LIB/.venv`.
-- Minimal example, not in the demo: one series of twelve monthly values on a 12-position circle, the annual total engraved on the last object.
+1. **Ask the user first** whether they have their own footage, photographs, documents or data for the place: their own time-lapses, a phone hyperlapse, family photos, a city's open data. Their material comes first.
+2. If not, search these sources (all searchable with `demo/tools/footage.py`, which records title, author, licence and page in `SOURCES.jsonl` and writes `SOURCES.md`):
+   - **Wikimedia Commons** — modern time-lapse, aerial and slow-motion footage under CC BY / CC0, photographs (for example the Carol M. Highsmith Archive, dedicated to the public domain), scans of old maps and books. Check the licence on each file page. Many videos are YouTube or Vimeo imports: use one only when its page carries a passed review (YouTubeReview / VimeoReview / LicenseReview / Flickrreview with a reviewer and a date) or the author's own source page still shows the licence. A pending review is not enough: a channel can later switch to the standard licence and claim the footage through Content ID.
+   - **Library of Congress** (loc.gov, also mirrored on Commons) — archive films published in the US before 1931 are public domain; a rights statement of "no known restrictions" alone is **not** enough: you need the publication date or another public-domain basis.
+   - **NASA** (images.nasa.gov, ISS crew photographs) — public domain; the night photos of cities from orbit make a strong opening.
+   - **Internet Archive** — scanned books and documents marked NOT_IN_COPYRIGHT with a pre-1931 publication date; take the line you quote from the scan, not from a modern edition.
+   - **National archives** (US National Archives, other governments' open archives) — check each country's terms.
+   - Licences allowed: public domain, CC0, CC BY. Not allowed: CC BY-SA, "no known restrictions" without a basis, YouTube mirrors, unknown sources, restored or colourised archive copies.
+3. **Before downloading, tell the user** what you will download, from where, under which licence, and how it will be credited.
 
-### Sources, licences, facts
+Data for number cards comes from official pages (census, transport department, the place's own statistics); write the claim, URL and quoted wording into `FACTS.md`.
 
-- **Statistics for a new topic**: Our World in Data (each chart's "About this data" names the original source; CC BY 4.0 — credit both), World Bank Open Data (CC BY 4.0), Eurostat (CC BY 4.0), US Census / BLS / EIA (public domain); UN Data, IRENA, IEA free tables and other national statistics offices (e.g. 国家统计局): check each dataset's terms. Search the portal for the indicator, download the CSV, keep the file and its metadata in the project's `data/`.
-- **Licences**: CC0, public domain and CC BY are fine with a credit. ODbL, CC BY-SA, "no known restrictions" or "free for non-commercial use" are not CC0: name the terms to the user and ask before using them. Textures and HDRIs: Poly Haven / ambientCG (CC0).
-- **The user's own numbers** (annual report, ESG data, sales): ask for them and for the document they come from; never invent or round them into a better story. Never let generated images stand in for real data or material.
-- **Keep a FACTS.md in the project folder** — each on-screen number and spoken claim, its source URL, the quoted wording or row, and how any derived value (ratio, difference, units per piece) was computed — and deliver it with the film.
+Recipe for another place: one single-camera time-lapse of ≥ 12 hours (the clock); 10–15 ground time-lapses and hyperlapses (streets, stations, bridges); 2–4 aerials, one of them top-down at night; one slow-motion shot of a fragile thing; one fixed-camera crowd shot for tracks; one archive film of the same kind of place; one night photograph from orbit or above; a same-position photo pair; three official numbers; one public-domain sentence written about the place.
 
 ## 11. Variation space
 
-Decided per film: the unit and its materials, the base and its shape, which series share it, the camera route, pacing, the last object, accent hue within the colour logic.
+- Place: any city, port, airport, market, campus, factory, a river over a year (the clock becomes a season).
+- Length: 30–90 s; one brake at least; one hard stop always.
+- Score: organ/winds/strings is the default; a choir, a piano ensemble or analogue synth arpeggios also work if the writing stays additive and the break stays a sudden held chord.
+- Tempo 96–132 BPM; at 30 fps prefer tempos whose beat is a whole number of frames (120: 15, 100: 18, 112.5: 16).
+- Grid sizes and the counterpoint pair change with the material (archive vs today, day vs night, two cities).
+- Number cards: 2–4 at most; the day ring may be dropped for non-daily structures.
+- Fixed: footage only, the frame-blended light, cuts on the beat, the brake, few words, one quote, the hard stop, the release-print grade.
 
-- Structures: a single series rising to a record; two series and their crossover; a ranking of regions laid out as a map-shaped base.
-- Openings: the macro of one piece being placed; the finished installation seen from above, then the dive to the first unit; an empty base with its inlay waiting.
-- Endings: the last object landing at the centre; a slow orbit of the whole installation; a single piece lifted off to show what one unit is.
+See [`DEMO.md`](DEMO.md) for the example film.
 
----
+<!-- STYLE: visual-investigation -->
 
-How our demo was made (story, shots, score, title card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+# Visual Investigation — Style Prompt
 
-<!-- STYLE: teardown -->
-
-# Exploded Teardown — Style Prompt
-
-> A real product, built from its own engineering files (CAD, PCB layout, bill of materials), lit like a studio packshot and taken apart in front of the camera: the layers lift on one axis, the camera travels between them, every part is named with the numbers its files contain, and it closes again into one object.
-> References (grammar only): hardware-launch exploded films (layer stagger, orbit timing), repair-guide teardowns (opening order, the macro on the part that matters), engineering drawing (leaders, dimension lines). Never copy their products, layouts, typefaces or music, or name them in the film.
+> A cold investigation desk: footage, photographs, documents, sound and maps from one real event, laid out on one shared clock so they check each other. The clock lives inside the picture — timestamps on the evidence, a playhead on a data chart, a stopwatch over the decisive seconds; frozen frames are circled and magnified; quotes are highlighted on the page they come from; a plan shows where cameras stood and where they looked; what is known and what is not are kept apart; at the end every piece of evidence is pulled into one map.
+> References (grammar only): newspaper visual-investigation videos, forensic-architecture reconstructions, broadcast verification units. Never copy them, quote their names or use their branding.
 
 ## 1. Essence, and what it is not
 
-A frame reads as this style when:
+1. **Sources meet at one moment.** The payoff of every section is two or more independent sources (a frame, a photo, a testimony, a report line, a sound) pointing at the same place or the same second. Cut points are sync points.
+2. **One clock, read in the picture.** Time is carried by large readouts that belong to the layout: the timestamp on each telegram card, a playhead with its clock on the data chart, a `T+xx.x` stopwatch over the decisive seconds, a frozen "32 s". The scale changes with the story (hours → minutes → seconds → days) at section cuts. A permanent timeline band under every shot is **optional and usually wrong**: it eats the bottom of the frame, adds a layer of small labels and goes empty once the story leaves the clock.
+3. **One finding per layout.** Each section says one thing; a heading is part of the layout, never a page header.
+4. **Uncertainty is drawn, not apologised for.** `≈`, *inferred*, *schematic*, dashed boxes. Known and unknown are separate columns. A source that does not cover a stretch simply is not on screen yet (it lights up late in its column); never an empty "no footage" box, which reads as a broken render.
+5. **Restraint.** Real disasters and real people: no slow motion of the catastrophe, no music that tells you to feel; fire only inside evidence frames; casualties as counted dots and numbers.
 
-- **the object is real and exact**: geometry, positions and counts come from the product's own files (STEP, KiCad, BOM, assembly guide). Nothing is eyeballed that a file can give;
-- **it is shown apart**: layers float on one axis with even, readable gaps, each still oriented as it sits in the product;
-- **it is photographed, not drawn**: physically based materials, a studio key light, a cool rim, an HDRI reflection, soft contact shadow on an invisible floor;
-- **the numbers live on the object**: thin leader lines from a dot on the part, dimension lines with ticks drawn in the scene's own perspective, never a table beside it;
-- **the camera never stops travelling**: one or a few continuous moves, orbit outside, macro inside.
-
-It is not a glass product render (one object, material beauty, no disassembly), not a blueprint (line drawing on a grid, no light), not a keynote (slides, headline type, a stage), not an assembly manual (step numbers, arrows, hands).
+Not **Satellite Briefing** (no orbital imagery, no zoom from space). Not **Archive Light Table** (no paper on glass, loupes or hands: documents are flat evidence frames). Not **Halftone Dossier** (no print texture, stamps or collage). Not a newsreel package (no channel bug, ticker or anchor voice). Not a keynote: no centred title slides, no page turns.
 
 ## 2. Materials & rendering
 
-- Real-time PBR (three.js `MeshPhysicalMaterial`) at 2× and downsampled, ambient occlusion, a depth of field with one aperture for wide and macro (blur follows 1/focus − 1/z, so it grows as the camera comes close), a high-threshold bloom for emitters only, a vignette.
-- Each material keeps its character: plastics with soft sheen (roughness 0.55–0.7), boards with a thin clearcoat and traces as a raised, lighter relief under the mask, metallic pads, tight highlights on machined metal, matte rubber.
-- **Boards are painted from their layout files**: copper pours, every trace, via, pad and drill, silkscreen, on both sides, at 14–20 px per millimetre, with roughness, metalness and bump maps from the same drawing. Components stand at their footprint positions with their package sizes.
-- Light: a warm key from above front, a cool rectangular rim behind that follows the camera so edges separate from the ground, a soft top light, a low HDRI for reflections; a practical fill only where the camera goes inside.
-- Background: a dark graphite seamless sweep (screen-space radial gradient), floor visible only as soft shadow.
-- Effects anchored to the world (leaders, dimension lines, glows) are projected from 3D points every frame; only subtitles and title cards live in screen space.
-
-**Where the geometry comes from.** For the user's own product, ask for its STEP / IGES / KiCad / other CAD exports, BOM and spec sheet before anything else. For a public product, look for open hardware (GitHub, GitLab, OSHWA certification list, Hackaday.io, Printables/Thingiverse sources with the original CAD) and component datasheets from the maker. CC0, public domain, CC BY and MIT are fine with credit; CERN-OHL (-P, -W, -S), CC BY-SA, GPL hardware and "no known restrictions" are not the same thing: name the terms to the user and ask before using them. Without files, build only from published dimensions (datasheet, spec page), say on screen or in the voice that it is a model, and show no number you could not source. Never stand in a generated image for the real part.
-
-Keep a FACTS.md in the project folder (claim, source URL, quoted wording, or the measurement method for anything measured from the CAD) and deliver it with the film.
+- **Three kinds of source at least**: moving image (newsreel, CCTV, phone video, launch camera), documents (testimony, memo, telegram/teletype, report page), photographs. Add sound (original commentary, radio, recordings), data (weather, telemetry, counts) and maps whenever they exist.
+- **Documents**: a scanned page is shown as a strip or a page, never re-drawn; only the decisive line is highlighted (red, `multiply`, α ≈ 0.6, wiped left to right). Text that exists only as a transcription (a report, radiograms) is re-typeset by code and labelled as a transcription.
+- **Archival picture pipeline** (pre-1950 film, max ≈ 2.5×): deinterlace (`bwdif=0`) → crop borders → deblock (`hqdn3d=2:2:3:3`) → lanczos upscale → light unsharp (`5:5:0.5`) → greyscale; one grain for everything. Modern footage: ≤ 1.5×. Never colourised or "restored" copies.
+- **One grade** (canvas `ctx.filter`): footage and photos `grayscale(1) contrast(1.22) brightness(0.94)`; paper `grayscale(1) contrast(1.05) brightness(0.86)` (white pages pressed to light grey); maps greyscale, inverted, `brightness(.62)` so they read as dark line drawings.
+- **One grain**: six 256² Gaussian tiles rotated per frame, `overlay`, α 0.22 on footage/photos, 0.10 on paper. Grain only on sources, never on type or lines (`mux.sh … 0`).
+- **Drawn evidence** (plan, side schematic, charts, dot matrix) is thin line work on the panel colour, marked *schematic* when it is not measured.
+- Remove channel bugs, watermarks and the source's own title cards; never generate an image to stand in for a historical one.
 
 ## 3. Colour logic
 
-- The product brings its own colours; the frame around it is neutral and dark, so the product is always the brightest, most saturated thing.
-- Interface ink is one warm white at two strengths (names at full, specs at about 60 %), plus **one accent** reserved for measured things: dimension lines, label indices and one matching detail on the product itself.
-- Values are ordered: ground darkest, product mid to light, labels lightest. Never put text on a busy, bright part without a dark backing.
-- Example (our demo): ground #34363a → #0d0e10, ink #f1efe9, accent #ff6b3d.
+| Use | Value |
+|---|---|
+| Ground | `#0B0C0E` |
+| Panels | `#141619` |
+| Hairlines, frames | `#2E3238` |
+| Text | `#ECEAE4` |
+| Secondary text | `#8B9097` |
+| Ticks, *uncertain* | `#4A4F57` |
+| **The one accent: here / now / match** | `#FF4A2E` |
+| Paper cards (typeset telegrams) | `#E4E0D4` with ink `#1D1D1B` |
+
+Sources are greyscale; red is the only colour and it only ever points: circles, the chart playhead, sync lines, highlights, ✓ badges (a drawn tick in a red box, no words), the zone everything converges on, the *unresolved* column, a strike-through on a wrong claim.
 
 ## 4. Type & subtitles
 
-- Names: a clean sans at medium weight in the film's script (28–32 px; Noto Sans SC 500 in our demo). Specs and numbers: a monospaced face (15–22 px; JetBrains Mono) so digits line up and read as measurement. A neutral grotesque (Inter) for Latin running text.
-- Label structure is fixed: a two-digit index in the accent, the name, one spec line. Units always written (mm, MB, ×n for counts). A label carries at most one fact the voice does not say.
-- Dimension text sits on a small dark plate, follows the line's angle and is never upside down.
-- Subtitles: a centred strip at the bottom with a soft shadow and no box; if the film is bilingual, the film's language on top. Hold every cue ≥ max(1.8 s, speech + 0.6 s); every label stays fully in frame for CJK ÷ 4.5 + other ÷ 15 + 1.5 s.
+- Chinese headings and findings: Noto Sans SC 700 (30–124 px). Tags, timecodes and ticks: IBM Plex Mono 400/600. Quotes: Source Serif 4 Italic for the original wording, Noto Serif SC 500 for a translation underneath in the secondary colour (only when the subtitles don't already say it). All OFL, subset to the words on screen.
+- **Few words per frame.** Each frame keeps only what this beat needs: the main readout or heading, the quoted original (the highlighted line), and one short source tag per piece of evidence. No eyebrow labels, no English twin under every Chinese label, no archive numbers, dates or "estimate / schematic / not to scale" footnotes unless the beat is about them, nothing the subtitle is saying at the same moment.
+- **Source tag**: a 6×12 chip + `type · source` in mono, ≤ about 12 characters (`照片 · Pasquarella`, `FBI 电传 · 1937-05-08`), sitting just above its frame. Full credits go on the end card, not on the panels.
+- **Lower third**: a red bar + place name (36 px bold) + one mono line (place code).
+- **Subtitles** (bilingual films): at the bottom of the frame (Chinese baseline y ≈ 984, English y ≈ 1022): Chinese 34 px bold over English 23 px, centred, 10 px black shadow; **one line per language**, measured in the page against 1,500 px; a long sentence becomes two cues. Original sound gets subtitles too, marked `【原声】` / `[1937 newsreel]`.
+- **Reading time**: every key text stays still and whole for CJK ÷ 4.5 + other ÷ 15 + 1.5 s (`readcheck.mjs`); verdict and comparison frames hold ≥ 2.5 s with every item fully in frame. Counters (timecode readouts, the stopwatch) and tick labels are exempt.
 
 ## 5. Motion quality
 
-- 24 fps on ones; everything is smooth and deterministic.
-- **Separation**: smooth start, fast middle, long settle (ease-in-out cubed); layers leave top first, 0.15–0.2 s apart; repeated parts (keys, screws) fan out in a wave ordered by distance from a corner.
-- **Closing**: bottom first, quicker (about 1 s per layer), the last layer lands with a real mechanical response (a key travels its stroke and returns; nothing bounces like rubber unless it is rubber).
-- While held apart, layers may float a millimetre or two with offset phases; during macro shots they hold perfectly still.
-- Labels draw in (anchor dot, leader growing, text sliding 10 px) and fade out before the parts move again.
-- Never moves: the floor, the light rig's relation to the camera, the label column's x position.
+- 30 fps. Elements **cut in** (≤ 0.1 s opacity) with a 3–4-frame white flash, as if pulled from the evidence locker; nothing flies, bounces or scale-pops.
+- Only things that are *drawn* are progressive: circles drawn clockwise in 0.5 s (ease-out cubic), leaders and links 0.4–0.8 s, plans stroke by stroke, highlights wiped, typewriter text for telegrams.
+- Inside a frame: a slow push (≤ 1.9× on a map, ≤ 1.06× on a photo) is allowed; the "camera" itself never moves. Layouts change on cuts.
+- The event clock (chart playhead, stopwatch) eases between keyframes and moves at constant speed inside a timed run (each tick = one real second).
+- Scale changes (minutes → seconds → days) happen on section cuts, carried by the readout changing form (clock → `T+` stopwatch → date), not by a zooming band.
+- Something changes at least every second; holds are for verdicts only.
 
-## 6. Camera grammar
+## 6. Shot & layout grammar
 
 
 <!-- END STYLE PAGE -->

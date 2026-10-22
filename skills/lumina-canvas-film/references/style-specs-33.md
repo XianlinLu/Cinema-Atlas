@@ -1,168 +1,201 @@
 # Complete style specifications 33
 
 
-<!-- STYLE: tilt-shift -->
-
-- **Vantage**: always high. Oblique views at roughly 45–55° pitch from 100–200 m with a moderately long lens (~27–30° vertical FOV); straight top-down for the most "board game" look. Real tilt-shift is never shot from street level, except for a deliberate intimate moment: a true medium close-up at the actors' height, a blurred foreground object framing sharp actors who fill ~1/4–1/3 of the frame height (a long lens from high up keeps them as dots).
-- **Blur band** (`demo/post.js`): physical depth of field mixed with a screen-space band. CoC in pixels = `mix(aper·(1/focus − 1/z), sign(dy)·amp·(max(0,|dy|−w)/0.5)^1.2, mix)`, clamped (~30 px). Put the band on the subject; when the subject moves, project it to screen every frame and slide the band there. Narrow the band for intimacy. Gather at output resolution after a 2× supersampled render, with many spiral taps and per-pixel rotation; far samples must not bleed onto nearer sharp ones.
-- **Grade**: neutral tone mapping, strong saturation boost, soft added contrast, slightly warm highlights, a vignette. Lower saturation at night.
-- **Light**: a hard sun with sharp shadows (a big shadow map fitted to each shot), a low hemisphere fill with warm ground bounce so shadows stay blue but not murky, a sky-gradient environment map for glass and paint. **Cheat the sun azimuth per shot**: each time-lapse clip is its own shot, so front-light the facades you see; one fixed sun leaves half a film backlit and grey.
-- **Model-like detail** (what separates "filmed miniature" from "game CG"): facades with several window types, 1.6–3 m bays, dark reveals, world-space grime, sky-reflective glass and walls darkening toward the ground; roof clutter, awnings and signs; worn markings and stains; vehicles with dark glass, a soft contact shadow and brake lights; ambient occlusion over everything.
-- **People** are small colour capsules, like model-railway figures. Actors seen up close get organic bodies with a soft sheen material and are made 20–30 % larger than real so they read.
-
-## 3. Colour logic
-
-- Saturated, sunny, "freshly painted model": a pale warm ground of buildings with a few candy accents, very saturated greens, dark ground surfaces so white markings and vehicles pop.
-- Shadows stay blue and clean, never grey. Night and dawn are the only low-saturation states; dawn must read as early morning (a warm low fill from the sunrise side, few lit windows), not midnight.
-- The subject you want found should be the one saturated thing in the sharp band, or move against the flow.
-- Examples: a Mediterranean harbour (whitewash, cobalt shutters, terracotta, turquoise water); a snowy ski village (white, pine green, red gondolas, long blue shadows); a desert market (sand, saffron, indigo awnings, dusty olive).
-
-## 4. Type & subtitles
-
-- Subtitles belong to the world's own signage: a panel in the graphic language of the place's signs (road sign, platform board, harbour notice…), an open sign-revival font (Overpass, OFL, is a Highway-Gothic revival), sitting inside the lower blur band. Hold ≥ max(1.8 s, speech + 0.6 s).
-- A **time-lapse clock** with a speed readout (e.g. `×24 TIME-LAPSE` / `×1 REAL TIME`, monospace) is the audience's speedometer for the native trick; use it whenever speed changes carry meaning.
-- Titles live in the world: letters on a roof, a sign or a field, placed where nothing blocks them, lit or revealed on the beat.
-
-## 5. Motion quality
-
-- **Time-lapse stutter is the soul of the style.** In fast-forward the whole world (vehicles, people, lights, sun) updates at a low rate and holds each position for several frames (8 Hz = 3 frames at 24 fps); choose the rate so every jump lands on the musical grid. **The camera stays smooth on every frame.** Step at a middle rate while the speed is moderate; below about ×2 the stutter disappears and motion becomes silky, which makes a drop to real time hit hard.
-- Systems run on simple simulations pre-computed per clip (car-following, signal cycles, crowds gathering and surging), with cycle offsets chosen so changes land on bar lines.
-- Hero actors get art-directed timing (scripted paths fitted through beat times), never a hope that the sim hits a beat.
-- Close-up acting: anticipation squash → stretch → land squash → settle; a failed attempt before success is the comedy engine.
-
-## 6. Camera grammar
-
-A vocabulary, not a route. Opening and ending come from the topic.
+<!-- STYLE: scifi-toon -->
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| High oblique wide, very slow slide | a whole system at a glance | setting a place; routine; many small actors |
-| Band follows one subject across a wide | "this one" | a single commuter; a delivery; a lost child |
-| Rack of the band from one subject to another | attention changing hands | cause and effect; a handover; a comparison |
-| Slow push on an intersection, station or yard | a system heating up | rush hour; a festival setting up; a queue |
-| Straight top-down, slowly rotating | the world as a board or machine | patterns; logistics; choreography |
-| Continuous dive from high to actor height with a speed ramp | the one small thing that matters | a twist; a joke; a meeting |
-| Band narrowing to a sliver | intimacy | a confession; a reunion; one decision |
-| Vertical rise with logarithmic height | scale, letting go | aftermath; a summary; a system becoming a pattern |
-| Lateral track along a line (rail, river, road) | a process in order | a supply chain; a parade; a race |
-| Locked frame across hours | time as the actor | a construction; a market day; tide |
+| Medium two-shot | the relationship; who reacts how | dialogue; a standoff; a deal |
+| Hard cut to a close-up | an interruption, a face breaking | the cut-off line; the realisation; a lie |
+| Insert extreme close-up of an object | the absurd detail | a reveal; the problem itself; the wrong result |
+| Reaction close-up | the laugh lives on the face | after every absurd image |
+| Tight close-up + short shake on one word | panic | the key word; an alarm; a scream |
+| Rush zoom into the portal → swirl wipe | leaving a world | any jump between places, times or versions |
+| Same framing repeated across worlds | only the world changes | a montage; a comparison; a list |
+| Very slow push-in on a still two-shot | a cold silence | the pause after a reversal; a confession |
+| Wide with the device and both leads in frame | the whole situation at once | a callback; a trap; a fresh start |
+| Over-the-shoulder onto a screen | reading bad news | a message; a readout |
+| Whip pan between two faces | overlapping argument | a fight; a bet; a double take |
 
-Framing: stay high; the sharp band carries the subject; vehicles and people stay tiny except in a close-up. Transitions: cuts on the beat, speed ramps, dives and rises; avoid dissolves that reveal the fake lens.
+Rule: every absurd image is followed by a **reaction close-up**. Transitions go through the travel device (swirl wipes) or hard cuts; no dissolves.
 
 ## 7. Sound palette
 
-- **Ensemble**: tuned percussion carries the style (marimba, glockenspiel, vibraphone, woodblocks, kalimba, celesta), pulse-based and minimalist (Reich grammar: phasing, voices added one at a time, pulsing chords), plus plucked strings or a small reed section. Not generic piano and strings.
-- **Techniques, as options**: world events gate the notes of a fixed phrase skeleton (vehicles crossing a line, lights changing, crowds moving each trigger an instrument), with a base fill rate so the phrase stays audible; tuned horns or bells voiced as chords; a tape-stop (varispeed down, voices dropping out) into silence when time slows; single notes for single events in a rest; phasing two identical lines apart; a music-box version of the theme for the smallest scale.
-- **Sound follows speed**: in time-lapse, music first with a faint granular "sped-up world" hiss, clacks and relay clicks. At real speed the world turns suddenly real: idling engines, distant traffic, birds, small voices, footsteps. On release, engines rev and wind rises.
-- **Silence** is the moment real time arrives: cut the music, keep one or two real sounds.
-- **Voice**: relaxed, few short lines, music ducked ~8 dB. Verify every line with whisper; write numbers as words and put digits in the `asr` field. Master to −14 LUFS.
+- **Synthesized score, no samples needed.** A **theremin**-like lead (sine + a little 2nd/3rd harmonic, legato portamento ~70 ms, vibrato fading in ~150 ms after each onset, spring reverb) over analog bass, a square-wave arpeggio and a retro drum machine. Minor modes and chromatic lines suit the main theme.
+- **Genre cues per world** (options): surf guitar; polka accordion; toy-piano lullaby; elevator bossa (Karplus–Strong nylon guitar); brushed swing with vibes; tuba + slide whistle; warm Rhodes + a vocal "aah"; tremolo strings for panic.
+- **Techniques (options)**: a cue's first beat is the cut; a tempo that snaps cuts to a grid; rule of three becoming machine-gun (same stinger, shorter each time).
+- **Silence is the punchline**: hard-cut the music, reverb tails included, on a reveal and for a cold pause. Leave only room tone (fluorescent hum, a clock tick, a fridge).
+- **Foley (synthesized)**: portal open (sub boom + down-swept noise + rising swirl), hum, close "fwump", swirl whoosh per wipe, pop/boing, wet glorp/squish, slurp, chomp, blink "blip", click-beep, kazoo sting, squeaky toy.
+- **Voices**: a two-hander with contrasting voices: low, flat and slow for the deadpan lead (light saturation + a ~180 Hz bump for gravel); higher and faster for the nervous one (presence boost). A tiny creature may say one or two words, pitched up. Compress, RMS-match, add short early reflections so voices sit in the room. Duck music ~−7 dB under dialogue. Master −14 LUFS.
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **The speed drop (×40 → ×1).** Time crashes to real speed on one detail. *Fits content like:* one worker finishing a shift; a child dropping an ice cream; a proposal on a crowded pier.
-- **The band as pointer.** Slide or narrow the sharp strip to steer the eye. *Fits content like:* a courier through a market; a single wrong-way skier; one boat leaving port.
-- **God's-eye system.** The place as a sequencer or machine. *Fits content like:* a port unloading ships; an airport's turnaround; a farm harvest.
-- **Long-exposure light.** At dusk, lights leave trails that draw on the world. *Fits content like:* ferries crossing a bay; runners with headlamps; lanterns along a river.
-- **The scale reveal.** Rise until the place becomes a pattern. *Fits content like:* a festival from setup to crowd; a school at recess; a city grid at night.
-- **Cloud shadows sweeping.** Weather crossing the model. *Fits content like:* a season turning; a mood change; a news cycle.
+- **Parallel worlds.** Each jump = new palette, new cue, new creature. *Fits content like:* versions of a product; careers you could have had; the same city in five eras.
+- **Duo contrast.** Deadpan vs panic: the joke is in the difference between reactions. *Fits content like:* a veteran and a new hire; a parent and a teenager; an AI and its user.
+- **Rule of three → machine-gun.** Two slow wrong answers, then one-second worlds cut on the beat with the same rejection word. *Fits content like:* failed prototypes; bad date ideas; tax forms.
+- **The suspiciously normal world.** The pattern breaks; the calm is the joke. *Fits content like:* the one boring answer that works; a quiet office after chaos; the real customer.
+- **Dead-air reversal.** A long silence after the twist, then one line revealing a character's values. *Fits content like:* a price reveal; a fine print clause; a gift that wasn't wanted.
+- **Hardware as junk.** World-bending tech used for a petty chore. *Fits content like:* a quantum computer used for a grocery list; a rocket to deliver a sandwich; a time machine to fix a typo.
+- **Callback button.** The last line repeats the first so the story loops. *Fits content like:* a catchphrase of a brand; a morning routine; a running complaint.
 
 ## 9. Pitfalls of the medium
 
-- Tall buildings plus shallow pitch hide the ground → low to mid-rise buildings, pitch 45°+.
-- The subject hides in a canyon or behind a facade → route it on the camera side and let the band follow it.
-- Instance caps silently drop actors → cull by distance from the camera (≈ 4× camera height) and raise the cap.
-- Simulated vehicles stop short of lines (the jam gap) → subtract it where the story needs contact.
-- Focus lags a frame → update actors before the camera.
-- A top-down → oblique dive twists → rotate the top-down so its screen-up matches the target shot.
-- A close-up from high up is too far → go low and close, small near plane for foreground objects.
-- Clouds wash out a rise → unlit white, low opacity, nothing below the camera. Light pools read as bubbles → denser, larger, fainter pools.
-- Scene backlit and grey → cheat the sun per shot. Dawn reads as midnight → warm low fill, fewer lit windows.
+- TTS reads hyphen stutters as words: write syllables ("buh, buh-broken"); respell words it mangles; pick names that survive a low voice.
+- Whisper mis-hears very short clips unless padded with ~0.6 s of silence.
+- A real interruption: generate the interrupted line *longer* than needed and truncate the audio where the other voice cuts in.
+- A springy overshoot swallows the actors: gentle back-ease.
+- Food and liquids need cues (surface detail, drips, steam) or they read as other objects.
+- Square-wave synth cymbals alias into harsh 8–20 kHz fizz: band-passed noise plus a little FM.
+- A sustained bass below ~40 Hz is rumble on laptop speakers: end an octave higher.
+- A cut music cue without its reverb tail cut is not dead silence.
+- `ffmpeg fps=1` contact sheets are offset up to 0.5 s: don't misdiagnose a shot boundary.
 
 ## 10. Engine
 
-In `demo/`: `post.js` (tilt-shift DOF: band + physical, grade; `band.follow`), `city.js` (procedural town, facade shader, sign), `geo.js` (merged geometry), `sky.js` (clock → sun, sky, fog, env map), `traffic.js` (lanes, lights, IDM sim, fleet, trails, walkers), `train.js`, `ducks.js` (lathe-turned characters + hop choreography), `main.js` (cameras, stepping, crowds, HUD), `music/score.py` (sampled marimba, skeleton + event gating). A minimal new use: build a harbour from `geo.js` boxes, run boats as a one-lane `traffic.js` fleet on water, and point `band.follow` at one of them.
+In `demo/`: `toon.js` (vector engine: matrix stack, screen-space boil, constant line width, flat shading), `chars.js` (parametric eyes, mouths, hands, noodle limbs), `worlds.js` (one function per world, creatures, the portal), `voice.py` (per-character processing + lip-sync envelopes), `asr.py` (padded whisper check), `music/score.py` (synthesized score from a cue list), `levels.py` (stem meters), `sheet.sh` / `strip.sh` (contact sheets, consecutive-frame strips). New shapes: build them with `toon.js` in world space; the stroke goes through the screen-space boil at constant weight.
 
 ## 11. Variation space
 
-You decide the place, the system, the tiny actor, the structure, the opening, the ending, the camera path, the speed curve and the palette within the colour logic. All far from our demo:
+You decide the premise, the cast, the worlds, the jokes, the opening, the ending, the camera path, the pacing and the palettes. All far from our demo:
 
-- Structures: **one day, dawn to night** (a single locked vantage, the sun and the shadows sweep, one shop's light the last to go out); **the relay** (the band hands attention from actor to actor across a whole place, each one passing something to the next); **before/after** (a construction site time-lapsed from empty lot to opening day, with one real-time moment per stage).
-- Openings: **mid-bustle at full density** with the band already on one oddity; **a top-down pattern** that only slowly tilts into a place; **real time first**: one person at actor height, then the lens lifts and time speeds up.
-- Endings: **a drop to real time that stays there** (no pull-back); **lights going out one by one** at night from high above; **the lens un-tilts**: the band widens to full sharpness and the model becomes a real place.
+- Structures: **one world, many clocks** (the duo stays home and a device skips them through times of day, each time worse); **the job interview** (a panel interviews candidates from other worlds, each a different genre cue); **the tech-support call** (split screen between two worlds, one voice guiding the other through a disaster).
+- Openings: **mid-disaster** (the portal is already open and something is coming through); **the instruction manual** (a terminal readout explains the device before we see anyone); **the wrong world** (we start in the absurd world and only later see home).
+- Endings: **stuck elsewhere** (the device breaks and they settle in, happily); **the audience** (a creature from one world watches the whole film on a screen and rates it); **the cost** (a quiet final shot of what the errand cost someone, no joke).
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: lowpoly-island -->
+<!-- STYLE: midcentury-toon -->
 
-# Low-poly Isometric Island — Style Prompt
+# Mid-century Cartoon — Style Prompt
 
-> A tiny faceted world seen through an orthographic isometric lens: everything is a geometric block, and everything that appears arrives with a bounce and a note.
-> References (grammar only): *Townscaper* (building is the performance; every piece lands with a springy bounce and a sound; pieces sprout small details by themselves); *Monument Valley* (isometric geometry, soft pastel palettes, gradient skies, calm pacing, lots of empty space). Never copy their grids, buildings, characters, UI or typography, and never name them on screen.
+> 1950s flat colour and limited animation for "follow along" films: colour printed a few pixels off its broken ink line, bodies that hold still while hands do the work, abstract colour-block rooms, a calm classroom narrator, and a cool-jazz combo.
+> References (grammar only): UPA's early-1950s shorts (*Gerald McBoing-Boing*, *Rooty Toot Toot*): colour and line on separate cels, geometric people, colour-plane backgrounds, limited animation. 1950s classroom films (Coronet, Encyclopaedia Britannica): direct address, one sentence per picture, numbered cards. Charley Harper and Mary Blair: soft atomic-age complements, geometric figures. 1950s appliance manuals: numbered medallions, curved arrows, round call-outs, sunbursts. Copy none of their characters, drawings, lettering or music, and never name them in a film.
+
+A **scene style**: it performs a real use (a set-up guide, a how-to, a recipe card, a safety card) rather than telling a story. The viewer should come away able to do the thing. See §11 for the jobs.
 
 ## 1. Essence, and what it is not
 
-A miniature world built from **flat-shaded low-poly geometry** (hexagonal tile columns, box buildings with prism roofs, cone and icosahedron trees) floating in a faceted sea or void, watched by an **orthographic camera** at an isometric angle. No perspective and no horizon: distance dissolves into a **screen-space sky gradient**, so the world looks like a model suspended in colour. **Light, not texture, tells time**: every facet changes colour as the sun moves; in the dark only emissive blocks keep their colour.
+Flat, printed-looking colour with a thin, breathing ink line that never quite closes. **Every fill is a separate "cel" printed a few px off its line**, re-rolled on twos, so the picture shimmers like hand-registered paint while the camera glides. Light dry-brush tooth, paper grain, warm vignette.
 
-Not a voxel game (no cubes-of-cubes, no pixel texture), not a tilt-shift photograph of a real place (no perspective, no photo detail), not a smooth-shaded 3D cartoon (no rounded normals, no subsurface).
+People and things are geometric: egg or bean heads with the nose part of the face outline, simple garments in two or three flat colours, four-finger cartoon gloves. **A presenter's body is a held drawing: only arms, hands, eyes and mouth animate.** Rooms are not drawn: a scene is one colour plane, a floor band, a horizon line with gaps, and one or two props.
+
+Not the 1930s rubber-hose cartoon (no black-and-white, no bouncing world, no hot jazz). Not a whiteboard explainer: it shows *how to do*, not *why*. The pictures are printed, not written on.
 
 ## 2. Materials & rendering
 
-- **Geometry** (world unit = one hex tile's circumradius): pointy-top hexagonal columns (`CylinderGeometry(r, r, h, 6)`), axial → world `x = √3(q + r/2)`, `z = 1.5 r`. Terrain height encodes material (sand low, grass, hills, rock highest). A thin separate top cap sits over a darker side colour; **sink the side column's top below the cap** or it z-fights. Leave a small gap between tiles so AO draws the seams.
-- **Props** are primitive assemblies: boxes, prisms, low-segment cylinders and cones, icosahedra at detail 0, pinched boxes. Emissive parts (windows, lamps) get their own material per object so they can light individually.
-- **Materials**: `MeshStandardMaterial({ flatShading: true, roughness ≈ .9 })`, **no textures**. Jitter each tile's lightness a few percent so the ground isn't a spreadsheet.
-- **Water** (if any): a dense non-indexed plane displaced by summed sines in the shader, flat-shaded so each triangle glints on its own (not too low a roughness or facets flash white); a coarse plane below for zoom-outs; a **shallow map** redrawn per frame where land exists, mixing deep → shallow colour with a faint foam rim; a thin transparent ring at each tile's water line for surf.
-- **Sky without a horizon**: in post, linearise the orthographic depth and blend distant pixels into a vertical screen gradient; set haze start/end as fractions of frustum height × cot(elevation) so the horizon band stays in the top third at any zoom. Stars (hash grid, twinkle) only where haze is thick.
-- **Post**: MSAA + depth → **GTAO** (mandatory: it draws the seams between tiles and under roofs) → sky/haze composite → a very light tilt-shift at the frame edges → bloom (stronger at night) → pastel grade → Neutral tone mapping. Supersample 2×.
-- **Light beams** (searchlight, projector, torch): a camera-facing ribbon with a Gaussian profile, bright at the root and fading with distance, plus a wider faint halo copy; light the surface under it in its own shader.
+- **Off-register cels**: fill drawn with a small offset (a few px, down-right) from its line; the offset jitters ±1–2 px on twos. Keep it on everything, text included; switch it off only for a crisp diagram.
+- **Line**: 3–5 px ink ribbons with ±40 % width breathing and 12–25 % breaks. Characters ~4 px, props 3–4.5 px, walls in plans thicker and broken. Hands: one outline around the union of palm and fingers, thin finger separations.
+- **Shading**: one flat darker plane clipped inside a shape, never a gradient. Drop shadows are a copy of the shape offset down-right in a paper shade at ~50 %.
+- **Ornaments**: 4-point atomic sparkles, 8–18-point starbursts, sunburst rays (~30 wedges, semi-transparent), boomerang and kidney shapes, polka dots.
+- **Grain**: light; print, not film.
 
 ## 3. Colour logic
 
-- **Pastel, low contrast, a handful of hues**: one ground family (sand/grass/earth or its equivalent), one neutral rock, and a small set of wall and roof colours repeated across buildings.
-- **Time of day is a keyframed set of colours** (zenith, horizon, deep, shallow, sun colour, intensity, elevation, azimuth), interpolated. Day is airy and cool; dusk warms the horizon; night desaturates everything toward blue-violet.
-- **At night, warm emissives are the only bright things** (windows, lamps, a beam). Keep the sun sideways to the camera in key shots (low sun behind the target turns faceted water into glare); water receives no shadows.
-- No outlines, no black; shadows and AO are the only darks.
-
-Examples of world palettes: sand, grass and coral roofs under a pale-blue day; snow tiles, pine greens and red cabins under a lilac sky; terracotta mesas, sage scrub and turquoise pools under an apricot dusk.
+- **A warm paper ground, a warm near-black ink, soft atomic-age complements.** Nothing pure or neon.
+- **One ground colour per scene**: a lighter tint for walls, a darker shade for floors. Never place the product on its own colour, never the presenter on their own accent.
+- **The product keeps one colour through the whole film**; the accent (a presenter's garment, stars, bullets) is a different hue. Step grounds rotate through the rest.
+- Examples: *coral / mustard / turquoise* on cream; *tomato / olive / powder blue* on oatmeal; *plum / lime / sand* on off-white.
 
 ## 4. Type & subtitles
 
-- Geometric OFL sans faces: a rounded one for subtitles (e.g. Quicksand 600), a geometric caps face with wide tracking for titles (e.g. Josefin Sans).
-- **Subtitles**: no box; warm white with a soft dark-blue drop shadow, centred low; a small flat-shaded tile icon beside them whose top colour follows the time of day. Hold ≥ max(1.8 s, speech + 0.6 s), never overlapping the next line or a title.
-- **Titles behave like tiles**: letters rise one by one from under a water line, overshoot and settle.
-- A text card over the world leaves a gap where the world stays visible.
+- Roles: a 1950s script for a kicker (Oleo Script Bold); a slab serif (Alfa Slab One) for titles, numerals and headers, in ink over an offset colour plate; a geometric sans (Jost 500/600) for body, details, labels and captions.
+- **Caption card**: a paper-coloured rounded slab with a thin ink border (its colour cel offset too), small turning stars at the ends, ~40 px sans, bottom-centre. Fades in quickly with a small rise. Hold ≥ max(1.8 s, speech + 0.6 s, chars/12 + 1 s).
+- **Step header**: an ink disc with a paper numeral, a small letter-spaced "STEP n OF N", and the step title with a cream plate; it slides in on twos.
+- **Detail tags**: a paper card with a star bullet, popping on the action beat next to the call-out. Data lands on the picture, never as a slide.
 
 ## 5. Motion quality
 
-- On ones (24 fps), smooth. The charm is in the **arrival curves**, not stepping.
-- **Rise from below**: a short cubic ease up, then a damped-sine overshoot; a splash ring and spray the moment it breaks the surface. The event time is when it settles.
-- **Drop and stack** (floors, roofs, rings): a fast ease-in fall, a damped bounce, and volume-preserving squash-and-stretch on landing.
-- **Pop** (trees, lamps, details): scale `1 − e^(−k s)·cos(ω s)`, about 25 % overshoot.
-- **Life**: mills turn, smoke puffs, birds circle, boats bob with the same wave function as the water (evaluated on the CPU).
-- **Schedule growth on the music grid**: at most one piece per smallest slot, so every event keeps its own note; accelerate by density (halves → quarters → eighths), not by tempo.
-- Never moves: the projection (no perspective, no fov change).
+- **On twos:** poses, hand shapes and the cel jitter change at 12 fps. The camera, iris wipes, arrows, plan routes and rays move at 24 fps.
+- **Held body, moving hands:** switch poses with a single in-between. A hand action has anticipation (pull back or lift), a fast action (0.15–0.25 s, eased out), a follow-through (recoil, settle, lift away) and lands exactly on a beat.
+- **Pop-ins:** medallions, tags, labels and titles scale in with a back-ease (~0.25 s, strong overshoot).
+- **Reaching the floor**: a kneel pose with 2-bone IK keeps the hands on the object while it moves; never stretch standing arms.
+- **Lettering**: a script writes on left→right with a clip; headers slide in on twos.
 
 ## 6. Camera grammar
 
-`THREE.OrthographicCamera`. **Frustum height is the zoom** (a few units for a close-up, the whole world at a dozen or more, hundreds for a scale reveal); place the camera ≥ 3 × frustum height away or the bottom of the frame looks under the sea. A vocabulary, not a route. Opening and ending come from the topic.
+The camera is "the stand": never handheld. A vocabulary, not a route. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Turntable (azimuth sweep) | the thing seen from every side | building; inspecting; a product assembled |
-| Pure orthographic zoom (frustum change) | scale without perspective | a detail in context; smallness; a world among worlds |
-| Elevation change | low (≈20–25°) widens the sky band; high (≈50°) reads as a map | night and stars; a sweep across the whole world; a plan |
-| Locked 3/4 wide | the world lives on its own | lights coming on; time-lapse; waiting |
-| Tight close-up on one arrival | the bounce and the splash | a key piece; a milestone; a gag |
-| Side angle trailing a mover | travel across the frame, never at the lens | a delivery; a departure; a route |
-| Lateral truck along a row of tiles | a list, a sequence | steps of a process; a timeline |
-| Time-lapse sun sweep, camera still | light is the time machine | a day; a season; history |
+| Slow push (a few %) | Collecting the eye | a product on its stage; a result settling |
+| Iris through a medallion | The number *is* the door | a change of step; a change of rule |
+| Round call-out with a leader line | Context and detail at once | a hand action; a screen; a small part |
+| Tilt with a pointing finger | The finger leads the frame | the one action that matters most |
+| Push into a device, pan along signal rings | Person → interface → device | pairing; connecting |
+| Iris from a round object into a top view | Circle to circle, function to plan | a button starting a job; a lid opening; a dial |
+| Pull-back with counter-rotation from a detail to a plan | One lane becomes a pattern | a route, a schedule, a garden, a floor plan |
+| Colour-block wipe (side, bottom-up) | Turning the manual's page | a tip; a summary; a new card |
+| Split frame in two colour blocks | Right vs wrong, before vs after | a safety rule; an upgrade |
+| Dead still ≥ 3 s | "This is the frame to screenshot" | a summary; a CTA; a QR code |
+| Iris-out onto one object | The last circle | a closing on the product, the logo, the result |
 
-Intercut wide and close on beats: wide shows the shape growing, close sells the bounce. Transitions: hard cuts on the beat, a time-of-day change, a zoom through the sky; no dissolves, no perspective whip-pans.
+Key subjects ≥ 1/3 frame height and clear of the caption band. Transitions are circles, colour-block wipes and cuts on a beat; no dissolves.
 
 ## 7. Sound palette
+
+Three layers, always:
+- **Music**: an original West-Coast cool-jazz combo: flute or muted trumpet, vibraphone (chords, arpeggios, glissandi, tremolo), pizzicato walking bass, brushes (sticks on the ride for energy), celesta, bongos or finger snaps. Not ragtime, not a spy big band, not piano and strings. Options: give **every step its own vibraphone chord** and bring them back one per summary item; halve or double the feel instead of changing tempo; move up a step for a payoff.
+- **Silence as a tool**: cut *everything*, ambience included, for the beat before the most important action, so the first sound after it (the click, the pour) is the step. Room tone alone before a summary.
+- **Foley by material**: cardboard creaks and thumps, appliance plastic knocks and clicks, floor scrapes, glass and ceramic clinks, pours, damped rubber stamps for medallions, paper swishes for wipes, slide whistles for dimension arrows, rising pips for "connected", pen scratches for a route, an iris "shhk".
+- **Ambience**: warm room tone (low-passed brown noise, very quiet), a mantel-clock tick on the grid; a device's motor hum can take over when it works.
+- **Mix**: J/L cuts (lines start before their iris, tails ring on); narration compressed on top, music ducks ~8 dB, foley unducked, −14 LUFS.
+- **Voice**: calm classroom authority, one clause per line ("Step one. Set it against a wall."). Whisper-check every line; accents can blur key nouns.
+
+## 8. Native moves
+
+Each move serves information. A menu: use the ones your film needs.
+
+- **Off-register colour** makes an info card hand-made and warm. *Fits content like:* museum rules; a bank app screen; hotel check-in.
+- **Limited animation points the eye**: the still body leaves the hand as the only mover, and the hand *is* the step (one hand action per step, on a beat). *Fits content like:* threading a sewing machine; changing a bike tyre; setting a thermostat.
+- **The round call-out** is the close-up; the step's data lands inside or on it on the action beat. *Fits content like:* a dosage on a measuring cup; a torque value on a bolt; a PIN on a keypad.
+- **The numbered medallion** marks hierarchy and opens the next step; it stamps onto the outgoing subject and the camera goes through it. *Fits content like:* a pool's five rules; a checklist for a flight; stages of a recycling sort.
+- **The payoff turns function into ornament**: a real process (a route, a watering schedule, a seating plan) draws itself region by region and, seen whole, reads as an atomic-age textile. *Fits content like:* a sprinkler's coverage; a delivery round; a week of medication.
+
+## 9. Pitfalls of the medium
+
+- A route that ignores obstacles → follow the product's real rules; flow streamlines bend around obstacles and never cross. Lay it one region per beat, not all at once.
+- A separate nose wedge looks glued on → one open spline from the bridge round the skull, closed at the nose tip.
+- Thin arms read as sticks from the neck → shoulders at the torso corners, sleeves as a thick ink ribbon with a colour ribbon on top.
+- Fat-blob fingers turn the hand into a cloud → stroke every part first, fill second (one union outline), slender fingers with separation lines.
+- Zooming the world triples the ink → close-ups in call-out circles drawn at native scale.
+- Detail text without reading time → move the data into the detail, the context into the title and the voice; chars/12 + 1 s.
+- A transition drawing the next scene before its start → clamp local time to just past the start.
+
+## 10. Engine
+
+`demo/engine/toon.js` (the style: `setClock`, `shape` for any shape in the style, `ink` ribbons, `plane`, two-plate `text`, `fit`, the manual `arrow`, ornaments, the global register `REG`), `demo/engine/chars.js` (presenter, glove hands, the demo product), `demo/engine/icons.js` (18 icons). `demo/film.js` has liftable helpers: `callout()`, `medallionAt()`, `tag()`, `stepHeader()`, the flow-route generator `laneY()` + `buildPath()`, and the transition block (medallion iris, button iris, colour-block wipe, iris-out). API table and a minimal example: [DEMO.md](DEMO.md#engine-reference).
+
+## 11. Variation space
+
+You decide the thing, the presenter (or none), which steps and in what order, the opening, the ending, the camera path, the colours, the pacing and the music. Use cases are **grammar for the order and duration of information**; build your own timeline from the user's facts.
+
+| Use case | Information order | Hold per layer | Length |
+|---|---|---|---|
+| **Product set-up guide** | product name → title → step title → step detail on the action beat → payoff → tip → CTA | title ≥ 4 s; step title the whole step; detail ≥ chars/12 + 1 s; summary ≥ 3 s clean | 30–40 s, 2–5 steps |
+| **Safety / rules card** | rule number → rule → one "why"; a held figure, a medallion, a gesture, a pictogram per rule | 3–4 s per rule | 20–40 s, 3–6 rules |
+| **Recipe or ritual card** | step → quantity/time → result; side view, call-out on the hands, result as a top-view pattern | 3–5 s per step | 30–45 s |
+| **Onboarding for an app or service** | screen action → setting value → confirmation stamp; the screen lives in the call-out | 3–4 s per action | 20–30 s |
+| **Store or event notice** | headline → time/place → CTA; colour-block wipes between cards | ≥ 3 s per card | 15–25 s |
+
+All far from our demo:
+
+- Structures: **a rules card with no product**, one held figure and a medallion per rule; **a recipe on a tabletop**, seen from the side, ending in a top view; **a do / don't split**, each rule shown twice in two colour blocks.
+- Openings: **the finished result first**, then "here's how"; **the problem in one gesture** (a hand fumbling a cable); **a numbered list** stamped on, then opened item by item.
+- Endings: **a checklist ticking itself**; **the hands at rest** beside the finished thing; **a QR code** held dead still in a starburst.
+
+Swapping `demo/content.json` and rebuilding is a technical check that the engine re-flows, not a way to make a film.
+
+---
+
+How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: pixel-rpg -->
+
+# 16-bit Pixel RPG — Style Prompt
 
 
 <!-- END STYLE PAGE -->

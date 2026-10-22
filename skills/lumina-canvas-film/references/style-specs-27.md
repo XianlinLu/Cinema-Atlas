@@ -1,192 +1,191 @@
 # Complete style specifications 27
 
 
-<!-- STYLE: midcentury-toon -->
+<!-- STYLE: pictogram-motion -->
 
-A **scene style**: it performs a real use (a set-up guide, a how-to, a recipe card, a safety card) rather than telling a story. The viewer should come away able to do the thing. See §11 for the jobs.
+> A beat-locked flash-card film built from three things only: a **square-grid "core graphic"** of circles, half-discs and tiny patterned cells whose rows slide past each other; **geometric pictograms** made of round-capped bars and a disc head; and **bold bilingual type** that slides up out of masks. Every cut lands on a drum hit.
+> References (grammar only): Otl Aicher's 1972 Munich pictograms (geometric athletes); multi-sport-games "look of the games" identity systems (a modular pattern + a colour set used for everything); Swiss sports-broadcast graphics (mono meta text, tick-bar progress). Learn the grammar; never copy any real event's pictograms, emblem, slogan, pattern artwork or colour names, and never name them in the film.
 
 ## 1. Essence, and what it is not
 
-Flat, printed-looking colour with a thin, breathing ink line that never quite closes. **Every fill is a separate "cel" printed a few px off its line**, re-rolled on twos, so the picture shimmers like hand-registered paint while the camera glides. Light dry-brush tooth, paper grain, warm vignette.
+A **catalogue film**: N items (products, dishes, steps, species…) shown one card at a time, fast, on the beat. Each card = **one pictogram doing one action + a huge title + a second-language line + a mono index "07 / N"**. Cards group into chapters; each chapter owns one hue, opened by a full-bleed pattern card.
 
-People and things are geometric: egg or bean heads with the nose part of the face outline, simple garments in two or three flat colours, four-finger cartoon gloves. **A presenter's body is a held drawing: only arms, hands, eyes and mouth animate.** Rooms are not drawn: a scene is one colour plane, a floor band, a horizon line with gaps, and one or two props.
+What makes a frame read as this style at a glance:
+1. **The grid pattern**: big discs and half-discs spanning square cells, about half the cells carrying a small motif, all in **five tones of one hue**, with **whole rows cut and shifted sideways**: the signature that drives backgrounds and transitions.
+2. **The pictogram figure**: flat, faceless, rounded bars and a disc head; far-side limbs mixed toward the background. Props are discs, rings, capsules, lines.
+3. **Type as architecture**: a 900-weight grotesk title set very large, a heavy second-language line under it, small mono meta text in the corners like a broadcast HUD.
+4. **Beat lock**: every shot starts on a beat, every key action lands on a beat.
 
-Not the 1930s rubber-hose cartoon (no black-and-white, no bouncing world, no hot jazz). Not a whiteboard explainer: it shows *how to do*, not *why*. The pictures are printed, not written on.
+Mood: premium broadcast identity; flat colour, light grain, one soft light sweep as the only gradient.
+
+Not an isometric infographic (no depth, no 3D), not Swiss motion graphics (the figure and the pattern carry as much as the type), not a cartoon (figures never emote, have no faces), not a data film (numbers are labels, not charts).
 
 ## 2. Materials & rendering
 
-- **Off-register cels**: fill drawn with a small offset (a few px, down-right) from its line; the offset jitters ±1–2 px on twos. Keep it on everything, text included; switch it off only for a crisp diagram.
-- **Line**: 3–5 px ink ribbons with ±40 % width breathing and 12–25 % breaks. Characters ~4 px, props 3–4.5 px, walls in plans thicker and broken. Hands: one outline around the union of palm and fingers, thin finger separations.
-- **Shading**: one flat darker plane clipped inside a shape, never a gradient. Drop shadows are a copy of the shape offset down-right in a paper shade at ~50 %.
-- **Ornaments**: 4-point atomic sparkles, 8–18-point starbursts, sunburst rays (~30 wedges, semi-transparent), boomerang and kidney shapes, polka dots.
-- **Grain**: light; print, not film.
+- **Flat Canvas2D**, rendered clean; grain only at mux time. **One square grid** (cell ≈ 1/6 of the frame height) rules bands, transitions and walls.
+- **Pattern model**: fill with a mid-dark tone; on grid nodes randomly place cell-radius discs in random tones and discs-with-inner-discs; then a fraction of cells get one motif from a library of generic geometry (quarter-discs, fish-scale waves, dot and triangle scales, concentric arcs, sun wheels, checkers, crescents…), rotated by multiples of 90°; never mascots, landmarks or logos. Draw it wider than the screen so any row can shift one cell.
+- **Figure model**: unit = body height, origin at the hip; draw far limbs (mixed ~40 % toward the background), torso, near limbs, head. A second person sits behind, mixed further (~60 %).
+- **Stage**: the figure stands on a large **sun disc** in a neighbouring tone, crossed by one faint light sweep.
+- **Figure environments** (water, nets, ramps) live in the figure's own buffer, masked to zero before the text column.
 
 ## 3. Colour logic
 
-- **A warm paper ground, a warm near-black ink, soft atomic-age complements.** Nothing pure or neon.
-- **One ground colour per scene**: a lighter tint for walls, a darker shade for floors. Never place the product on its own colour, never the presenter on their own accent.
-- **The product keeps one colour through the whole film**; the accent (a presenter's garment, stars, bullets) is a different hue. Step grounds rotate through the rest.
-- Examples: *coral / mustard / turquoise* on cream; *tomato / olive / powder blue* on oatmeal; *plum / lime / sand* on off-white.
+- **A set of five hues + one dark neutral**, each hue in **five tones** (darkest → lightest, the middle one is the base). A chapter = one hue; a multi-hue chapter rotates through the set per card.
+- Under type the pattern runs at **low contrast**; on chapter cards at **full contrast**.
+- **Light hues take dark type and dark figures**, and their disc uses the lighter tone; dark hues take cream. On the dark neutral, the disc uses a lighter tone or it vanishes; its accent is one warm hue.
+- One cream and one ink serve every hue. No outlines, no highlights except the sweep.
+- Choose the set from the topic. Examples: warm festival (red, violet, forest green, gold, ochre); coastal (navy, teal, coral, sand, sky); kitchen (tomato, basil, saffron, aubergine, flour cream). Invent names for your hues; never borrow an event's colour names.
 
 ## 4. Type & subtitles
 
-- Roles: a 1950s script for a kicker (Oleo Script Bold); a slab serif (Alfa Slab One) for titles, numerals and headers, in ink over an offset colour plate; a geometric sans (Jost 500/600) for body, details, labels and captions.
-- **Caption card**: a paper-coloured rounded slab with a thin ink border (its colour cel offset too), small turning stars at the ends, ~40 px sans, bottom-centre. Fades in quickly with a small rise. Hold ≥ max(1.8 s, speech + 0.6 s, chars/12 + 1 s).
-- **Step header**: an ink disc with a paper numeral, a small letter-spaced "STEP n OF N", and the step title with a cream plate; it slides in on twos.
-- **Detail tags**: a paper card with a star bullet, popping on the action beat next to the call-out. Data lands on the picture, never as a slide.
+- Title: a 900-weight grotesk (e.g. Inter Tight), 150–330 px at 1080p, tight tracking, auto-fitted. Second language: a heavy face under it. Meta: a mono (e.g. DM Mono) ~22 px, wide tracking; tags as mono chips.
+- **HUD** on every card: mono corner text and a **progress bar of N ticks** (current tall, done dimmed, rest faint), N derived from the item list.
+- **Bilingual rule**: one language is always the big title; the second language is chosen per version by a switch, never by hand-editing cards.
+- The card type *is* the text layer. With narration, captions are a mono line on a solid band in the chapter hue, bottom, never over the title; hold ≥ max(1.8 s, speech + 0.6 s). A card that must be read (a spec, a number) holds ≥ 1.6 s.
+- Deliver an `.srt` of the title cards, generated from the edit list.
 
 ## 5. Motion quality
 
-- **On twos:** poses, hand shapes and the cel jitter change at 12 fps. The camera, iris wipes, arrows, plan routes and rays move at 24 fps.
-- **Held body, moving hands:** switch poses with a single in-between. A hand action has anticipation (pull back or lift), a fast action (0.15–0.25 s, eased out), a follow-through (recoil, settle, lift away) and lands exactly on a beat.
-- **Pop-ins:** medallions, tags, labels and titles scale in with a back-ease (~0.25 s, strong overshoot).
-- **Reaching the floor**: a kneel pose with 2-bone IK keeps the hands on the object while it moves; never stretch standing arms.
-- **Lettering**: a script writes on left→right with a clip; headers slide in on twos.
+- **A grid of time**: pick one tempo for the film; every shot starts on a beat and every key action in a pose (release, contact, landing) lands on an integer beat.
+- **Pace ladder**: normal cards last one bar; related sub-items become half-length rapid-fire runs. A second tempo comes from dividing the beat, never from changing tempo.
+- Easing: exponential ease-out for entrances, exponential in-out for whips and wipes; a back ease once at most.
+- **Type enters by mask slide-up**: title first, second line ~0.08 s later, tag after; meta lines type on without a caret. Short cards compress all timings.
+- **Figure assembly**: the figure arrives as horizontal bands sliding into register from alternating sides.
+- **Backgrounds breathe**: rows drift in alternating directions; on chapter cards they jump a quarter-cell on beats.
+- **Transitions** snap to the grid: sliding rows, dropping columns, a push, quarter-discs from cell corners, an iris from the last figure, a tile flip. Rotate them; each lasts a few frames around the cut.
+- **Motion blur only where things move**: sub-frame averaging inside transition and whip windows; static frames render once.
 
 ## 6. Camera grammar
 
-The camera is "the stand": never handheld. A vocabulary, not a route. Opening and ending come from the topic.
+Mostly a locked flat frame; energy comes from row shifts, transitions and figure actions. When the camera moves, it moves along the grid. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Slow push (a few %) | Collecting the eye | a product on its stage; a result settling |
-| Iris through a medallion | The number *is* the door | a change of step; a change of rule |
-| Round call-out with a leader line | Context and detail at once | a hand action; a screen; a small part |
-| Tilt with a pointing finger | The finger leads the frame | the one action that matters most |
-| Push into a device, pan along signal rings | Person → interface → device | pairing; connecting |
-| Iris from a round object into a top view | Circle to circle, function to plan | a button starting a job; a lid opening; a dial |
-| Pull-back with counter-rotation from a detail to a plan | One lane becomes a pattern | a route, a schedule, a garden, a floor plan |
-| Colour-block wipe (side, bottom-up) | Turning the manual's page | a tip; a summary; a new card |
-| Split frame in two colour blocks | Right vs wrong, before vs after | a safety rule; an upgrade |
-| Dead still ≥ 3 s | "This is the frame to screenshot" | a summary; a CTA; a QR code |
-| Iris-out onto one object | The last circle | a closing on the product, the logo, the result |
+| Locked flat frame | clarity, the card as a poster | any item; a spec that must be read |
+| Lateral track with a one-screen whip per beat | one continuous family, momentum | a line of stations; a production line; a route |
+| Slow drift along a row | calm, browsing | a gallery; a menu; a slower chapter |
+| Vertical scroll by grid rows | ranking, depth, descent | a top-ten; floors of a building; ocean depths |
+| Push into one motif cell until it becomes the next frame | zooming into a part | an ingredient inside a dish; a city inside a map |
+| Pull back to a tiled wall of items | the whole set at once | a summary; "all of them"; a comparison |
+| Tiles collapsing to one point | many become one | a merger; a shared goal; a count reaching zero |
+| Split screen along a grid line | two items side by side | versus; before/after; two versions |
 
-Key subjects ≥ 1/3 frame height and clear of the caption band. Transitions are circles, colour-block wipes and cuts on a beat; no dissolves.
+Framing: text and figure never overlap (one text column, one stage); horizontal poses move the stage outward. The HUD stays in the corners. Allowed transitions are the grid ones in §5; never dissolves, 3D camera moves, handheld shake or depth of field.
 
 ## 7. Sound palette
 
-Three layers, always:
-- **Music**: an original West-Coast cool-jazz combo: flute or muted trumpet, vibraphone (chords, arpeggios, glissandi, tremolo), pizzicato walking bass, brushes (sticks on the ride for energy), celesta, bongos or finger snaps. Not ragtime, not a spy big band, not piano and strings. Options: give **every step its own vibraphone chord** and bring them back one per summary item; halve or double the feel instead of changing tempo; move up a step for a payoff.
-- **Silence as a tool**: cut *everything*, ambience included, for the beat before the most important action, so the first sound after it (the click, the pour) is the step. Room tone alone before a summary.
-- **Foley by material**: cardboard creaks and thumps, appliance plastic knocks and clicks, floor scrapes, glass and ceramic clinks, pours, damped rubber stamps for medallions, paper swishes for wipes, slide whistles for dimension arrows, rising pips for "connected", pen scratches for a route, an iris "shhk".
-- **Ambience**: warm room tone (low-passed brown noise, very quiet), a mantel-clock tick on the grid; a device's motor hum can take over when it works.
-- **Mix**: J/L cuts (lines start before their iris, tails ring on); narration compressed on top, music ducks ~8 dB, foley unducked, −14 LUFS.
-- **Voice**: calm classroom authority, one clause per line ("Step one. Set it against a wall."). Whisper-check every line; accents can blur key nouns.
+- **Type and music can carry the film alone**; a voice is optional, calm, one line per chapter at most.
+- **Percussion is the spine**: choose a drum family that suits the topic (frame drums, taiko, marching snares, steel pans, body percussion, an electronic kit) plus rim clicks, claps, shakers and crashes.
+- Colour instruments on top: Karplus-Strong plucks (any lute, koto or harp-like voice, with pitch bends), mallets (marimba, glockenspiel), detuned-saw chord stabs, a synth bass, pads, risers and a drone.
+- **Per-family accents**: every shot onset gets a hit chosen by chapter (a splash, a pok, a clank, a crack, a whoosh, a sizzle): foley reads the chapter's matter.
+- **Picture-locked by data**: the score reads the edit list's shot times and places accents there; check every onset to ±15 ms.
+- **Silence as a tool**: half a beat of drums-and-bass-muted before a big hit, or one whole bar stripped to a single ticking sound under a count.
+- Mix: glue compressor and limiter, −14 LUFS, ≤ −1 dBTP.
 
 ## 8. Native moves
 
-Each move serves information. A menu: use the ones your film needs.
+A menu: use the ones your film needs.
 
-- **Off-register colour** makes an info card hand-made and warm. *Fits content like:* museum rules; a bank app screen; hotel check-in.
-- **Limited animation points the eye**: the still body leaves the hand as the only mover, and the hand *is* the step (one hand action per step, on a beat). *Fits content like:* threading a sewing machine; changing a bike tyre; setting a thermostat.
-- **The round call-out** is the close-up; the step's data lands inside or on it on the action beat. *Fits content like:* a dosage on a measuring cup; a torque value on a bolt; a PIN on a keypad.
-- **The numbered medallion** marks hierarchy and opens the next step; it stamps onto the outgoing subject and the camera goes through it. *Fits content like:* a pool's five rules; a checklist for a flight; stages of a recycling sort.
-- **The payoff turns function into ornament**: a real process (a route, a watering schedule, a seating plan) draws itself region by region and, seen whole, reads as an atomic-age textile. *Fits content like:* a sprinkler's coverage; a delivery round; a week of medication.
+- **One card = one item.** The count is the hook ("ALL N"). *Fits content like:* every tool in a workshop; every station of a subway line; every dish of a regional cuisine.
+- **Chapter = colour.** Families become hues so the viewer always knows where they are. *Fits content like:* instrument sections of an orchestra; food groups; departments of a company.
+- **One verb per item.** One body action readable in a bar, or a prop action (a gear turns, a cup pours). *Fits content like:* yoga poses; kitchen techniques; jobs on a construction site.
+- **Pace ladder run.** A sub-family at double speed. *Fits content like:* four knife cuts; the bones of a hand; weekday routines.
+- **Long take down a track.** Stations one screen apart, the camera whipping on each cut. *Fits content like:* the steps of a recipe; checkpoints of a marathon; stages of a rocket launch.
+- **Count-up slam.** A big number rolls to its value on a bar. *Fits content like:* tonnes recycled; members of a club; years of a company.
+- **Icon wall.** All pictograms return as a grid and turn one colour. *Fits content like:* a summary of a year; a periodic table of habits; a team roster.
 
 ## 9. Pitfalls of the medium
 
-- A route that ignores obstacles → follow the product's real rules; flow streamlines bend around obstacles and never cross. Lay it one region per beat, not all at once.
-- A separate nose wedge looks glued on → one open spline from the bridge round the skull, closed at the nose tip.
-- Thin arms read as sticks from the neck → shoulders at the torso corners, sleeves as a thick ink ribbon with a colour ribbon on top.
-- Fat-blob fingers turn the hand into a cloud → stroke every part first, fill second (one union outline), slender fingers with separation lines.
-- Zooming the world triples the ink → close-ups in call-out circles drawn at native scale.
-- Detail text without reading time → move the data into the detail, the context into the title and the voice; chars/12 + 1 s.
-- A transition drawing the next scene before its start → clamp local time to just past the start.
+- Figure environments spread into the text column → render the figure layer into its own buffer and fade it out with a gradient mask before the text.
+- Cream on light hues fails contrast → dark type and dark figures on light hues; their disc is the lighter tone.
+- The sun disc vanishes on the dark neutral → use a lighter tone for it.
+- Pattern canvases are large and seeded per card → cache with a bounded LRU; an unbounded cache runs out of memory with parallel renderers.
+- Horizontal poses (swimming, lying, crawling) cross the title → move the stage outward and narrow the text column.
+- Imitating a real identity too closely → your own palette, mark and slogan from the grid motifs.
 
 ## 10. Engine
 
-`demo/engine/toon.js` (the style: `setClock`, `shape` for any shape in the style, `ink` ribbons, `plane`, two-plate `text`, `fit`, the manual `arrow`, ornaments, the global register `REG`), `demo/engine/chars.js` (presenter, glove hands, the demo product), `demo/engine/icons.js` (18 icons). `demo/film.js` has liftable helpers: `callout()`, `medallionAt()`, `tag()`, `stepHeader()`, the flow-route generator `laneY()` + `buildPath()`, and the transition block (medallion iris, button iris, colour-block wipe, iris-out). API table and a minimal example: [DEMO.md](DEMO.md#engine-reference).
+In `demo/`: `engine.js` (`G.pattern`, `G.motif`, `G.joints` / `G.drawFigure`, `G.keyPose`, `G.maskText`, easings), `poses/base.js` (pose contract, props `G.P`), `edl.js` (edit list in beats), `scenes.js` (layouts, transitions, HUD, motion blur), `lab.mjs` (pose sheets), `music/music.py` (picture-locked score with onset report). API table, pose convention and a minimal example: [DEMO.md](DEMO.md#engine-reference).
 
 ## 11. Variation space
 
-You decide the thing, the presenter (or none), which steps and in what order, the opening, the ending, the camera path, the colours, the pacing and the music. Use cases are **grammar for the order and duration of information**; build your own timeline from the user's facts.
+You decide the items, grouping, verbs, palette, chapter order, any long take, the pace ladder, opening, ending, music and voice. All far from our demo:
 
-| Use case | Information order | Hold per layer | Length |
-|---|---|---|---|
-| **Product set-up guide** | product name → title → step title → step detail on the action beat → payoff → tip → CTA | title ≥ 4 s; step title the whole step; detail ≥ chars/12 + 1 s; summary ≥ 3 s clean | 30–40 s, 2–5 steps |
-| **Safety / rules card** | rule number → rule → one "why"; a held figure, a medallion, a gesture, a pictogram per rule | 3–4 s per rule | 20–40 s, 3–6 rules |
-| **Recipe or ritual card** | step → quantity/time → result; side view, call-out on the hands, result as a top-view pattern | 3–5 s per step | 30–45 s |
-| **Onboarding for an app or service** | screen action → setting value → confirmation stamp; the screen lives in the call-out | 3–4 s per action | 20–30 s |
-| **Store or event notice** | headline → time/place → CTA; colour-block wipes between cards | ≥ 3 s per card | 15–25 s |
-
-All far from our demo:
-
-- Structures: **a rules card with no product**, one held figure and a medallion per rule; **a recipe on a tabletop**, seen from the side, ending in a top view; **a do / don't split**, each rule shown twice in two colour blocks.
-- Openings: **the finished result first**, then "here's how"; **the problem in one gesture** (a hand fumbling a cable); **a numbered list** stamped on, then opened item by item.
-- Endings: **a checklist ticking itself**; **the hands at rest** beside the finished thing; **a QR code** held dead still in a starburst.
-
-Swapping `demo/content.json` and rebuilding is a technical check that the engine re-flows, not a way to make a film.
+- Structures: **a countdown** (items ranked from N to 1, the camera scrolling down rows, the pace speeding up as the list shortens); **a day in pictograms** (one figure, one card per hour, the palette moving from dawn to night hues); **an assembly** (each card adds one part to a single growing pictogram machine seen in the corner).
+- Openings: **a single motif cell** (one cell fills the frame and splits into the grid); **mid-action** (the first pictogram is already running when the type slams in); **a blank grid** (hairlines draw the grid on the beat before any colour appears).
+- Endings: **one card held long** (the last item stays while the pattern rows stop, one by one); **the figure walks off** (the last pictogram exits the frame and the HUD ticks out); **reverse assembly** (the grid disassembles into rows that slide off-screen, leaving cream).
 
 ---
 
-How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build, engine reference): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: pixel-rpg -->
+<!-- STYLE: ascii-crt -->
 
-# 16-bit Pixel RPG — Style Prompt
+# ASCII / CRT Terminal: Style Prompt
 
-> A short film that looks, sounds and *behaves* like a mid-90s console role-playing game: 320×180 pixels, a limited indexed palette, text boxes that type, menus, save files, chip music with echo.
-> References (grammar only): mid-90s console RPGs as a system of dialog boxes, menus, battles, overworlds and save points; the palette tricks of indexed hardware (palette swaps, fades by steps, cycling); the colour-depth history of consoles (4 shades → 8-bit → 16-bit). Never use existing game names, characters, UI frames, fonts, logos, melodies or sound effects. Learn the grammar, not the assets.
+> Everything on screen is a real character on a monospace grid, lit by the phosphor of an old monochrome CRT.
+> References (grammar only): 1970s–80s monochrome terminals and teletype logs (typed output, cursor, status lines); ASCII art and demoscene text-mode pictures (images from glyph density); analog-synth film scores of the early 1980s (cold pulse, patient drones). Copy no film's interface text, fonts or logos, and use no real agency names.
 
 ## 1. Essence, and what it is not
 
-- **320×180 native pixels**, scaled ×6 nearest-neighbour to 1080p; everything, text included, lives in the framebuffer.
-- **A limited, indexed palette**; gradients are **ordered dither**, never blends.
-- **Sprites** around 20–34 px tall animating in a handful of frames; faces act in **portraits**.
-- **Story told the way a game tells it**: dialog boxes with portraits, menus, status bars, battle messages, save files, item fanfares.
-- It takes the game's systems seriously as a language for feeling.
+A single monochrome terminal screen: **P3 amber** (or P1 green) phosphor glowing on dark glass, curved at the edges, with scanlines. Every image, including title, landscape, face, room and subtitles, is made of **real glyphs placed on a character grid** and chosen by ink density. The film has one camera, the screen itself. It moves only by changing the **font size of the grid**: bigger characters push in, smaller characters pull out.
 
-Not HD-2D (no depth of field, bloom or real-time light), not CRT nostalgia (no scanlines, no grain), not a parody.
+The mood is cold, patient and machine-calm: typed text, a blinking cursor as suspense, and one warm surprise.
+
+**Never** fake it with an image plus an "ASCII filter". Characters must be drawn as characters on a grid. Not a hacker-movie green rain, not a pixel-art game (no sprites, no free pixels), not a sci-fi HUD (no vector lines, no free-floating panels).
 
 ## 2. Materials & rendering
 
-- **Indexed framebuffer** (`Uint8Array` of palette indices) presented through a **lookup table** (index → RGB), so a whole palette can change in one frame. Camera moves are **integer pixels**; each parallax layer rounds its own offset.
-- **Master palette** of ~32 colours (a free palette such as ENDESGA-32), plus **protected duplicates** of a few indices that no palette effect touches.
-- **Colour-depth tables** computed from the master palette: identity (16-bit), nearest of ~15 NES-like colours (8-bit; it needs a dark green and a dark brown), 4 fixed luminance thresholds (4-colour, drawn natively at 160×90 and doubled), a faded set (`lum^0.8` → ~7 blue-greys), and intermediate subsets for step-by-step collapse. Map by luminance, never by rank.
-- **Light is index stepping**: `LIGHT[]` / `DARK[]` tables move each index one step along its ramp; glows are Bayer-thresholded rings. Firelight in a low-colour era uses a warm remap (greens → browns → rust), not generic brightening.
-- **Dither**: 4×4 Bayer for gradients and glows; light shafts as a flat 50 % checker with a 25 % edge.
-- **Sprites from a rig**: capsule limbs with 3-tone shading from an upper-left light, a per-part inner line in the material's darkest tone, a global 1-px ink outline, plus hand-placed ASCII heads. One rig gives every pose; lower eras drop the highlight tone. Give the hero a **silhouette mark** (a garment tail, a hat, a hairstyle).
-- **Portraits** 32×32, 3/4 view, base face + eye/brow and mouth overlays; they carry facial acting (the sprite face has one eye pixel).
-- **Props** can be flat-shaded 3D shapes quantised to a few protected indices (e.g. a rotating crystal at 8 frames per 90°).
+- **Font**: one monospace bitmap-style font (VT323, OFL); cell 0.4 em × 0.8 em (1:2). A large prerendered glyph atlas with a stroke for beam spread, scaled with `drawImage`, keeps zooms continuous and sharp.
+- **Grids**: column count per shot (title ~20, terminal 80, picture 200+); a push-in can go until one cell holds a sub-grid of its own.
+- **Density ramp**: each glyph's measured ink coverage × dim / normal / bold → about 20 levels, near-duplicates dropped; a small ordered-plus-hash dither per cell; cells below a threshold stay blank. **Negative space makes ASCII art readable.**
+- **Picture pipeline**: paint grayscale into an offscreen "negative" aligned exactly to the grid (several samples per cell; channels for phosphor, second colour, a flag), average per cell, pick a glyph. Interiors get local contrast (`m + 0.9·(m − mean)`) to keep outlines.
+- **Recognisable subjects**: silhouettes, not noise (real coastline polygons, a face from a few planes); dark = sparse dim glyphs, bright = dense bold, shadow sides sparse `.` only; an angle with a clear silhouette.
+- **Depth on a grid**: far = darker and sparser, near = brighter and denser; a thin bright rim separates planes.
+- **CRT post** (WebGL, adapted from `core/post/crt.js`):
+  - **Phosphor colour**: luminance maps along the phosphor's ramp (dim deep orange → amber → overexposed near-white for P3).
+  - **Glow**: multi-level bloom plus a faint halo.
+  - **Glass**: fine scanlines (narrower on bright areas), slight barrel curvature, rounded mask, warm near-black unlit glass, faint reflection, ~1 % flicker, fine noise. **No RGB grille: monochrome tubes have none.**
+- **Afterglow**: text that disappears decays with τ ≈ 0.1 s, computed analytically so every frame is deterministic. Moving glyphs get one faint trail sample.
 
 ## 3. Colour logic
 
-- **Palette = feeling.** Colour depth, fades and swaps are story tools; change the whole palette by table, never by alpha.
-- **Colour depth can stand for time**: older = fewer colours, lower resolution.
-- **Protected indices**: a few colours exempt from every effect become the thread through the film and allow match cuts between eras. Use one or two; more and they stop meaning anything.
-- **Warm hues survive reductions**: keep orange, pink and plum in reduced subsets, or the first step turns a scene solid red.
-- Example uses of protected colours: a red scarf across eras; a gold coin in a grey economy; the green of one plant in a faded city.
+- **One phosphor** carries everything: amber, green or white, in its own brightness ramp. No second hue for decoration.
+- **At most one soft second colour**, used for one thing only (the emotional object), switched on at a single moment, on a downbeat, and never taken back casually.
+- Examples: amber screen with an ice blue-white for something far away; green screen with a warm pink for a living thing; white P4 screen with a pale gold for a memory.
+- Brightness is the only other tool: dim / normal / bold and inverse video.
 
 ## 4. Type & subtitles
 
-- **The dialog box is the subtitle**, drawn in the framebuffer at the bottom quarter: a layered rounded border (ink / white / silver), a dithered dark-blue fill, a 32×32 portrait on the left, an **original** variable-width pixel font (cap ~7 px) with a 1-px shadow. It types with the voice (~38–40 chars/s; slower in older eras), ▼ blinks when done.
-- **Skins follow the era** (light box for 4-colour, black box with white frame for 8-bit, blue for 16-bit).
-- Battle and system messages go in a thin top window. Every box stays ≥ max(1.8 s, speech + 0.6 s); the next box cuts the previous one. Export the `.srt` from the same subtitle array.
-- Titles in the pixel font at 2×, 8-neighbour ink outline, row-by-row gradient, Bayer-dissolved in and out.
+- **Subtitles are terminal output.** A reserved **LOG strip** at the bottom: a dim separator, an inverse-video tag, then a prompt and the line in uppercase at ~45 px. It is **typed word by word in sync with the voice** (whisper word timestamps) and holds ≥ max(1.8 s, speech + 0.6 s). It lives outside the zooming grid, like a status line, with the same scanlines and glow. When nobody speaks it can show system state (a progress bar, a waiting message).
+- **On-screen text that the story shows** is picture, not subtitle; in the `.srt` it appears as `[SCREEN] …`.
+- **Titles** are typed with key clicks, as a filename, a command or a header.
 
 ## 5. Motion quality
 
-- Output 24 fps. Sprites step at **8 fps** (walk) to **12 fps** (flames, blinks); camera and parallax move on ones at integer pixels.
-- **Game-native acting**: hop forward to act, cast pose, knockback recoil, kneel, KO blink (12 fps on/off) and vanish; breath = shoulders up 1 px.
-- **UI motion**: windows slide in over ~0.3 s (ease-out, integer px); a hand cursor bobs 1 px at 4 fps and **stops when the character hesitates**.
-- **Transitions**: thumbnail expand + mosaic, mosaic cross with a palette switch at the peak, the encounter swirl (polar twist + mosaic + Bayer dissolve to white), screen shake (3–2–1 px over 8 frames), palette step fades (4 levels). Never alpha fades.
+- **Characters never move off-grid, except in a declared transformation moment.** Typing, scrolling and counters jump from cell to cell. A roller flips digits discretely, fast then slowing.
+- **Only three things move continuously**: grid scale (the camera), CRT physics, and particles in a transformation.
+- **Typing speed is performance**: machine output is even and fast (~10–40 ms/char); dramatic lines slow to note values of the score; human typing is hand-timed, uneven, with pauses and bursts.
+- **Particles** spawn from random points inside source glyphs, start small, fade in, ease to their cell, and flash briefly on landing, so they never stack into bright bars.
+- **Push to a character**: hold where the whole glyph reads, then push until its inner text reads; inner text full brightness, outside text a few percent, neighbours dimmed, so the shape reads before the text.
 
 ## 6. Camera grammar
 
-A vocabulary, not a route. Game cameras are simple and legible. Opening and ending come from the topic.
+The only camera is the grid scale, plus CRT power states and one possible shot outside the screen.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Side-scroll with parallax layers | journey; loneliness; progress | a commute; a quest; a timeline |
-| Locked frame with UI on one third | a choice; a system speaking | a menu decision; a stats reveal |
-| Battle side view (enemy / party / windows) | conflict as a system | an exam; a negotiation; an illness |
-| Top-down overworld pan | the whole world; where things are | a city; a map of a company; a trip |
-| Integer-pixel tilt up something tall | awe; scale | a tower; a door; a mountain |
-| Hold while the palette changes | loss or change without motion | grief; a memory fading; nightfall |
-| Back view at a threshold | resolve; the unknown ahead | a first day; a launch; a departure |
-| Zoom by mosaic into a thumbnail | entering a memory or a file | a flashback; a save slot; a photo |
+| Static 80-column terminal | Waiting, procedure, machine time | a countdown; a queue; a log being read |
+| Push in (cells grow) | Attention, intimacy | one line of dialogue; a name; a decision typed |
+| Pull out (cells shrink) | Context, scale | a title becoming line 1 of a list; one entry among thousands |
+| Push into a single glyph | Hidden depth; what a symbol is made of | a letter made of messages; a pixel made of people |
+| Scroll (the buffer moves) | Accumulation, time passing | years of records; a changelog; a feed |
+| Clear screen / hard redraw | A cut; a new state | a reboot; a new chapter; a crash |
+| Text becomes image (grid shrinks as glyphs fall) | Words turning into world | a letter becoming a face; data becoming a map |
+| Power on / off, degauss | Birth, death, sleep, shock | a machine waking; an ending; a jolt |
+| Pull back off the glass into a drawn room | The screen is an object in a world | who is reading; where the machine is |
 
-Framing: characters stay above the dialog box (floor line above its top edge); menus leave the action visible.
+Opening and ending come from the topic. Framing: text stays in the safe area inside the curvature; keep the LOG strip clear. Transitions happen on the screen (clear, redraw, scroll, power), never a crossfade between two screens.
 
 ## 7. Sound palette
 

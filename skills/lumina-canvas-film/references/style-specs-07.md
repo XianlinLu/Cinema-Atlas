@@ -1,198 +1,158 @@
 # Complete style specifications 07
 
 
-<!-- STYLE: crayon-book -->
+<!-- STYLE: telestrator -->
 
-- **A box of about a dozen crayons, never more.** Outlines in one dark colour (indigo, dark brown, plum), **never black**. One white crayon reserved for wax resist.
-- **At most one watercolour** per film, chosen for what it reveals (ultramarine for night, rose for dawn, sap green for rain). It never paints the characters.
-- Saturated crayon on lots of bare paper; value comes from pressure, not extra hues. One accent on a character may echo the story.
-- Example boxes: *seaside* — navy line, coral, sand, teal, turquoise, lemon, white; *orchard* — brown line, russet, apple red, mustard, olive, plum, cream, white.
+- **Freeze entry**: white flash 0.1 s (0.55) + punch 1.035 → 1.0 in 0.35 s (ease-out) + desaturate 42 % + a cool cast + heavier vignette; then a slow 1.2 % creep. Overlays use the same transform as the picture, or they slide off the players.
+- **Spotlight**: everything outside a focus ellipse darkens to 0.42 (even-odd hole), 0.3 s fade.
+- **Marker line**: dark outline (w + 6, black 0.55) + coloured core with glow 18 + thin white highlight (w × 0.28); drawn along its length; an arrowhead pops in over the last 10 %; deterministic small wobble at the vertices so it feels hand-drawn. Dashed for intended or future paths (a cross, a run), solid for what happened.
+- **Ring**: perspective ellipse (ry = 0.36 r) under the feet, drawn clockwise, outer dashed ring rotating at 60 px/s; a vertical light beam while the player moves.
+- **Draw order inside a freeze**: ring (who) → area or link (what happened) → label (the one-line finding), 0.3–0.6 s apart.
+- **Slow motion**: source frames at 0.6–0.85×, neighbours cross-blended (no stutter).
+- **Rewind**: the clip reversed in 0.6 s (ease-in-out), ±13 px horizontal jitter, four white tracking bars, a big ◀◀ and the word REWIND.
+- **Trails**: in screen space keep only the last ~0.6 s (ball 0.24 s) — the camera pans, so long trails land in the wrong place.
+- **Stamp** (e.g. a VAR decision): a framed card that drops from 1.7× to 1× with overshoot, slightly rotated, with a small flash — once per film.
+- **Perspective flatten**: see Native moves 7.
 
-## 4. Type & subtitles
+## 7. Grade and image quality
 
-- Subtitles are **the book's printed words**: a handwriting face (Patrick Hand, OFL), 50–56 px, in the outline colour, bottom-centre, each glyph tilted and offset, boiling on twos, written left→right in ~0.35 s, on a ragged knock-out patch of blank paper (never a dark box). Hold ≥ max(1.8 s, speech + 0.6 s); none during wordless music.
-- Titles are hand-lettered on the page (Gaegu Bold or similar), written letter by letter. You can't fade crayon: a title leaves by the camera moving off it, a page turn or being coloured over.
+- Footage: `hqdn3d=1.2:1.2:2.5:2.5` → lanczos to 1920×1080 (modern footage at most 1.5×) → `unsharp=5:5:0.55` → `eq=saturation=0.9:contrast=1.04:gamma=0.97` + slightly cool shadows; one grade for every clip; film grain 2 added once at the master (`mux.sh`).
+- Broadcaster logos and URLs are covered by the packaging (bug and score bar placed exactly over them, present from frame 1), or kept outside split-screen windows — never by cropping past 1.5×.
+- Prefer a broadcaster's native resolution over an "AI-upscaled" stream.
 
-## 5. Motion quality
+## 8. Sound palette
 
-- **Everything drawn steps at 12 fps** (lines, colouring, characters, boil seed); camera, the wash's leading edge and twinkles run at 24 fps.
-- **Boil**: each stroke re-jitters offset (<1 px), wobble and hatching rows every 2 frames. Characters full, background lines ~0.6, background colouring still (it also halves the bitrate). Calm the boil to about half when the film goes quiet.
-- **Drawing on**: lines reveal along their length in 0.4–0.9 s; colouring row by row; text letter by letter.
-- **Acting**: substitution, a new drawing per pose on the beat; two key drawings alternate for a repeated action. Big simple poses; a child's drawing doesn't in-between.
-- **Colouring is an action**: being coloured in *is* doing (a coat scribbled on = putting it on; pink scribble = blushing; a wash = night falling).
+- **Layers**: English voice-over (one line per freeze, ≈2.5–3 s) → match sound (commentary + crowd at full level in live play; under freezes only a low-passed crowd bed, looped; the goal roar on the goal frame) → score → foley. Voice ducks everything else to 0.55.
+- **Score**: sampled band (drum kit, electric bass, staccato trumpet and trombone, timpani, horn, cellos, glockenspiel), about 120 BPM. The groove restarts at the head of each played segment, so cuts don't need a global bar grid. **On a freeze the drums stop**: one brass stab + timpani + low thump + camera shutter, then only closed hi-hat — the music freezes with the picture. Goals: a big brass chord with crash and glockenspiel on the score-bar flip.
+- **Foley**: marker squeak (2–5 kHz band-passed noise with flutter) for each line, pops for rings, a tick per landed label, whoosh on every wipe, tape-motor whine on a rewind, a stopwatch tick every 0.2 s, a thump for the stamp, a long whoosh and a timpani roll under the flatten.
+- Mix limited before `mux.sh` normalises to −14 LUFS.
 
-## 6. Camera grammar
+## 9. Native moves (and how the code does them)
 
-The camera moves over a large page. A vocabulary, not a route; every move needs a reason. Opening and ending come from the topic.
+1. **Freeze and draw** — a freeze segment = one source frame + flash + punch + desaturate + spotlight; overlays drawn by progress (`overlayAnalysis()`, `overlayG1()` in `demo/index.html`).
+2. **Tracked ring** — hand keyframes of the feet point in source pixels every ~3–6 frames, linearly interpolated (`TRK`, `at()`); check them with `?dbg=1`, which paints every tracked point in magenta.
+3. **Frame-counting stopwatch** — starts at the receiving frame and counts source frames ÷ fps; stops and turns yellow on the strike (`stopwatch()`).
+4. **Score-bar flip on the goal frame**, one entry per goal (`GOALS`, `scoreAt()`, `bugScore()`).
+5. **Packaging over watermarks** — corner bug and score bar positioned from the logo and URL coordinates, drawn from frame 1 (`bugTop()`, `bugScore()`).
+6. **Dual-angle freeze** — two windows, each its own clip and frame range, both reaching their freeze frame on the same beat; overlays drawn in each window's source coordinates (`splitView()`, `overlayG2()`).
+7. **Perspective flatten into a shot map** — for each shot, mark 6–8 known pitch points in its own frame (box and six-yard corners, where the penalty arc meets the box line; FIFA dimensions) and fit a ground-plane homography by least squares (`demo/tools/homography.py` reads `tools/pitch.json`, writes `assets/pitch.json`; residuals ≤ 6 px are fine). The strike frame is then drawn as a mesh of triangles in pitch coordinates (1.5 m cells), each vertex moving from its image position to its board position, each triangle affine-mapped (`drawTri()`); the picture fades out as the chalk board takes over, and the other shots' feet points, converted with their own frames' matrices, drop onto the same board (`shotMap()`). The broadcaster's URL is painted out of the source frame first, because the flatten drags it into the middle of the screen.
+8. **Data card** — the counted numbers re-stated on a board page: label left, big yellow number right, red marker circle on the key one (`notes()`).
+9. **Commentary transcript** — original-language words with timecodes and a translation, in a small box during live play; inaudible words become an ellipsis, never a guess (`transcript()`).
 
-| Move | What it expresses | Can serve |
-|---|---|---|
-| Locked full page | Paper before drawing; the whole picture | a beginning from nothing; a tableau; a reveal that needs the page |
-| Push toward a character | "This one" | a title giving way; a feeling arriving |
-| Locked medium close-up | Substitution poses act | comedy; a decision; a small failure |
-| Tilt along a gaze | We see what they see | discovery; longing; something huge |
-| Tight follow | The world draws itself ahead of the subject | a brave act; a path; building |
-| Held wide while the brush moves | The material is the motion | a wash reveal; weather; day or night falling |
-| Slow truck across the page | Reading left to right | a list; a sequence; a family |
-| Pull out past the page edge | The page is an object | a book on a table; a fridge drawing |
-| Page turn | New chapter, time jump | before/after; the next day |
+## 10. Material
 
-Key figures ≥ 1/4 of frame height in close shots; keep bare paper at the bottom for the printed words. Transitions: drawing on, colouring over, the wash, a pan or a page turn; never a dissolve.
+1. **Ask the user first** whether they have their own footage (club or academy video, their own camera, a licensed broadcast clip), line-ups, event data or photos, and the rights to use them. Their material comes first.
+2. **Where to look** (judge every file on its own page):
+   - **Wikimedia Commons** (search "goal", the match, the player): many clips are cut from broadcasters' own YouTube uploads under CC BY. Fine: CC0, public domain, CC BY. Not used: CC BY-SA, "no known restrictions", unclear licences.
+   - **A broadcaster's or club's own YouTube channel** when its video page says *Creative Commons Attribution license (reuse allowed)*: check that the channel is the rights holder's official, verified channel (not a re-upload or a fan mirror), save the evidence (channel id, verification, licence field, date checked), and download the native resolution, not an AI-upscaled stream. Third-party re-uploads, fan mirrors, colourised or "restored" versions are never used.
+   - **Facts** (scores, minutes, how a goal was scored): the league's or broadcaster's own match page or video description, then established newspapers; quote them in `FACTS.md`. When sources disagree, use the official list and leave the disputed detail out.
+   - Photos of players: Commons (CC BY / CC0); state the year when the photo isn't from the match.
+3. **Before downloading, tell the user** what you will fetch, from where and under which licence. The finder copied into this style, `demo/tools/footage.py` (`search commons|archive|nasa`, `fetch`, `used`, `md`), logs licence, author, page and the seconds used into `SOURCES.jsonl` and writes `SOURCES.md`; `demo/tools/fetch_sources.sh` shows how a verified YouTube CC BY source is fetched with `uvx yt-dlp`. Wikimedia rate-limits bursts (HTTP 429): one request at a time.
+4. **People on screen**: players, referees and staff in the event are fine; never slow down or freeze on an identifiable spectator.
 
-## 7. Sound palette
+## 11. Engine
 
-- **Small wooden and metal-toothed instruments, no strings or grand piano**: ukulele or nylon guitar, clarinet or bassoon (bass, humour), music box (can wind down with a pitch droop), glockenspiel or celesta (a note per uncovered sparkle), toy piano (one note per counted thing), flute or recorder as the singing voice, shaker and woodblock. A simple lilt; one theme can be held back and heard in full once.
-- **Silence is a beat**: a full beat of nothing after a failure; a short breath before a wordless passage.
-- **Foley follows the material**: crayon = stick-slip band-passed noise whose grain follows stroke speed (colouring = rhythmic swishes); wet brush = soft low-passed noise with bristle grain, panned with the stroke; felt puffs, fabric swishes, a sharpener, a crayon set down, a page turn (lift / whoosh / flap). Ambience: faint crickets or birds, room tone, a distant clock.
-- **Mix**: music under narration, rising for wordless passages; metal voices get a gentle high lift. −14 LUFS.
-- **Voice**: a soft, warm storyteller, short lines with breaths. Compress before EQ, cut the highs, de-ess, a warm near-field reverb far under the dry voice; a few dB over the bed, never louder. Whisper-check every line, dry and on the final mix. Avoid famous-book phrases.
+Canvas 2D, one page: `window.render(t)` is async and deterministic, frames load on demand from JPEG sequences (one folder per clip, 90-frame cache). `timeline.json` (segments with clip and source frame range, voice lines) drives the page, `tools/mix.py` and `tools/cues.py`. `window.TEXTS(t)` reports the text that must be read, for `readcheck.mjs`. `core/render/video.mjs` renders at 30 fps.
 
-## 8. Native moves
+## 12. Pitfalls
 
-A menu: use the ones your story needs.
+- **Wrong tracking points** are the biggest risk: reading coordinates off a scaled contact sheet is easily 20–50 px off. Read them on full-resolution crops with a pixel ruler, then check with `?dbg=1`.
+- **Overlays not under the punch transform** slide off the players during a freeze.
+- **Balls vanish**: long shots are a few pixels with motion blur; colour tracking loses them; frames where the ball is invisible are interpolated and the number says "≈".
+- **Numbers the footage can't support** (ball speed, distance run) are not written. Distances only from a homography fitted to visible markings, each shot in its own frame (the camera zooms and pans between shots).
+- **Packaging late by one frame** shows the logo: bugs never fade in over footage.
+- **Split-screen windows sliding in** reveal what's outside them (a logo, a URL): clip each window to its slice in source coordinates, not only to the screen half.
+- **Score state must match the moment**: before the 67th-minute goal it is 3–2, not 3–3.
+- **Names in TTS**: spell them phonetically for the voice ("Zayits", "Saduk") and keep the real spelling in subtitles; record the ASR result for proper names in `lines.json` (`asr`).
+- **Freeze labels echo the subtitle** and live only ~1 s; anything the viewer must read (scores, board rows, the data card) gets ≥ 2.5 s and goes into `TEXTS`.
 
-- **Wax resist.** White crayon is invisible until a wash passes; hide the payoff in plain sight from the first frame. *Fits content like:* a farewell message; a product's hidden feature; roots under a garden.
-- **Drawn live.** The world draws itself just ahead of the hero. *Fits content like:* a bridge plank by plank; a journey map; a company timeline.
-- **Colouring is an action.** *Fits content like:* a town lighting up window by window; a team putting on kit; fruit ripening.
-- **Boil.** A held frame is alive; calming it quiets the film. *Fits content like:* a pause for thought; grief; rest.
-- **Child logic.** Wrong perspective, faces on objects, numbers in the sky. *Fits content like:* a launch countdown; a talking house on insulation; a sun that clocks out.
-- **It is a book.** Pull back to the object; turn the page. *Fits content like:* a year in review; a "chapter two"; a thank-you card.
+## 13. Variation space
 
-## 9. Pitfalls of the medium
+The agent decides per film: the sport (football, basketball pick-and-roll with screens drawn as bars, tennis rallies with landing zones, F1 overtakes with racing lines — anything with a wide camera that shows the whole play), the moments, the show's fictional name and colours (keeping the three roles), how many freezes.
 
-- Gaps between wash bands leave white stripes → overlap bands and cover all intended paper.
-- Wavy band edges and wide light streaks read as hills → small high-frequency waviness, thin faint streaks (α ≤ 0.12).
-- Light-pressure colouring goes muddy under a wash → pressure ≥ 0.8 or cross-hatch wherever the wash crosses.
-- Text where the wash passes survives it (wax resists) → place it elsewhere or accept it.
-- Characters vanish under a wash → composite them *after* the wash.
-- Outlines over hair read as a headband → outline hair masses on their outer edge only.
-- Knock-out drawn into a plain layer shows as grey crayon → use a dummy canvas.
-- Page turn from rectangle strips shows a staircase → an affine transform per strip.
-- Double vignette/emboss at a page-to-object transition → page with vignette 0, ramp the outer scene's in.
-- Screen-fixed tooth bloats the file → anchor it, don't boil background fills, no ffmpeg grain.
-- Reverb IR from unit-variance noise is hugely loud → scale wet to ~18 dB under dry.
-
-## 10. Engine
-
-In `demo/`: `gl.js` (WebGL2 compositor: paper, wax adhesion, knock-out, watercolour + resist, emboss/vignette/lamp), `crayon.js` (`line` ribbons with taper, streaks, boil; `fill` hatching with overshoot; `text`; shapes), `rig.js` (occlusion + knock-out parts, limb tubes), `sheet.js` (model sheets, `?test=model&page=…`), `end.js` (page on a desk, page turn). Draw your own character's model sheet with them before any shot. File map and commands: [DEMO.md](DEMO.md#build-notes).
-
-## 11. Variation space
-
-You decide the structure, the characters (or none), the page, the opening, the ending, the camera path, the pacing, the crayon box and whether there is a wash. All far from our demo:
-
-- Structures: **a colouring-book page** (all outlines there from frame one; each idea colours one area); **a flip through several pages** (one stage per page, joined by turns); **two children, one page** (two crayon colours argue, then combine).
-- Openings: **a finished page rubbed out** to begin again; **a crayon tip in extreme close-up** mid-stroke, pulling back; **a crumpled page being flattened**.
-- Endings: **the page taped to a fridge** among others; **a last scribble** filling the frame with one colour; **a stray splash of water** finding the white-wax message.
+- **Three structures:** chronological build-up to the deep breakdown (secondary moments get light treatments, the decisive one the full rewind-and-freeze); one moment taken apart from three angles; a "what went wrong" defensive breakdown ending on the space map.
+- **Three openings:** the show sting into a match-record card; the goal frame frozen in the first second, then rewind; the stopwatch running over live play.
+- **Three endings:** the top-down board that sums up the moments; the data card with one number circled; the hero shot slowed with the minute and name.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: watercolor -->
+<!-- STYLE: news-package -->
 
-# Watercolor Brush — Style Prompt
+# Broadcast News Package — Style Prompt
 
-> A hand-painted journal page that paints itself: translucent brush strokes with dry-brush flying white on warm cotton paper, hand-written notes beside what is painted, nothing drawn with a vector line.
-> References (grammar only): naturalist field-journal and botanical-plate watercolours (specimen + note); long horizontal handscroll panoramas (one continuous painted world); the textbook "transect" diagram (a gradient read across space). Borrow the grammar, never a specific artwork, character or layout.
+> A television newsroom's on-air package, built entirely in code: a sting that becomes the channel bug, a rundown of today's stories that opens and closes the bulletin, a lower-third strap that never leaves the bottom of the frame, and full-frame graphics (split-flap price boards, a line breaking a threshold, explainer maps, documents flying out of a city, quote cards, spec cards with proportion bars, stamps) that carry the facts. The style is the **package system plus its cutting rules**, not a drawing style. 16:9, a clean frame: no burned-in subtitles, no news crawl.
+> References (grammar only): evening network news headline menus, financial-channel market graphics, European news channels' explainer maps, tech-desk spec cards. Never copy a broadcaster's logo, set, fonts, colours, music or idents, and never name them in the film.
 
 ## 1. Essence, and what it is not
 
-- **One sheet of warm, fibrous paper** under everything; it is also the eraser (paper-coloured mist washes things away).
-- **Everything is individual brush strokes**: a variable-width ribbon at partial opacity plus a few thin **bristle tracks** that break into dashes (flying white). Strokes overlap and darken where they cross, like transparent pigment. No vector outlines; a darker edge stroke along a form is the only "line".
-- **Things paint themselves in**, stroke by stroke, structure before detail (trunk → branches → leaves; outline wash → shadow → accent).
-- **An annotation layer** in a hand the painter would write with: labels with pen leader lines, a small measured value, a quiet title.
-- Tone: calm, curious, precise. Numbers are real; the palette can carry data.
+1. **One package system, used consistently.** Every graphic is built from the same few parts: a brand plate (parallelogram), a tab in the accent colour, a paper strap, ink cards with an accent top edge, mono datelines, stamps. Viewers read the system before they read the words.
+2. **The bulletin's order.** Sting → rundown ("today we have four stories") → item → item → … → back to the rundown, ticked off → sign-off. Each item opens with its category on the strap's tab and its date on the first graphic.
+3. **One fact per screen.** A full-frame graphic states one thing: the price, the break, the two stocks, the place, the two letters, the quote, the verdict.
+4. **The strap holds the headline.** One lower-third strap is on screen from the first story to the recap and changes its words with a vertical flip; the picture above it is free for the graphic.
+5. **Clean panel.** No crawl, no burned-in subtitles; subtitles ship as a separate `.srt`. The frame is the graphic, the strap, the bug and a source line.
 
-Not ink wash (colour, not ink tones; no calligraphic brush-as-gesture), not impasto (no thick paint, no knife), not a children's picture book (no crayon, no cute outlines), not vector illustration with a watercolour texture laid on top.
+Not **Caption News** (that is captions-first social video: huge slammed captions are the lead, no rundown, no strap; here type is small and orderly and the graphics lead). Not **Data Storytelling** (one chart per beat, never a dashboard; the chart is an insert in a bulletin). Not a keynote: no centred title-and-bullets, no page turns. Not a studio show: no virtual set, no anchor, no fly-throughs — the package is flat graphics over ink.
 
-## 2. Materials & rendering
+## 2. Frame and layout (1920×1080)
 
-- **Paper**: a pre-generated image (warm base, three octaves of smooth noise ±3.5 %, a few thousand short curved fibres, fine grain, light vignette), drawn first every frame.
-- **Stroke** (`engine.js` `mk`/`drawS`): a ribbon whose width follows a profile (`brush`, `leaf`, `even`, `tip`, `trunk`) with ~±22 % value-noise roughness, filled as a thin wash (≈ 0.55–0.6 body opacity when bristles are present), plus 3–9 bristle tracks at 30–85 % opacity, each with a random dash pattern and a random early end: that is the flying white. A stroke can be painted up to any fraction of its length (a moving brush tip).
-- **Wash**: the same polygon painted in 3 passes with jittered vertices at a third of the opacity each, so edges darken where passes disagree (a pooled watercolour edge).
-- **Depth by layers**: several parallax layers of washes and painted objects; farther = smaller, lighter, less saturated; paper-coloured mist bands between layers.
-- **Cache finished objects as sprites**; draw stroke by stroke only what is being painted or transformed.
-- **Everything is a pure function of `t`**; any stroke made inside `render(t)` is built under a fixed seed.
-
-## 3. Colour logic
-
-- **Paper is the white.** Never paint pure white; light is unpainted paper.
-- **Transparent layering**: darker = more passes, not a darker pigment on top. Keep 3–5 hues per scene plus ink.
-- **Ink** (a warm near-black and a lighter brown) for lines, text, edges and stems only.
-- **Colour may carry the data or the mood**: blend sky, ground and background by position or time so the palette itself changes with the subject. Map ramps quantised into 4–6 bands read as paint, continuous ramps read as software.
-- **One accent** (a vermilion, a rain blue) reserved for one element that recurs: a stamp, a marker, a key object.
-- Examples: arid-to-wet — red ochre → sage → straw → blue-grey → deep green; a harbour at dawn — `#f3e2c8` sky, `#9fb4c4` water, `#5f7486` hulls, accent `#c8442a` buoys; a vegetable garden — `#e8e0c0` soil light, `#8ea860` leaves, `#4e6e3c` shade, accent `#d9632e` pumpkins.
-
-## 4. Type & subtitles
-
-- An elegant serif (e.g. Cormorant Garamond) for titles and subtitles, a handwriting face (e.g. Caveat) for notes, a small mono (e.g. IBM Plex Mono, wide tracking) for measured labels, Noto Serif SC for Chinese (subset to the characters used).
-- Hand notes are drawn twice over a paper-coloured halo, revealed left to right like writing, with a pen leader line that grows to its specimen.
-- **Subtitles** sit on the paper, not in a box: centred at the bottom, serif italic ~36 px (2 balanced lines max), a second-language line beneath at ~2/3 size, ink at ~78 % over a paper-coloured halo. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Numbers are spelled out in the TTS text and written as digits on screen.
-
-## 5. Motion quality
-
-- **Painting-in is the main motion**: an object's progress is a function of where it sits on screen or of a cue; strokes in a list each take a slice of that progress, so structure appears first.
-- **Sway** only after an object is finished: a small horizontal skew (`sin(1.15t+φ) + .4 sin(2.7t+2φ)`), ~0.006 for trees, 0.01–0.03 for grass.
-- **Brush-edge wipes**: a wavy vertical clip reveals a whole scene; lines grow by stroke progress; labels open with a left-to-right clip.
-- **Mist** erases: paper-coloured layers with a wavy rising edge.
-- Animated creatures and events may be phased to the music's beat grid so landings hit the beat.
-- Smooth easing (`ss`, `eio`, `eo`, `ei`); 60 fps suits the slow, fluid brush; nothing jitters.
-
-## 6. Camera grammar
-
-A vocabulary, not a route. The picture is one painted sheet; cutting is rare. Opening and ending come from the topic.
-
-| Move | What it expresses | Can serve |
+| Zone | Position | Content |
 |---|---|---|
-| Long lateral dolly over a continuous world | a gradient; a journey; cause and consequence | a transect; a route; a timeline |
-| Vertical tilt along one object | scale; measurement | a tall tree; a building; a depth |
-| Locked sheet, things painted in | study; attention | a specimen plate; a recipe; a diagram |
-| Slow push into a detail | the observer leaning in | a seed; an insect; a hand-written note |
-| Pull-back to a map or diagram | the whole re-framed | where it all happened; a system |
-| Mist wash to blank paper | chapter end; time passing | a season; forgetting; a new place |
-| Page turn / new sheet slides over | a new entry in the journal | a new day; a new species; a new case |
-| Change in time on a locked view | growth; decay; history | a season cycle; before/after; deep time |
+| Content | x 96–1824, y 56–840 | the full-frame graphic; when a strap is up, nothing important below y 840 |
+| Lower-third strap | tab x 96 y 856, 48 high; strap x 96 y 904, 1250×104, + 120 px ink end block | category tab (accent, ink text, Chinese + English), headline in Chinese 50 px + one English line 27 px |
+| Source line | right-aligned at x 1836, y 950 / 978 | `SOURCE: …` mono 13 px + Chinese 16 px, 75 % opacity; English ≤ 36 characters or it slides under the strap's end block |
+| Channel bug | top right, plate centre (1739, 86), 0.327 of the sting plate | the plate plus `AI NEWS` |
+| Corner tag | top left x 96 y 56, 330×64 | `ILLUSTRATION / 示意 · AI 生成画面` on generated plates, `SCHEMATIC / 示意图` on schematic charts; flips in and out 0.2 s |
 
-Framing: generous paper margins; one hero subject per view with its note; labels never cover the subject. Transitions: brush-edge wipes, mist, a page turn, or a continuous camera move; no hard video cuts, no dissolves between unrelated pictures.
+Content layers sit lower than a subtitled layout would put them (a 60–110 px downward shift) so the bottom strap does not leave an empty band above it. When you remove subtitles and the crawl, re-lay the page; never leave the space they used.
 
-## 7. Sound palette
+## 3. Package parts (specs)
 
-- **Music**: acoustic and gentle: felt piano, fingerpicked guitar, woodwinds, light strings, glockenspiel, kalimba, soft pads. A licensed track can be edited with beat-aligned jumps; the picture can then take its beat grid.
-- **Foley made from the scene's matter**: a paper brush rustle for each painting-in (band-passed noise, light tremolo, a panned sweep); pencil scratch for notes; a soft thump for a stamp; page flips; nature beds and creatures of the subject (birds, wind, rain plinks, water, insects, fire crackle).
-- **Silence**: the brush lifted: music out, only paper and room; it frames a single painted moment.
-- **Mix character**: voice forward (RMS a few dB over the music), music ducked ~4 dB under voice with a smoothed envelope, a short soft reverb, final −14 LUFS. Kokoro voices are peaky (~17 dB peak-to-RMS): limit before level-matching.
-- **Voice**: warm, unhurried documentary read, one line per idea.
+| Part | Spec | Rules |
+|---|---|---|
+| Sting | 0–1.5 s | two accent slashes (0.04, 0.10 s) → the plate slams in with an overshoot, an impact ring and shake (0.16–0.42) → letters drop in one by one → wordmark and dateline open from the centre → a glint → the plate flies to the top right and **becomes the bug** while a vertical band wipes into the first shot. A hit within 0.4 s |
+| Brand plate | parallelogram 520×180, accent gradient, ink and gold bars at the left, name in condensed 800 | the same object is the sting, the bug, the desk front and the end card |
+| Rundown | left: date block (big numerals, month, week); right: three rows, 1024×140, number block in accent | rows flip in vertically on the beat (back ease) with a glint; at the close the same object returns and each row is ticked |
+| Lower-third strap | see §2 | enters with the first story, flips (new words up from below, old up and out, 0.32 s; the tab flashes white when the category changes), leaves with a slide when the recap starts. A **profile** version (tab `人物 PROFILE`) names a speaker |
+| Split-flap board | tiles 220×130, top and bottom halves clipped separately | old value and new value on the same board, so the change reads in one look; ×2 / +x % called out to the right |
+| Threshold chart | line from the peak, the threshold as a dashed gold line | the line head advances one trading day per step; the last step crosses the threshold in accent with a shake and a ring; the readout panel slides in after; axes show only what the data supports |
+| Bars | grow from a zero line downward for losses, values roll | a reference line at the shared threshold plus a badge |
+| Explainer map | the same projection, one long take | members light in order of distance from the city; the city label, the institution label with leader, a stamp; the camera pushes, then pans to make room |
+| Documents | 380×490 paper, ink header | fly out of the city dot on an arc (0.5 s, scale 0.08 → 1, rotation settles); check boxes tick on the voice's key words |
+| Quote card | ink background with the package's light streaks, a large accent quotation mark lands first, lines push up one by one (0.18 s apart), then the Chinese gist, a gold rule, name, occasion and date | the official wording, in the language it was said; never paraphrase inside quotation marks; an underline sweeps the key word as the voice says it |
+| Spec card | eyebrow (source · date), the product name pushed up from a mask, a category stamp, proportion bars on one scale (the whole vs the part, values rolling), a percentage badge, a context chip; a second group on the right for the hardware or the place, filling cell by cell, joined by a bracket to its total | one scale for every bar, so the proportion is true; every number from the source page |
+| Stamps | accent fill or ink with a double accent frame, −6° to −10° | land from 1.9× in 0.16 s with an expanding ellipse; one per story at most |
+| Transitions | vertical band wipe (accent 84 px + ink 5 px + gold 14 px edge, 0.3 s) between stories and programme parts; hard cut + timpani inside a story; slanted wipe into the end card | nothing else: no dissolves, no 3D flips, no page turns, no fly-throughs. **The package layer travels with its picture**: under a wipe each side draws its own strap words, tab, source line and corner tag (old state on the old side, new state on the new side), so the band brushes the headline over; on a hard cut they change on the same frame. Strap words never flip or overlap. The incoming picture's entry animation starts under the band, so its first revealed frame already has content |
 
-## 8. Native moves
+## 4. Colour
 
-A menu: use the ones your story needs.
+| Role | Value | Use |
+|---|---|---|
+| ink | `#121417` | backgrounds, panels, strap end block |
+| ink2 / ink3 | `#1B1E23` / `#22262C` | cards, land on maps |
+| accent (lemon) | `#F2CF1D` (light `#F8DE4A`, dark `#D8B30C`) | plate, tabs, band wipe, bars, stamps, the line that breaks |
+| gold | `#D4B064` | thresholds, datelines, source lines, light fins, badges |
+| paper | `#F4F1E8` | strap, documents, the chart line |
+| breaking | `#FE6B3D` | only for BREAKING and LIVE. A weekly round-up has neither, so it never appears |
 
-- **Painting-in as reveal.** A new thing appears stroke by stroke as it enters. *Fits content like:* the stages of a building; the ingredients of a dish; the organs of a body.
-- **Burst.** A whole group paints in at once (≤ 1 s) for a peak. *Fits content like:* a festival crowd; a field in bloom; a city lighting up.
-- **Palette as data.** Sky, ground and background blend by a measured value. *Fits content like:* pollution along a river; temperature by altitude; noise across a city.
-- **Specimen + note.** One hero object with a hand-written label and leader line. *Fits content like:* a tool kit; a wine region's grapes; parts of a bicycle.
-- **Mist erase.** The world washes back to paper. *Fits content like:* forgetting; a dream ending; a site demolished.
-- **Map in time.** A painted map whose fills change continuously through years. *Fits content like:* a language spreading; a coastline eroding; a railway network growing.
-- **Painted transformation.** Objects cross-fade to a burnt, wet or aged sprite and regrow. *Fits content like:* a wildfire and recovery; a flood; a restoration.
+Structure to keep when you change the brand: one accent + one gold-like secondary + paper + ink, and a reserved alarm colour. Ink text on the accent; on paper, English secondary lines in a dark olive (`#6E5A1E`) because gold is too weak there.
 
-## 9. Pitfalls of the medium
+## 5. Type
 
-- Offscreen wash strips too short flatten tall shapes into flat tops and expose seams on tilts → size strips well beyond the frame.
-- A translucent wash that ends at its canvas edge shows a hard seam under other layers → extend below the frame and fade to paper with a gradient.
-- Classic scripts share one global scope: touching a `const` before its declaration in async init leaves `READY` false and every screenshot times out → build everything inside the init; read `[pageerror]` lines.
-- The stroke builder consumes the global RNG: any stroke created in `render(t)` must be wrapped in `withSeed` or parallel workers disagree.
-- Thousands of strokes per frame are too slow → sprite cache.
-- Beat-locked animation must be re-derived when the music edit changes.
-- New CJK subtitle characters fall back to another font until the subset is rebuilt.
+- Chinese: Noto Sans SC 900 (headlines, strap) / 700 (labels).
+- Latin: Barlow Condensed 800 (numbers, names, the plate), 600 (secondary lines, quotes), 600 italic (the end-card English title).
+- Mono: IBM Plex Mono 500 for datelines, sources, axis labels, all caps with 1–4 px tracking.
+- All OFL, subset from Google Fonts by `demo/tools/fonts.sh` (the character list is read from `main.js`; delete `fonts/*.woff2` after a text change). No handwriting faces in this style.
+- Every label is bilingual on one line each (Chinese first, English smaller); never wrap.
 
-## 10. Engine
+## 6. Picture layer and grade
 
-In `demo/`: `engine.js` (RNG, easing, noise, monotone keyframe tracks; the stroke engine `mk`, `drawS`, `drawList`, `sprite`, `clump`, `edgeOf`, `withSeed`), `plants.js` (plant and prop generators, local coordinates, root at 0,0), `scene.js` (layers, wash strips `washPoly`, world placement `add`, annotations `hand` / `leader` / `note`), `main.js` (map, mist, HUD, subtitles, `render(t)`, async init → `READY`), `paper.py`, `fetch_fonts.mjs`, `mix.py`, `render.mjs`. API table and a minimal example: [DEMO.md](DEMO.md) "Engine reference".
+- When there is no footage, the picture layer is data graphics drawn in code plus, at most, a few **illustrative plates** (generated or stock), each tagged `ILLUSTRATION` for as long as it is on screen. They set a mood (a server room behind a model launch, a wafer behind chip stocks); they never stand in for the event, the place or the people.
+- One grade for every plate: greyscale → auto black/white points (0.5 / 99.6 percentile) → γ 1.05 → 35 % S-curve → black 8, white 232 → duotone `#0E1013` → `#ECE7D8` (`tools/prep.py: grade()`), plus a left-dark ink gradient for type, a 50–55 % vignette and 7 % overlay grain cycling through six tiles. Graphics and the package are never grained.
+- Real footage, if you have it, takes the same grade path; modern footage ≤ 1.5× scale, archive ≤ 2.5× after deblocking; crop out station logos.
 
-## 11. Variation space
-
-You decide the subject, the structure, what gets painted, the palette logic, whether anything is measured, the opening, the ending and the camera. All far from our demo:
+## 7. Editing grammar
 
 
 <!-- END STYLE PAGE -->
