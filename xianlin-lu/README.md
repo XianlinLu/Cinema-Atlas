@@ -9,9 +9,6 @@ Pick a style, bring your own story, and let your coding agent direct the film.<b
 ⚠️ **Built for Claude.** The styles are tuned for Claude Opus 5.5;<br>
 other models may not reproduce them well, so use them with care.
 
-🆕 **2026-10-19 · [Make a style your own](#make-a-style-your-own)**: change a style, give it your own name, get a 15–30 s test film.<br>
-🆕 **2026-10-16 · [Evidence Films](https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/#evidence-films)**: 8 new styles that film real material, every number measured or sourced. [See them ↓](#evidence-films)
-
 <sub>Official repo: [github.com/XianlinLu/Code-Cinema-Atlas](https://github.com/XianlinLu/Code-Cinema-Atlas/tree/main/xianlin-lu) · by Xianlin-lu ([@Xianlin-lu](https://github.com/XianlinLu))</sub>
 
 </div>
