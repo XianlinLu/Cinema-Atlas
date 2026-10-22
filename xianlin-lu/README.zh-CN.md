@@ -5,8 +5,6 @@
 **<!--n-->51<!--/n--> 种影片风格，每种都配一支完全用代码做出来的短片。**<br>
 选一个风格，带上你自己的故事，让你的编程 agent 来当导演。
 
-<a href="https://xianlinlu.github.io/Code-Cinema-Atlas/xianlin-lu/"><img alt="看图鉴" src="https://img.shields.io/badge/-%E2%96%B6%20%E7%9C%8B%E5%9B%BE%E9%89%B4-E8553A?style=for-the-badge"></a> <a href="README.md"><img alt="English" src="https://img.shields.io/badge/README-English-555?style=for-the-badge"></a> <a href="https://github.com/XianlinLu/Code-Cinema-Atlas/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/XianlinLu/Code-Cinema-Atlas?style=for-the-badge&color=F5B700&label=stars"></a> <a href="#授权"><img alt="MIT · CC BY 4.0" src="https://img.shields.io/badge/%E6%8E%88%E6%9D%83-MIT%20%C2%B7%20CC%20BY%204.0-2EA44F?style=for-the-badge"></a>
-
 ⚠️ **本插件为 Claude 专用。** 风格都是按 Claude Opus 5.5 调出来的，<br>
 其他模型适配度不高，请谨慎使用。
 
