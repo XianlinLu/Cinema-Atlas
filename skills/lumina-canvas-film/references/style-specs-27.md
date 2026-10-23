@@ -1,193 +1,166 @@
 # Complete style specifications 27
 
 
-<!-- STYLE: pictogram-motion -->
+<!-- STYLE: lowpoly-island -->
 
-> A beat-locked flash-card film built from three things only: a **square-grid "core graphic"** of circles, half-discs and tiny patterned cells whose rows slide past each other; **geometric pictograms** made of round-capped bars and a disc head; and **bold bilingual type** that slides up out of masks. Every cut lands on a drum hit.
-> References (grammar only): Otl Aicher's 1972 Munich pictograms (geometric athletes); multi-sport-games "look of the games" identity systems (a modular pattern + a colour set used for everything); Swiss sports-broadcast graphics (mono meta text, tick-bar progress). Learn the grammar; never copy any real event's pictograms, emblem, slogan, pattern artwork or colour names, and never name them in the film.
-
-## 1. Essence, and what it is not
-
-A **catalogue film**: N items (products, dishes, steps, species…) shown one card at a time, fast, on the beat. Each card = **one pictogram doing one action + a huge title + a second-language line + a mono index "07 / N"**. Cards group into chapters; each chapter owns one hue, opened by a full-bleed pattern card.
-
-What makes a frame read as this style at a glance:
-1. **The grid pattern**: big discs and half-discs spanning square cells, about half the cells carrying a small motif, all in **five tones of one hue**, with **whole rows cut and shifted sideways**: the signature that drives backgrounds and transitions.
-2. **The pictogram figure**: flat, faceless, rounded bars and a disc head; far-side limbs mixed toward the background. Props are discs, rings, capsules, lines.
-3. **Type as architecture**: a 900-weight grotesk title set very large, a heavy second-language line under it, small mono meta text in the corners like a broadcast HUD.
-4. **Beat lock**: every shot starts on a beat, every key action lands on a beat.
-
-Mood: premium broadcast identity; flat colour, light grain, one soft light sweep as the only gradient.
-
-Not an isometric infographic (no depth, no 3D), not Swiss motion graphics (the figure and the pattern carry as much as the type), not a cartoon (figures never emote, have no faces), not a data film (numbers are labels, not charts).
-
-## 2. Materials & rendering
-
-- **Flat Canvas2D**, rendered clean; grain only at mux time. **One square grid** (cell ≈ 1/6 of the frame height) rules bands, transitions and walls.
-- **Pattern model**: fill with a mid-dark tone; on grid nodes randomly place cell-radius discs in random tones and discs-with-inner-discs; then a fraction of cells get one motif from a library of generic geometry (quarter-discs, fish-scale waves, dot and triangle scales, concentric arcs, sun wheels, checkers, crescents…), rotated by multiples of 90°; never mascots, landmarks or logos. Draw it wider than the screen so any row can shift one cell.
-- **Figure model**: unit = body height, origin at the hip; draw far limbs (mixed ~40 % toward the background), torso, near limbs, head. A second person sits behind, mixed further (~60 %).
-- **Stage**: the figure stands on a large **sun disc** in a neighbouring tone, crossed by one faint light sweep.
-- **Figure environments** (water, nets, ramps) live in the figure's own buffer, masked to zero before the text column.
-
-## 3. Colour logic
-
-- **A set of five hues + one dark neutral**, each hue in **five tones** (darkest → lightest, the middle one is the base). A chapter = one hue; a multi-hue chapter rotates through the set per card.
-- Under type the pattern runs at **low contrast**; on chapter cards at **full contrast**.
-- **Light hues take dark type and dark figures**, and their disc uses the lighter tone; dark hues take cream. On the dark neutral, the disc uses a lighter tone or it vanishes; its accent is one warm hue.
-- One cream and one ink serve every hue. No outlines, no highlights except the sweep.
-- Choose the set from the topic. Examples: warm festival (red, violet, forest green, gold, ochre); coastal (navy, teal, coral, sand, sky); kitchen (tomato, basil, saffron, aubergine, flour cream). Invent names for your hues; never borrow an event's colour names.
-
-## 4. Type & subtitles
-
-- Title: a 900-weight grotesk (e.g. Inter Tight), 150–330 px at 1080p, tight tracking, auto-fitted. Second language: a heavy face under it. Meta: a mono (e.g. DM Mono) ~22 px, wide tracking; tags as mono chips.
-- **HUD** on every card: mono corner text and a **progress bar of N ticks** (current tall, done dimmed, rest faint), N derived from the item list.
-- **Bilingual rule**: one language is always the big title; the second language is chosen per version by a switch, never by hand-editing cards.
-- The card type *is* the text layer. With narration, captions are a mono line on a solid band in the chapter hue, bottom, never over the title; hold ≥ max(1.8 s, speech + 0.6 s). A card that must be read (a spec, a number) holds ≥ 1.6 s.
-- Deliver an `.srt` of the title cards, generated from the edit list.
-
-## 5. Motion quality
-
-- **A grid of time**: pick one tempo for the film; every shot starts on a beat and every key action in a pose (release, contact, landing) lands on an integer beat.
-- **Pace ladder**: normal cards last one bar; related sub-items become half-length rapid-fire runs. A second tempo comes from dividing the beat, never from changing tempo.
-- Easing: exponential ease-out for entrances, exponential in-out for whips and wipes; a back ease once at most.
-- **Type enters by mask slide-up**: title first, second line ~0.08 s later, tag after; meta lines type on without a caret. Short cards compress all timings.
-- **Figure assembly**: the figure arrives as horizontal bands sliding into register from alternating sides.
-- **Backgrounds breathe**: rows drift in alternating directions; on chapter cards they jump a quarter-cell on beats.
-- **Transitions** snap to the grid: sliding rows, dropping columns, a push, quarter-discs from cell corners, an iris from the last figure, a tile flip. Rotate them; each lasts a few frames around the cut.
-- **Motion blur only where things move**: sub-frame averaging inside transition and whip windows; static frames render once.
-
-## 6. Camera grammar
-
-Mostly a locked flat frame; energy comes from row shifts, transitions and figure actions. When the camera moves, it moves along the grid. Opening and ending come from the topic.
-
-| Move | What it expresses | Can serve |
-|---|---|---|
-| Locked flat frame | clarity, the card as a poster | any item; a spec that must be read |
-| Lateral track with a one-screen whip per beat | one continuous family, momentum | a line of stations; a production line; a route |
-| Slow drift along a row | calm, browsing | a gallery; a menu; a slower chapter |
-| Vertical scroll by grid rows | ranking, depth, descent | a top-ten; floors of a building; ocean depths |
-| Push into one motif cell until it becomes the next frame | zooming into a part | an ingredient inside a dish; a city inside a map |
-| Pull back to a tiled wall of items | the whole set at once | a summary; "all of them"; a comparison |
-| Tiles collapsing to one point | many become one | a merger; a shared goal; a count reaching zero |
-| Split screen along a grid line | two items side by side | versus; before/after; two versions |
-
-Framing: text and figure never overlap (one text column, one stage); horizontal poses move the stage outward. The HUD stays in the corners. Allowed transitions are the grid ones in §5; never dissolves, 3D camera moves, handheld shake or depth of field.
+Intercut wide and close on beats: wide shows the shape growing, close sells the bounce. Transitions: hard cuts on the beat, a time-of-day change, a zoom through the sky; no dissolves, no perspective whip-pans.
 
 ## 7. Sound palette
 
-- **Type and music can carry the film alone**; a voice is optional, calm, one line per chapter at most.
-- **Percussion is the spine**: choose a drum family that suits the topic (frame drums, taiko, marching snares, steel pans, body percussion, an electronic kit) plus rim clicks, claps, shakers and crashes.
-- Colour instruments on top: Karplus-Strong plucks (any lute, koto or harp-like voice, with pitch bends), mallets (marimba, glockenspiel), detuned-saw chord stabs, a synth bass, pads, risers and a drone.
-- **Per-family accents**: every shot onset gets a hit chosen by chapter (a splash, a pok, a clank, a crack, a whoosh, a sizzle): foley reads the chapter's matter.
-- **Picture-locked by data**: the score reads the edit list's shot times and places accents there; check every onset to ±15 ms.
-- **Silence as a tool**: half a beat of drums-and-bass-muted before a big hit, or one whole bar stripped to a single ticking sound under a count.
-- Mix: glue compressor and limiter, −14 LUFS, ≤ −1 dBTP.
+- **Music can be event-driven**: growth events carry a note, and the score synthesizes each one at its exact time, so the picture writes the tune. Pitched percussion suits the facets: marimba, kalimba, woodblock, bells, vibraphone, celesta, steel drum; underneath, a soft pad, a gentle ostinato, light shaker or soft kick. Pentatonic or modal material keeps any order of notes consonant. **No piano, no strings.**
+- **A single note can be a motif**: one sound owned by the world (a bell, a chime, a horn) that returns changed.
+- **Foley follows material**, all synthesizable: bubble sweep + splash with droplet ticks for rising tiles (bigger = lower); wooden knock plus a quieter bounce knock for floors; ceramic clack for roofs; hollow plank knock; heavy stone thunk; glass tink; a low whump with electric hum for anything switching on.
+- **Beds**: low-passed brown-noise water with swells, birds as downward-gliding FM chirps, creaking wood, crickets or wind at night.
+- **Silence**: drop to a low drone and a bed; a moment of digital zero on the music bus before a big downbeat. Options: thin the ostinato to one voice instead of stopping it; let the world's own events carry the rhythm for a passage.
+- **Voice**: clear and gentle, few short lines; avoid words that collide with the film's subject (a film about baking: "flour" heard as "flower").
+- **Mix**: voice compressed and well above the music, music ducked under it, −14 LUFS; **grain 0** (flat colour shimmers with grain).
 
 ## 8. Native moves
 
-A menu: use the ones your film needs.
+A menu: use the ones your story needs.
 
-- **One card = one item.** The count is the hook ("ALL N"). *Fits content like:* every tool in a workshop; every station of a subway line; every dish of a regional cuisine.
-- **Chapter = colour.** Families become hues so the viewer always knows where they are. *Fits content like:* instrument sections of an orchestra; food groups; departments of a company.
-- **One verb per item.** One body action readable in a bar, or a prop action (a gear turns, a cup pours). *Fits content like:* yoga poses; kitchen techniques; jobs on a construction site.
-- **Pace ladder run.** A sub-family at double speed. *Fits content like:* four knife cuts; the bones of a hand; weekday routines.
-- **Long take down a track.** Stations one screen apart, the camera whipping on each cut. *Fits content like:* the steps of a recipe; checkpoints of a marathon; stages of a rocket launch.
-- **Count-up slam.** A big number rolls to its value on a bar. *Fits content like:* tonnes recycled; members of a club; years of a company.
-- **Icon wall.** All pictograms return as a grid and turn one colour. *Fits content like:* a summary of a year; a periodic table of habits; a team roster.
+- **Building is composing**: every piece that lands plays a note; a later sweep can replay them in spatial order as a finished melody. *Fits content like:* a skyline whose floors are notes; a team assembling a product; a garden whose flowers form a chord.
+- **Procedural growth**: tiles rise, floors stack, trees pop. *Fits content like:* a startup's first year; a coral reef recovering; a neighbourhood being planned.
+- **Scale by pure zoom**: one object fills the frame, then the world becomes a speck (or the reverse). *Fits content like:* one user among millions; a village on a continent; a data centre inside a network.
+- **Turntable**: a continuous rotation around the thing being made. *Fits content like:* a machine being assembled; a museum object; a house renovation.
+- **Light as clock**: shadows sweep and facets re-colour. *Fits content like:* a day of a shop; a year of a farm; a shift at a hospital.
+- **Emissive blocks in the dark**: lights coming on one by one, a beam sweeping like a clock hand. *Fits content like:* a network going live; a town at nightfall; volunteers joining a cause.
 
 ## 9. Pitfalls of the medium
 
-- Figure environments spread into the text column → render the figure layer into its own buffer and fade it out with a gradient mask before the text.
-- Cream on light hues fails contrast → dark type and dark figures on light hues; their disc is the lighter tone.
-- The sun disc vanishes on the dark neutral → use a lighter tone for it.
-- Pattern canvases are large and seeded per card → cache with a bounded LRU; an unbounded cache runs out of memory with parallel renderers.
-- Horizontal poses (swimming, lying, crawling) cross the title → move the stage outward and narrow the text column.
-- Imitating a real identity too closely → your own palette, mark and slogan from the grid motifs.
+- `perspectiveDepthToViewZ` in shared post code is wrong for an orthographic camera → `orthographicDepthToViewZ`.
+- GTAO renders sprites and transparent objects as solid quads → hide them during the AO pass; set `visible = false` at zero opacity.
+- Side column and top cap sharing one plane → z-fighting → sink the column.
+- A double-sided additive cone reads as two white lines → a camera-facing Gaussian ribbon + halo.
+- Camera too close for its frustum → the frame bottom shows below the sea → distance ≥ 3 × frustum height.
+- Two pieces landing in one grid slot muddy the melody → one piece per slot.
+- `half` is a reserved word in GLSL.
 
 ## 10. Engine
 
-In `demo/`: `engine.js` (`G.pattern`, `G.motif`, `G.joints` / `G.drawFigure`, `G.keyPose`, `G.maskText`, easings), `poses/base.js` (pose contract, props `G.P`), `edl.js` (edit list in beats), `scenes.js` (layouts, transitions, HUD, motion blur), `lab.mjs` (pose sheets), `music/music.py` (picture-locked score with onset report). API table, pose convention and a minimal example: [DEMO.md](DEMO.md#engine-reference).
+In `demo/` (three.js): `world.js` (hex layout, primitive props, growth schedule → events with notes, arrival curves), `sea.js` (faceted wave shader, shallow map, beam-lit water), `post.js` (ortho post: GTAO → sky/haze + stars → tilt-shift → bloom → grade), `story.js` (beat grid, time-of-day keyframes, shots), `main.js` (renderer, lights, per-shot cameras, HUD, event export), `music/score.py` (event-driven score; `music/check.py` compares audio onsets and pitches with the events), `mix.py` (foley, beds, ducking). File map and build steps: DEMO.md.
 
 ## 11. Variation space
 
-You decide the items, grouping, verbs, palette, chapter order, any long take, the pace ladder, opening, ending, music and voice. All far from our demo:
+You decide the world (island, town, orchard, factory floor, planet), what grows or changes, the palette within the colour logic, the opening, the ending, the camera path and the pacing. All far from our demo:
 
-- Structures: **a countdown** (items ranked from N to 1, the camera scrolling down rows, the pace speeding up as the list shortens); **a day in pictograms** (one figure, one card per hour, the palette moving from dawn to night hues); **an assembly** (each card adds one part to a single growing pictogram machine seen in the corner).
-- Openings: **a single motif cell** (one cell fills the frame and splits into the grid); **mid-action** (the first pictogram is already running when the type slams in); **a blank grid** (hairlines draw the grid on the beat before any colour appears).
-- Endings: **one card held long** (the last item stays while the pattern rows stop, one by one); **the figure walks off** (the last pictogram exits the frame and the HUD ticks out); **reverse assembly** (the grid disassembles into rows that slide off-screen, leaving cream).
+- Structures: **erosion** (a finished world loses pieces one by one, each removal a falling note, until only the essential piece remains); **two worlds** side by side trading pieces across a gap until they join; **a year in four seasons** on one fixed world, the palette keyframes carrying the story.
+- Openings: **mid-construction** (a busy half-built world, many pieces already dropping); **from above** (a top-down map that tilts down into isometric); **the full world first**, then a push into one tile where the story lives.
+- Endings: **a close-up on one final piece** landing, no pull-back; **the world packed away** (pieces fly up and stack into a box); **daylight** (dawn floods the world and the music resolves on the first sunlit facet).
 
 ---
 
-How our demo was made (story, shots, score, end card, build, engine reference): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: ascii-crt -->
+<!-- STYLE: glass-product -->
 
-# ASCII / CRT Terminal: Style Prompt
+# Glass Product Render — Style Prompt
 
-> Everything on screen is a real character on a monospace grid, lit by the phosphor of an old monochrome CRT.
-> References (grammar only): 1970s–80s monochrome terminals and teletype logs (typed output, cursor, status lines); ASCII art and demoscene text-mode pictures (images from glyph density); analog-synth film scores of the early 1980s (cold pulse, patient drones). Copy no film's interface text, fonts or logos, and use no real agency names.
+> Launch-film product rendering in transparent and frosted glass: a dark-field studio, strip-light sweeps, dispersion, caustics, light travelling inside the object, slow exploded views that snap shut on a downbeat.
+> References (grammar only): premium launch films (a sweep drawing a contour in the dark, slow orbits, macro rack focus, cuts on the beat, ultra-thin wide type); transparent-hardware adverts (internals as ornament, exploded views, black and white plus one accent); dark-field glass photography. Copy none of their silhouettes, typefaces, sounds or colour templates, and never name them in the film.
 
 ## 1. Essence, and what it is not
 
-A single monochrome terminal screen: **P3 amber** (or P1 green) phosphor glowing on dark glass, curved at the edges, with scanlines. Every image, including title, landscape, face, room and subtitles, is made of **real glyphs placed on a character grid** and chosen by ink density. The film has one camera, the screen itself. It moves only by changing the **font size of the grid**: bigger characters push in, smaller characters pull out.
+A single hero object of **glass, metal and light** floating in an infinite black studio. Long strips *behind and beside* it turn clear glass into a thin white outline with rainbow edges; the internals show through as in a display case. Everything moves slowly and precisely; every cut, sweep and pulse lands on the beat.
 
-The mood is cold, patient and machine-calm: typed text, a blinking cursor as suspense, and one warm surprise.
+The object is always **fictional**. Never reproduce a real product silhouette (a famous phone or headphone outline), a real brand name, logo, typeface or UI.
 
-**Never** fake it with an image plus an "ASCII filter". Characters must be drawn as characters on a grid. Not a hacker-movie green rain, not a pixel-art game (no sprites, no free pixels), not a sci-fi HUD (no vector lines, no free-floating panels).
+Not a white-cyclorama catalogue shot, not a wireframe HUD, not a keynote slide: material and light are the subject.
 
 ## 2. Materials & rendering
 
-- **Font**: one monospace bitmap-style font (VT323, OFL); cell 0.4 em × 0.8 em (1:2). A large prerendered glyph atlas with a stroke for beam spread, scaled with `drawImage`, keeps zooms continuous and sharp.
-- **Grids**: column count per shot (title ~20, terminal 80, picture 200+); a push-in can go until one cell holds a sub-grid of its own.
-- **Density ramp**: each glyph's measured ink coverage × dim / normal / bold → about 20 levels, near-duplicates dropped; a small ordered-plus-hash dither per cell; cells below a threshold stay blank. **Negative space makes ASCII art readable.**
-- **Picture pipeline**: paint grayscale into an offscreen "negative" aligned exactly to the grid (several samples per cell; channels for phosphor, second colour, a flag), average per cell, pick a glyph. Interiors get local contrast (`m + 0.9·(m − mean)`) to keep outlines.
-- **Recognisable subjects**: silhouettes, not noise (real coastline polygons, a face from a few planes); dark = sparse dim glyphs, bright = dense bold, shadow sides sparse `.` only; an angle with a clear silhouette.
-- **Depth on a grid**: far = darker and sparser, near = brighter and denser; a thin bright rim separates planes.
-- **CRT post** (WebGL, adapted from `core/post/crt.js`):
-  - **Phosphor colour**: luminance maps along the phosphor's ramp (dim deep orange → amber → overexposed near-white for P3).
-  - **Glow**: multi-level bloom plus a faint halo.
-  - **Glass**: fine scanlines (narrower on bright areas), slight barrel curvature, rounded mask, warm near-black unlit glass, faint reflection, ~1 % flicker, fine noise. **No RGB grille: monochrome tubes have none.**
-- **Afterglow**: text that disappears decays with τ ≈ 0.1 s, computed analytically so every frame is deterministic. Moving glyphs get one faint trail sample.
+- **Studio = a strip-light scene, not an HDRI.** Photo-studio HDRIs contain windows and clutter that print as messy streaks on glass. Build a tiny black scene of emissive planes and bake it to PMREM **every frame** (`pmrem.fromScene(env, 0, 1, 1000)`, dispose the previous RT): tall side strips behind (silhouette), a wide far strip (horizon rim), a soft top box (volume for frosted glass and metal), a weak front card (off when concave glass faces camera), a top-front key only when parts must be read one by one, an accent card driven by the pulses, and **the sweep**: a tall strip on an arc *behind the camera* (azimuth = camera + π). Being real geometry, its highlight, refraction and dispersion move physically; never paint a 2D highlight.
+- **Clear glass**: `MeshPhysicalMaterial`, transmission 1, roughness ≈ 0.015, IOR ≈ 1.5, thickness sets lensing (thicker = stronger), **dispersion on** (three r163+), near-neutral attenuation, `side: DoubleSide` so other glass sees its back faces.
+- **Frosted glass**: transmission ~0.85, roughness ~0.4, milky tint, thick. On black it reads as dark grey plastic unless **something bright is behind or inside it**: an opaque emissive shape inside (blurred into a soft internal glow) and/or a bright gradient behind.
+- **Metals** make transparency worth looking at: satin bands, chrome (roughness ≥ ~0.14), brushed surfaces via a roughness map, boards with gold traces. **Anything inside transmissive glass must be opaque** (only opaque objects reach the transmission buffer).
+- **Light guides**: dark polished opaque acrylic, clearcoat, emissive **comet pulses** along a UV axis via `onBeforeCompile` (Gaussian head, exponential tail, white-hot core, hue drifting with age). Idle emission ≈ 0.
+- **Background**: black with an optional dark-grey radial sweep that separates glass edges; the floor fades into it, **no horizon line**. **Floor**: black gloss, blurred mirror, radial fade, procedural caustics (lens ring with R/G/B radii offset, warped Voronoi filaments, rings spreading from events).
+- **Post**: 2× supersampling; physical DoF (shallow macro, deep exploded views); bloom only above ~1.1; **Neutral tone mapping** (AgX washes accents to white); grain 0. Model in mm, near plane 1.
 
 ## 3. Colour logic
 
-- **One phosphor** carries everything: amber, green or white, in its own brightness ramp. No second hue for decoration.
-- **At most one soft second colour**, used for one thing only (the emotional object), switched on at a single moment, on a downbeat, and never taken back casually.
-- Examples: amber screen with an ice blue-white for something far away; green screen with a warm pink for a living thing; white P4 screen with a pale gold for a memory.
-- Brightness is the only other tool: dim / normal / bold and inverse video.
+- The world is neutral: black, greys, the white of strip reflections, the metals' own tints.
+- **One accent colour family, reserved for light** (emission, caustic rings, the dispersion line on UI), optionally drifting between two neighbouring hues with age or energy. Examples: ice blue → soft violet; amber → rose; green → cyan. Pick it from what the product does, never from a brand.
+- Emitters that only illuminate (inside frosted glass) stay cool-white and dim.
+- Dispersion rainbows are allowed only at thick glass edges and in the caustic, never as a gradient on surfaces or type.
 
 ## 4. Type & subtitles
 
-- **Subtitles are terminal output.** A reserved **LOG strip** at the bottom: a dim separator, an inverse-video tag, then a prompt and the line in uppercase at ~45 px. It is **typed word by word in sync with the voice** (whisper word timestamps) and holds ≥ max(1.8 s, speech + 0.6 s). It lives outside the zooming grid, like a status line, with the same scanlines and glow. When nobody speaks it can show system state (a progress bar, a waiting message).
-- **On-screen text that the story shows** is picture, not subtitle; in the `.srt` it appears as `[SCREEN] …`.
-- **Titles** are typed with key clicks, as a filename, a command or a header.
+- **Subtitles are a slab of frosted glass**: a centred rounded bar filled with the live frame blurred (`filter: blur() brightness()` on the WebGL canvas, `preserveDrawingBuffer: true`), a little cool white, a thin highlight stroke and an accent line on top. A licence-free grotesk (e.g. Inter Tight), light weight, ~36–44 px, near-white. Hold ≥ max(1.8 s, speech + 0.6 s).
+- **Titles**: the same grotesk at an ultra-thin weight (200), very large (100–140 px) with very wide tracking, centred in the upper third; a diagonal glint sweeps across the letters in sync with the sweep light on the object. Small tracked caps (18–20 px) for kickers and credits.
+- The product name and slogan are **title cards**, not subtitle lines.
 
 ## 5. Motion quality
 
-- **Characters never move off-grid, except in a declared transformation moment.** Typing, scrolling and counters jump from cell to cell. A roller flips digits discretely, fast then slowing.
-- **Only three things move continuously**: grid scale (the camera), CRT physics, and particles in a transformation.
-- **Typing speed is performance**: machine output is even and fast (~10–40 ms/char); dramatic lines slow to note values of the score; human typing is hand-timed, uneven, with pauses and bursts.
-- **Particles** spawn from random points inside source glyphs, start small, fade in, ease to their cell, and flash briefly on landing, so they never stack into bright bars.
-- **Push to a character**: hold where the whole glyph reads, then push until its inner text reads; inner text full brightness, outside text a few percent, neighbours dimmed, so the shape reads before the text.
+- **Everything moves on ones** (24 fps), eased: ease-in-out for camera orbits, ease-out for parts decelerating into a float, ease-in for a snap back.
+- **The camera always drifts**: slow orbits or push-ins; never a locked-off frame, never handheld, except a couple of frames of micro-shake on an impact.
+- **Exploded view**: parts spread along the axis (~2× product size), each with a small deterministic tilt and a spin proportional to its offset; long ease-out apart → short drifting hover → **very short ease-in snap** on a downbeat.
+- Objects lift out of cradles tilted toward camera and settle upright; lids hinge at the back and stand behind the object as a backlit halo.
+- Light pulses and sweeps are events on the beat grid, not free animation.
 
 ## 6. Camera grammar
 
-The only camera is the grid scale, plus CRT power states and one possible shot outside the screen.
+A vocabulary, not a route. Opening and ending come from the topic.
 
-| Move | What it expresses | Can serve |
+| Move | Expresses | Can serve |
 |---|---|---|
-| Static 80-column terminal | Waiting, procedure, machine time | a countdown; a queue; a log being read |
-| Push in (cells grow) | Attention, intimacy | one line of dialogue; a name; a decision typed |
-| Pull out (cells shrink) | Context, scale | a title becoming line 1 of a list; one entry among thousands |
-| Push into a single glyph | Hidden depth; what a symbol is made of | a letter made of messages; a pixel made of people |
-| Scroll (the buffer moves) | Accumulation, time passing | years of records; a changelog; a feed |
-| Clear screen / hard redraw | A cut; a new state | a reboot; a new chapter; a crash |
-| Text becomes image (grid shrinks as glyphs fall) | Words turning into world | a letter becoming a face; data becoming a map |
-| Power on / off, degauss | Birth, death, sleep, shock | a machine waking; an ending; a jolt |
-| Pull back off the glass into a drawn room | The screen is an object in a world | who is reading; where the machine is |
+| Sweep over a dark object, slow push | Contour before content | an unknown thing; a before-state |
+| Slow high 3/4 orbit | The whole object in one move | a mechanism opening; variants |
+| Macro, rack focus surface → part inside | Nothing to hide | an ingredient; a sensor |
+| Side macro orbit | Material contrast | layers; a seam |
+| Exploded view, axis ~40° to view, orbit | Technical beauty, suspension | architecture; a pause before a turn |
+| Straight-on front, slight push | Declaration | a single number; a name |
+| Top-down macro | A pattern at full size | channels; a circuit |
+| Top-down on the floor | The effect leaving the object | range; spreading energy |
+| Low orbit under the object | Monument, weight | durability; a flagship |
+| Slow pull-back into negative space | Room for type | a claim; a question |
 
-Opening and ending come from the topic. Framing: text stays in the safe area inside the curvature; keep the LOG strip clear. Transitions happen on the screen (clear, redraw, scroll, power), never a crossfade between two screens.
+Framing: one hero, centred or on a strong diagonal, never cropped by the frame edge in a wide. Cut only on beats (bar lines where possible). Product films need **no spatial continuity** between shots: each shot is its own presentation stage, so hide or move anything that doesn't serve it. Transitions are cuts on the beat or a sweep passing through black; never dissolves or wipes.
 
 ## 7. Sound palette
 
+- **Minimal electronic, never piano-and-strings.** Timbres, as options: bowed-glass or wet-finger tones, granular crystal clouds, glass bells and FM glass plucks, a filtered tick grid for precision, a warm pad, sub drone, soft short kicks and claps, 808 bass (sine with pitch envelope, soft saturation, slides), noise and saw risers, a high glass ding. Minor and modal colours suit the dark studio.
+- **Lock every pulse, sweep and snap to the score**: write the cue map first and share one hit list between the score and the renderer; light pulses may follow a syncopated bass pattern exactly.
+- **Silence as a tool**: a short stretch of total silence (reverb tails cut too) before a release, at most a reverse whoosh inside it.
+- **Foley follows the material**: glass shimmer for sweeps (band-passed noise + inharmonic partials, panned with the strip); glass-metal friction for moving covers; magnetic clicks (sub-2 ms transient + 3–5 kHz metal resonances + low thump); air puffs for moving parts; a snap = a cluster of clicks ms apart + an inharmonic glass chord (partials ×2.76, ×5.4); glass-on-glass ticks.
+- **Voice**: restrained, low, launch-like, very few very short lines. Never a product name alone (ASR and viewers mishear it): give it a verb.
+- **Mix**: duck music ~12 dB and foley ~6 dB under the voice; limit the biggest bass peaks ~3 dB so loudnorm stays linear; −14 LUFS; grain 0.
+
+## 8. Native moves
+
+A menu: use the ones your story needs. Adapting any topic: find **the invisible thing the product does** and make it visible as light inside glass.
+
+- **Transparency.** The inside is the hero; rack focus from the shell to the part within. *Fits content like:* a juicer's blades; a watch movement; a supplement capsule's layers.
+- **Lensing.** A thick glass dome magnifies and bends what is behind it; macro through it feels like looking into a jewel. *Fits content like:* a camera module; a magnifying tool; a water filter.
+- **Dispersion.** A sweep crossing a thick edge becomes a moving spectrum. *Fits content like:* a prism lamp; a display's colour range; a skincare bottle.
+- **Light that travels inside.** Energy (charge, data, heat, sound) runs as light through channels. *Fits content like:* a battery filling; a router's data threads; a kettle heating.
+- **Caustics.** An internal pulse becomes a ring spreading over the floor. *Fits content like:* a speaker's range; a perfume's trail; a wireless charger's field.
+- **Exploded view and snap.** Parts float apart and snap back on a downbeat. *Fits content like:* a modular backpack; a pen's refill system; a repairable phone.
+- **Frost to clear.** A frosted shell clears (roughness and tint animate to zero) and the inside appears. *Fits content like:* a privacy feature; a fridge's contents; an honest price breakdown.
+
+## 9. Pitfalls of the medium
+
+- A manually updated mirror uses last frame's camera → call `scene.updateMatrixWorld(); camera.updateMatrixWorld()` first; the transmission pre-pass re-renders it → no-op its `onBeforeRender`, update once per frame.
+- A coloured emitter inside frosted glass tints the whole object; idle glow under a lens dome becomes a pale blob; AgX turns accents white; frosted glass on black is black; mirror chrome becomes a white disc → the rules in §2–§3.
+- An exploded view seen perpendicular to its axis is edge-on lines → axis ~40° to camera.
+- Pure profiles read as simple shapes (mushrooms, pot lids) → 3/4 views, lids upright behind.
+- Bass peaks without headroom push loudnorm into dynamic mode → limit them in the mix.
+- Concave glass facing camera prints the front card as a grey rectangle → card off.
+
+## 10. Engine
+
+In `demo/`: `studio.js` (strip env baked per frame, sweep, background, floor mirror + caustics + rings), `product.js` (glass / frosted / metal / guide materials, comet-pulse shader, `explode()`), `main.js` (staging, cameras, frosted subtitle bar, title glint), `story.js` (beat-grid timeline shared with the score), `music/score.py`, `mix.py` (foley + voice + ducking). New object: replace the geometry in `product.js` (e.g. a glass cylinder with a coiled light guide), keep materials and `studio.js`.
+
+## 11. Variation space
+
+You decide the object (always fictional), internals, accent, structure, opening, ending, camera path, pacing and music. All far from our demo:
+
+- Structures: **a line-up** (three variants compared by what glows inside); **a day in light** (one object through morning, noon and night, the strip kit rotating around it); **material stack** (one layer removed per beat until the core stands alone).
+- Openings: **inside first** (one internal part; the shell forms around it); **caustic first** (light on the floor, followed up to the object); **silhouettes** (several dark outlines; one begins to glow).
+- Endings: **floor only** (the object leaves, its caustic keeps pulsing); **cool down** (emission fades to bare strip outlines); **held macro** (no pull-back; one detail, the name small).
+
+---
+
+How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
 <!-- END STYLE PAGE -->

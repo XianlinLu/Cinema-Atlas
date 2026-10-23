@@ -3,75 +3,6 @@
 
 <!-- STYLE: newsreel -->
 
-- **Gate**: 1480 × 1080 inside 1920 × 1080 (1.37:1), corner radius 26 px, pure black outside. Nothing is ever drawn outside the gate.
-- **Two layers**: the picture layer (footage, print, maps, cards) gets the film look; the type layer (place cards, labels, subtitles, the record inset) stays sharp and steady. Grease-pencil marks belong to the picture (they weave with it).
-- **Base grade** for every source, before anything else (`tools/prep.py`, `grade()`): greyscale → percentile stretch (0.6 % → black, 99.6 % → white; print: 0.2–0.3 % / 99.0–99.7 % with the black lifted to 26–30, like newsprint) → mild S-curve `x + 0.18·(x−0.5)·(1−|2x−1|)` → output 14–238. **Moving footage uses one level set per clip** (sampled across all its frames), never per frame.
-- **Projection look** (`filmLook()`, picture layer only): warm silver (`multiply #efe7d6`, `screen #17140f`), vignette 0.42 H → 0.95 H, flicker ±3.5 % per frame + 3 Hz drift, gate weave ±1.6 px / ±2.2 px (value noise), 0–3 vertical scratches that live for 9 frames, 0–4 one-frame dust specks. Grain is added at mux (`mux.sh … 24 7`), not in the page.
-- **Archive film upscaling**: at most ~2.5×. NTSC transfers (720 × 480) are treated as 4:3, cropped to 1.37 and scaled 2.31× to 1480 × 1080: `hqdn3d=4:3:6:5` → `lanczos` → `unsharp=5:5:0.55` → base grade. Frames are exported at 24 fps as JPEG sequences and played by `floor((t − t0) · 24)`, so renders are deterministic.
-- **Print**: newspapers, magazines and books at their scan resolution; crop pages to the relevant fold so unrelated (and sometimes ugly) old stories never come into view.
-- **Code-drawn packaging only**: the ident (sunburst, two searchlights, wire globe), item title cards, maps, the end card. Never generate "archive" pictures.
-
-## 3. Colour logic
-
-- **Monochrome warm silver** for the picture; values do the work (check every shot as a thumbnail).
-- Type is cream on near-black (`#f3eee4` / `#d6cfc0` on `rgba(12,11,10,.8)`), framed by a 2 px cream rule; marks are a slightly warm white grease pencil; underlines on printed pages are dark soft lead.
-- Packaging silver: Art Deco gradient lettering `#fff → #d9d4ca | #9e978a → #efebe2` with a hard "metal" break at the middle and a black outline (0.12 em).
-- No colour accents, no sepia wash on top of the silver, no colourised archive.
-
-## 4. Type & subtitles
-
-| Use | Face (all OFL) | Spec |
-|---|---|---|
-| Ident, item cards, end title | Limelight | 104–118 px, silver gradient, black outline |
-| Chinese display (ident, cards, end title) | Noto Serif SC 900 | 50–76 px, letter-spacing 10–26 px, `#ece7dc` |
-| Place card, labels (English) | Oswald 600 | 26–34 px, letter-spacing 4–6 px, upper case "PLACE · DATE" |
-| Place card, labels (Chinese) | Noto Sans SC 500–600 | 24–30 px |
-| Subtitles | Noto Sans SC 600 40 px over Oswald 400 29 px | bottom of the gate (baselines H−82 / H−38), black stroke 8 / 6 px |
-
-- **Place card** (the newsreel's segment title, instead of full-screen cards for every story): top left of the gate (gate x + 48, y 56), dark box with an inset 2 px cream frame, English "PLACE · DATE" over one Chinese line; it is pulled out left to right in 0.22 s and fades 0.15 s before it leaves. Hold ≥ CJK ÷ 4.5 + Latin ÷ 15 + 1.5 s from the moment it is complete (`readcheck.mjs`), so keep both lines short.
-- **Item title card** (one per film at most, to turn to a new story): black, a double Art Deco frame drawn in 0.35 s with quarter-fan corners, Limelight line + Chinese line, slow push; ≥ 2.5 s.
-- **Labels inside split screens**: one per panel, top centre, same box style, enter one beat apart.
-- **Subtitle strip**: the subtitles sit on a dark strip across the bottom of the gate (180 px, transparent at the top edge, ≈ 93–96 % `#0a0908` below), on every shot, fading in 0.25 s before the first cue of a run and held through gaps under 1 s, so it never blinks; print and pale footage would otherwise swallow the letters (`subBand()`).
-- **Subtitles**: Chinese line over English line, **one line per language, never wrapped** (`tools/subcheck.mjs` measures every cue in the page); a cue lasts max(1.8 s, spoken + 0.6 s) and ends 50 ms before the next. Print in shot is never re-typed as a caption: the announcer and subtitles carry its meaning, an underline points at it.
-
-## 5. Editing grammar
-
-- **The band is the clock**: pick a hot-dance tempo (190–220 BPM); every cut, landing, slam and label entrance sits on a beat, most cuts on bar lines; quick inserts on beat 3 or on the Charleston accent (beat 1 and the "and" of 2). When a period record plays, cut on the record's own beat (measure it), not on the grid.
-- **One story = one place + one kind of material + one line of voice.** Stories get shorter towards the end (2–3 bars → 1 bar → beats), then one held button.
-- **Shot lengths**: archive shots 1–2.5 s; print and documents 2.5–4 s (they must be read); comparisons ≥ 2.5 s fully in frame before the verdict; never a static frame longer than ~1 s without something moving (push, roll, pencil, flicker of a counter).
-- **Transitions are the newsreel's own, each used once, as punctuation**: iris close/open, diagonal hard wipe with a bright 6 px edge, vertical-axis flip, venetian blinds (12 slats turning), clock wipe from 12 o'clock, spinning paper, page turn, panel push-over, freeze. No cross-dissolves between stories, no modern whip pans, no zoom blur.
-- **L-cuts**: the announcer may run 0.3–0.5 s over a cut; a new music state may start one beat before its picture (J-cut).
-
-## 6. Camera on stills and archive
-
-| Move | What it does | Typical use |
-|---|---|---|
-| Spin-and-slam | the paper arrives as news | a headline; a telegram; a poster |
-| Slow push then punch-in on a beat | from the whole page to the one detail | a headline → a photo in it |
-| Pan across a wide print | a crowd, a parade, a skyline | panoramas, group photos |
-| Tilt to reveal | the landmark behind the subject | a building, a monument |
-| Map push | from the country to one city, into the next story | travel, spread, campaigns |
-| Grid deal | many related stills land one per beat | step-by-step, collections, "all of them" |
-| Flip-book | a series of stills played on the beat becomes motion | dance steps, assembly stages, before/after |
-| Freeze + jolt | stop the archive on the telling frame | the punchline, the evidence |
-| Split / quad | two or four places at once, side by side | comparisons, "everybody's doing it" |
-
-Archive footage is not reframed with fake camera moves bigger than ~6 % (it already has its own camera); stills always get a move with a purpose.
-
-## 7. Sound palette
-
-- **Announcer** (Kokoro): a bright, energetic male voice; a blend of two voices (e.g. `am_liam:0.6,bm_george:0.4`) gives a mid-Atlantic tinge; speed ≈ 1.15–1.2; 6–12 words per line, exclamations and rhetorical questions. Treatment as a 1930 optical track (`period_voice()` in `audio/mix.py`): high-pass 260 Hz, low-pass 3.7 kHz, +4 dB presence at 1.5–2.3 kHz (horn loudspeaker), tanh drive 2.0, compression 4:1, wow 0.22 % at 0.55 Hz + flutter 0.07 % at 6.3 Hz, two short wall reflections (31 ms, 67 ms). The speech check runs on the clean voice and again on the finished film (`tools/final_asr.py`).
-- **Band** (original): tuba on 1 and 3, banjo four to the bar (accent 2 and 4), trombones on the Charleston figure (1 and the "and" of 2), snare backbeat, honky-tonk piano right hand, muted then open trumpet melody with clarinet a sixth below, woodblock pickups; a brass fanfare with timpani for the ident; a dead stop with one stab for the punchline; "da – DA!" to close.
-- **Counter-music**: when the story has two sides, give the other side its own band (here an old-time reel: fiddle, plucked dulcimer, upright piano, tuba) and let them trade bars, then half bars, in a split screen, panned left and right.
-- **Archive record**: a public-domain 78 can take over the soundtrack as "the real thing": needle drop (click + surface noise), band-pass 110–6500 Hz, crackle and rotation rumble only while the needle is down, varispeed by ≤ 2 % to sit on the film's tempo; end it on its own final chord and lift the needle.
-- **Foley** for every move: carbon-arc snap, rising whoosh with flutter for the spinning paper, thump + paper slap, telegraph clicks under a map line, camera shutter per still, paper flicks per flip-book page, slat flutter, page turn, grease-pencil squeak, soft-lead scratch.
-- **Bed**: projector (24 Hz claw clatter, motor hum, optical hiss) from first to last frame.
-- **Mix**: the band and record ducked ≈ 4–5 dB under the voice (voice ≈ 12 dB over the music), the band band-limited 95–7500 Hz with a low shelf and light saturation; two silences (a dead stop before a turn, only the projector before the button); −14 LUFS.
-
-## 8. Native moves
-
-A menu; use the ones the story needs, each once.
-
 - **The ident ritual.** Searchlights snap on with a flash in the first 0.2 s, the globe grows and turns, the name lands with overshoot, the iris closes on the globe. Code: `sceneLogo()` — `sunburst()`, `beams()`, `globe()`, `decoTitle()`. *Fits:* the opening of any news-shaped film; the reprise is the sign-off.
 - **The spinning paper.** Grows by `u^2.3`, rotation decays by `(1−u)^1.25` over 2.5 turns, three ghost copies 18 ms apart as motion blur, a vertical jolt (damped sine, 16 px) and a 3 % bounce on the slam, then push and punch in on the next beat. *Fits:* a headline, a decree, a press release.
 - **The map spread.** A projected outline (Natural Earth, Albers), dotted arcs from the source city drawn on the beat with telegraph clicks, star pulses on arrival, place labels in screen space, an odometer of years in a corner; push into the city of the next story. *Fits:* a craze, a product launch, a migration, a campaign.
@@ -161,6 +92,148 @@ Not a montage (time jumps), not a security wall (the layout never moves), not a 
 Orange means "now / synced / done". Grey means "pending / not synced". Nothing else is coloured; colour belongs to the footage.
 
 ## 4. Type & subtitles
+
+- Clock digits: a condensed sans with fixed-width digit slots (ours: Barlow Condensed SemiBold, drawn digit by digit in equal slots so the clock never jitters); size up to 132 px, the T−/T+ sign at 0.85×, tenths at 0.41× in grey, a ten-segment sub-second bar under it.
+- Chinese: a sturdy sans (ours: Noto Sans SC 500/700, subset). English text: a clean grotesque (Barlow). Labels, codes and English small print: a monospace (IBM Plex Mono). All OFL, in the project's `fonts/`.
+- **The live transcript is the subtitle.** A fixed box (bottom right, or a cell in the grid): a speaking light and the speaker type (commentary / loop / narrator — the narrator, our own voice, is marked in orange so it is never mistaken for the event's audio), the English line appearing word by word at the spoken times (0.08 s fade per word, a block cursor), the Chinese line whole when its cue starts. **One line per language, never wrapped**: a long sentence becomes two cues; each cue ≥ max(1.8 s, speech + 0.6 s). Transcribe only what is said; mark doubtful words in `FACTS.md`.
+- Reading time for everything else: CJK ÷ 4.5 + other ÷ 15 + 1.5 s from the moment it is complete (`readcheck.mjs`). A comparison (two bars, two numbers) stays fully on screen ≥ 2.5 s.
+
+## 5. Motion quality
+
+- 30 fps. Clock: on each whole second the new digits drop 14 px in 0.12 s (ease-out); the sub-second bar empties one segment per 0.1 s (fills after zero).
+- Re-layout: 0.34 s `easeInOutCubic`. Cells that stay interpolate their rectangles; new cells open from their left edge; leaving cells close to the left; a new cell flashes a 3 px orange border for ~0.2 s when it lands. A grid filling up pops one cell per spoken count in 0.30 s.
+- Swaps (one source replaces another in the same rectangle) wipe in from the left. Hard cuts only between full-screen sources.
+- Photographs push in ≤ 6 % over their whole stay; names pop one by one 0.16 s apart. Documents move their window down a row in 0.45 s; the highlight sweeps left to right in 0.35 s.
+- Never: slow push-ins on video to fake motion, page-turn transitions, centred pop-up words, speed ramps.
+
+## 6. Edit grammar
+
+- **Screen time = event time.** One mapping, `M = t − T0`, for the whole film. Each camera has its own source offset (`s = M + c`) measured once and baked into the frame extraction (`demo/tools/prep.sh`): frames are named by film frame number, so the page never computes sync.
+- **Cut points are calls.** Each layout change starts on the first word of a real call in the native audio ("ten", "go for…", "ignition", a name) or on an event visible in the footage. The music follows; it never sets a cut.
+- **Cell count rises toward zero**: 1 → 2 → 3–4 → many (6–9, the clock itself becomes the centre cell, the transcript a cell) → **one** at zero → a few again after zero (the event's consequences) → one under the title. The shortest layouts are nearest to zero.
+- **Inside a cell, the source cuts itself** (a broadcast switching cameras): keep it; we only cut the layout.
+- **Silence before zero**: the music drops out a quarter-second before zero; only the native sound and the clock remain.
+- Full-screen moments carry the clock and transcript as plates at the bottom; a gradient (0 → 75 % black) under them.
+
+## 7. Sound palette
+
+Layers, top to bottom:
+
+1. **Native sound** — the event's own audio (commentary, radio loops, crowd), high-pass 90 Hz, compressed, always on top; never ducked.
+2. **Narrator** (sparingly, only in gaps of the native sound, never over it): clean and close, a different gender or accent from the event's voices; Kokoro, every line through `asr_check.py`.
+3. **The clock**: a tick every whole second (two alternating pitches around 1.5–1.9 kHz, panned ±15 %), louder in the last ten seconds, a soft single pitch after zero.
+4. **Interface foley** from `window.EV`: re-layout whoosh + metallic snap; cell pop snap; checklist tock; event-flag whoosh; full-screen cut thump.
+5. **Score**, 60 BPM so one beat = one second = one tick: a low synth drone whose low-pass opens toward zero, a bass drum per beat, off-beat hats, a tom per spoken count, timpani roll into zero, silence, then a low brass major chord with bass drum, crash and tubular bell at zero; after zero a new texture (pizzicato bass ostinato, lighter tick). Low brass, timpani, toms, tubular bells, glockenspiel; no piano-and-strings pad.
+- Mix: music about 8–10 dB under the native sound and ducked under speech; the ignition (or the event's own climax sound) is the loudest moment; master −14 LUFS via a pre-limited mix so `mux.sh` meets the true-peak target.
+- **Changing the music** (e.g. a Suno track): never move the clock or the cuts; choose or stretch a track so a downbeat lands exactly on zero and a section change lands on T−10, and keep the quarter-second silence before zero.
+
+## 8. Native moves (and how to build them)
+
+- **Many into one.** At zero, every cell moves to its tile of the full frame (a 3×3 grid becomes nine 640×360 tiles) while each tile cross-fades to the same full-screen shot, chips and borders vanish in the first half, a warm white flash (`rgba(255,248,236,.7)`, decay τ ≈ 0.11 s) peaks, and the clock and transcript slide from their grid cells back to the bottom. 0.42 s. *Fits:* a verdict read out; the goal at the final whistle.
+- **Clock inversion.** At zero the clock block flips from dark with an orange T− to orange with dark T+, and its header changes (countdown → elapsed). *Fits:* polls closing, a store opening.
+- **Control strip.** Segments in the clock header (who has control: ground → vehicle → mission control; prosecution → jury → judge); the active one fills orange on the call that hands it over, with a short flash. The story's turns live here.
+- **The grid fills on the count.** Empty grid slots show as dashed "standby" frames; each spoken number opens one camera. *Fits:* "three, two, one" before a premiere.
+- **Sync badge.** Top-right of each video cell: `● 实时同步 LIVE SYNC` (synced), `○ 同一时段 · 未逐帧同步 SAME WINDOW` (hatched, grey: footage from the same minutes without a usable clock), `慢动作还原 1× REAL-TIME` (slow-motion re-timed). Honesty is part of the look.
+- **Planned vs heard checklist.** Official milestones with their planned times tick as the clock passes them; when the native audio actually says one, a red "heard −32.1" tag with a small waveform appears beside it. *Fits:* a court schedule against what was said; a train timetable against the platform announcement.
+- **Second countdown.** After zero, a smaller clock counts to the next official milestone (`−1:47 to booster separation, expected T+2:09`) along a schematic profile drawn by time, not distance. *Fits:* the next race split; the next ballot count.
+- **Event flag.** An orange bar with black type slides in at the bottom of the relevant cell on its call (`RS-25 ×4 启动 ENGINE START · T−6.36`), held ≥ the reading time.
+- **Punch-in on a call.** A hard digital punch-in on the relevant detail when the commentary names it, from a higher-resolution extraction of the same source.
+- **Document by rows.** A paper close-up shows two or three rows; a highlight bar and an annotation band below the paper translate the row; the window moves only between rows (its edges in the white space).
+
+## 9. Pitfalls of the medium
+
+- **Unsyncable footage** (an edited "rover" reel with no clock or event to align on). Never fake it: label the cell "same window · not frame-synced", keep it out of the countdown's key seconds or use it only where nothing it shows contradicts the time, and say so in `FACTS.md`. Look first for a source with a burned-in timer, a visible ignition / flash / whistle, or the same audio.
+- **Measuring zero.** Never trust metadata. Combine two independent marks: a visible event (ignition flash, a broadcast countdown bug's flip) and the spoken word timing ("booster" at zero). Re-measure on the file you actually cut: `ffmpeg -ss … -c copy` starts on the previous keyframe.
+- **Audio and picture of one file can disagree** (a switched feed whose audio lagged its video by ~1 s). Sync each camera on its picture.
+- **Slow-motion sources**: measure the factor from two events with a known gap (e.g. engine start to booster ignition = 6.36 s) and re-time with `setpts=PTS/k`.
+- **Burned-in text**: broadcast bugs, camera numbers, timers, tracker data. Define per-shot usable regions (they change when the source cuts) or `delogo` them; check every source cut with a frame-difference scan.
+- **A static wide shot for ten seconds** reads as flat. Give every 1–2 seconds a new element (a cell, a tick on the list, a flag, a punch-in), not a fake camera move.
+- **Spoilers in the subtitle**: a whole-sentence Chinese line reveals the end of a count early. Split counts into separate cues.
+- **The clock jitters** if digits are proportional: draw them in fixed slots.
+- **Hot peaks** from broadcast audio and the ignition hit miss the true-peak target: pre-limit the mix at about −4 dBFS after normalising to −14 LUFS.
+- **Logos.** No agency insignia as a graphic; cut slates and bugs; the film says it is unofficial.
+
+## 10. Materials, sources, facts, engine
+
+**Materials — ask first.** Before searching, ask the user whether they have their own material of the event: footage from several angles, recordings of the audio, photos, documents (schedules, filings, results), data. What they give comes first and is credited as they say.
+
+**If not, where to look** (each item's own page decides; record it):
+- **NASA** (images.nasa.gov, svs.gsfc.nasa.gov): U.S. federal government works, public domain in the U.S.; fine to use. Don't use NASA insignia as graphics or imply endorsement; check each item for third-party material.
+- **Other U.S. federal agencies** (NOAA, National Archives, DoD DVIDS): public domain, same check for third-party material.
+- **Internet Archive**: only items whose own record shows public domain (pre-1931 U.S. publications, U.S. government works) or CC0 / CC BY; skip `youtube-*` / "mirrortube" uploads and anything of unclear origin.
+- **Wikimedia Commons**: read each file page; CC0, public domain and CC BY are fine (credit CC BY in full); CC BY-SA and "no known restrictions" are not fine without the user's explicit agreement.
+- **Library of Congress**: check each item's rights statement; "no known restrictions" is not CC0.
+- Not usable: re-uploads without a source, restored or colourised versions, news-agency footage, anything whose licence is not stated.
+
+**Before downloading, tell the user** what you will fetch, from where and under which licence, in one message. Then fetch only the seconds you need: `python3 demo/tools/grab.py <nasa_id> <orig|large> <start> <duration> <name> [--copy]` reads an HTTP range of a NASA original; `python3 demo/tools/footage.py search|fetch|used|md` searches NASA, Commons and the Internet Archive and records licence, author and page in `SOURCES.jsonl` / `SOURCES.md` automatically. Keep `raw/` under about 1.5 GB.
+
+**Facts**: a `FACTS.md` (claim, URL, quoted wording, or the measurement) covering every number, time, name and call on screen and in the narration; official sources only; planned times and actual (heard) times are kept apart. Check the script against it before the last render.
+
+**Engine** (copy into the project): `demo/index.html` (Canvas 2D: `LAY` layout keyframes with `grid` / `merge` / `cut` / `swap`, `camRegion()` usable regions, `crop()` cover framing, `drawClock()`, `drawTx()`, `drawCheck()`, `drawDoc()`, `drawProfile()`, `drawThrust()`, `window.EV` for the mix, `window.TEXTS` for `readcheck`, `window.SUBFIT` for the one-line subtitle check), `demo/tools/prep.sh` (the sync table → frames), `demo/tools/subs.mjs` (cues → `audio/cues.json`, one-line and duration check), `demo/audio/mix.py` (native sound, ticks, foley, score, ducking, pre-master), `demo/tools/final_asr.py` (Whisper on the finished film), `demo/tools/fetch_fonts.py`.
+
+## 11. Variation space
+
+The agent decides per film: the event, where real time starts and ends, the number of cameras, which documents and data, the control segments, the narrator's lines (or none), the closing layout.
+
+- **Clocks**: T−/T+; a match clock; a wall clock (HH:MM:SS) for a news day; a countdown to a deadline that then counts up as "overtime".
+- **Three structures**: rising cells to a merge (this demo); one cell that splits outward after zero (results arriving from many places); two parallel countdowns side by side that meet at zero (two teams, two cities).
+- **Three openings**: a single wide shot and the first call; the clock alone on black, then the first camera opens; a document (the schedule) with the first item ticking.
+- **Three endings**: the inverted clock over one full-screen shot; the grid refilling with consequences, then one title; the second countdown reaching its own zero.
+
+---
+
+How our demo was made (story, layouts, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: city-symphony -->
+
+# Time-lapse Symphony — Style Prompt
+
+> A city film cut like a piece of minimalist music: time-lapse turns traffic, crowds and clouds into rivers of light, the cuts get denser with the score's subdivisions, one thing is slowed almost to a stop, and the film ends on a hard cut to black on a downbeat. No narrator. The music carries it.
+> Grammar learned from the city-symphony tradition and the "Qatsi" films (Reggio / Fricke, scores in the Philip Glass manner). Nothing is taken from those films: no footage, no melody, no title lettering, no names in the film.
+
+## 1. Essence, and what it is not
+
+- **An edit style.** The picture is real footage of a place (time-lapse, hyperlapse, aerials, slow motion, archive film, photographs). The style lives in *how time is bent* and *where the cuts fall*, not in a drawn look.
+- **The score is the script.** It is written first, with a clear arc: minimal repetition → acceleration → climax → a sudden stop → acceleration again → hard stop → a quiet coda. Every cut sits on a beat or a subdivision of it.
+- **Machines fast, people slow.** Cars, trains, clouds and light are sped up until they become lines; the one slowed moment is something fragile (a soap bubble, steam, a flag, a flock), and people appear as crowds, tracks or long-exposure ghosts.
+- **Few words, each one earned.** On-screen text is a title, a handful of numbers that state the size of the place (each from an official source), an archive date, and one line from a real public-domain text at the end.
+- **It is not** a travel reel (no drone-porn montage on a pop track), a vlog, a news package, an explainer with a narrator, or a slideshow of postcards. No lower thirds with names, no headers, no centred title cards with page-turn transitions, no logo stings.
+
+## 2. Materials & rendering
+
+- Footage only (2D). Sources mixed freely: tripod time-lapse, long single-camera time-lapse (≥ 12 h, sunrise and sunset in the same frame), hyperlapse, drone aerials (top-down is gold), high-frame-rate slow motion, archive film (pre-1931), photographs (a pair from the same camera position is gold), a scanned page of a historic text.
+- Everything is unified into one **35 mm release-print** look: 1.85:1 matte (21 px bars on 1920×1080), warm highlights, lifted blacks, highlight bloom, clumped mid-tone grain, ±0.5 px gate weave, soft vignette.
+- Never generated images; never restored, colourised or speed-corrected archive copies; never YouTube mirrors of archive films.
+- Upscale limits: archive ≤ 2.5× (denoise → lanczos → light sharpen → grain); modern ≤ 1.5×.
+
+## 3. Colour logic
+
+| Use | Value |
+|---|---|
+| Type (warm white) | `#EDE8DF` |
+| Secondary line (English, labels) | `#B0AAA0` |
+| Sodium orange — the only accent (rules under numbers, source lines, crowd tracks, the day ring's hand) | `#D9772F` |
+| Matte and black | `#000000` |
+
+Grade (`tools/render.py → make_luts / grade`): per-shot partial grey-world white balance first (only pixels with luminance 0.12–0.88, strength 0–0.6; **0 for night shots**, which keep their sodium and blue), then one LUT for all shots: S-curve (sigmoid slope 6.2, pivot 0.47, blended 55/45 with linear) → black 7/255, white 250/255 → R ×1.025, B ×0.965 (warm highlights, a little cold in the shadows) → saturation 0.86. Bloom: pixels above 170/255, blurred 6 px at ⅛ size, added back × (1, .82, .62); 0.09 by day, 0.15–0.2 at night. Grain: half-resolution Gaussian noise up-sampled and blurred 0.6 px, weighted `0.35 + 1.3·L·(1−L)`, strength 9/255. Archive film stays black-and-white and goes through the same LUT, so it reads as part of the same print.
+
+## 4. Type & subtitles
+
+- Latin: **Michroma** (OFL), capitals, tracking 0.06–0.32 em. Chinese: **Noto Sans SC** variable, weight 300–350, tracking 0.08–0.14 em. Credits: Noto Sans SC 17 px.
+- **Left-aligned**, left margin 168–196 px, never centred, never on a box. Legibility comes from a very soft elliptical darkening behind the block (α ≤ 0.6), not a panel.
+- **Number card**: the number in Michroma 84 px (44 px when three numbers stack); a 2 px sodium rule grows under it; one Chinese line (28 px) and one English line (14–16 px) say what it counts and the source year. A census-type number locks digit by digit on sixteenths (one glockenspiel note per digit); a flow number counts up from 0 in 0.6 s (ease-out). "About" numbers carry `≈` and "约".
+- **Archive date**: just the year, Michroma 22 px, bottom-left of the archive panel.
+- **Closing quote**: on the page shot the whole sentence is lit; on the card, a short fragment over the last moving shot — Chinese 60 px, English original in capitals 20 px, source line 14 px sodium, fading in within 0.25 s and held just past the reading time.
+- One line per language, never wrapped; every text block stays fully in frame at least CJK ÷ 4.5 + other ÷ 15 + 1.5 s (`readcheck.mjs`). Text may stay up across cuts underneath it, but only while the shots under it belong to what it counts.
+- `.srt`: the film has no voice, so the subtitle file carries the on-screen text (one Chinese and one English line per cue) for muted or accessible playback.
+
+## 5. Motion quality
+
+- Speed is the main instrument. Shot speeds run from 0.3× to 75×; every speed above 1× uses **frame blending** (a 360° shutter): each output frame averages the source frames it covers, capped at N frames. Headlights become continuous lines, crowds become fog, clouds become water.
+- **Speed ramps** are smooth (smoothstep between key speeds) and always mean something: a corridor accelerates out of real time (1× → 6×), a time-lapse ramps into a frenzy (1× → 7×), a fast shot brakes into slow motion (2.2× → 0.3× in 0.55 s) on the bar where the music stops.
+- Camera moves are added sparingly in post: slow push-ins (1.00 → 1.05–1.10 over the shot), a falling push on the opening still (1.0 → 1.3 in 0.35 s, ease-out, then accelerating to ×2 by the cut). No shakes, no whip pans, no digital zooms past the upscale limit.
+
+## 6. Camera grammar — editing
 
 
 <!-- END STYLE PAGE -->

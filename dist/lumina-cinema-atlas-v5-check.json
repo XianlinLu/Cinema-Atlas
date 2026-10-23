@@ -1,0 +1,12 @@
+{
+  "build": "v5-orchestrated",
+  "user_reported_character_limit": 30000,
+  "packing_cap_utf16": 29600,
+  "file_count": 35,
+  "items_including_directories_and_root": 38,
+  "style_pages": 27,
+  "styles_verified_hash_and_exact_text": 59,
+  "max_file_utf16_units": 29598,
+  "entrypoint_utf16_units": 9362,
+  "native_runtime_or_paid_media_verified": false
+}

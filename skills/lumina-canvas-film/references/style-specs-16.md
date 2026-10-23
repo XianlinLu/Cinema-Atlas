@@ -1,211 +1,317 @@
 # Complete style specifications 16
 
 
-<!-- STYLE: impasto -->
+<!-- STYLE: silkscreen-poster -->
 
-- Planes of mixed, slightly broken colour; each stroke may drag a second colour (`c2`) into the first. No gradients made by blending pixels: gradients are made by stroke-to-stroke steps.
-- Warm light against cool shadow is the default temperature structure; the brightest, purest chroma is reserved for the story's subject (a prop, a crowd, a light source), not the background.
-- **Colour can be an event.** Every stroke can hold a grey and a colour version; a monochrome world with one coloured exception, or a world re-laid from grey to colour, is native to the medium. The grey version is the luminance of the same strokes, slightly cool, with a small colour residue.
-- Examples of palettes that fit: an after-rain sunset (cobalt → peach → gold sky, ochre facades, full-chroma props); a harvest field (straw yellow, burnt sienna earth, one viridian tractor); a night kitchen (umber shadows, sodium-lamp orange, one cold blue window). Choose from the topic.
+A poster being **printed on camera**. Every colour is an opaque ink laid by its own pull; later ink covers earlier ink completely. No halftone, no fluorescent ink, no line work: a shape's edge is where one flat ink stops. **Gradients are forbidden**: skies and haze are **stepped bands** (a flat colour, thinning stripes, the next colour).
+
+What makes it read as silkscreen and not as flat vector art:
+- **Registration**: every layer offset 1–3 px at 1080p; a knocked-out shape leaves a crescent of bare paper.
+- **Overprint edge**: a faint multiply ghost ~2 u off under each ink, leaving a darker sliver where ink laps over ink.
+- **Ink thickness**: a light rim top-left, a dark rim bottom-right, fills only; fresh ink has a wet sheen that fades within a second.
+- **Paper**: cream stock with fibres; mottle and pinholes in paper colour, visible only on ink.
+
+Not risograph (translucent fluorescent overprint with halftone grain), not ukiyo-e (key-block line work with bokashi), not woodcut (carved line), not low-poly (3D facets). This style is opaque, line-free, flat and banded.
+
+## 2. Materials & rendering
+
+- **One `Path2D` per ink layer**, filled in the current transform's units; knock-outs are holes in the path. Any shape can be printed.
+- **Pull reveal**: a ragged squeegee front as a clip (a ~30 u drag tail); blade, bead and a sliver of handle ride on it.
+- **Ink bead**: a round tube with lit half, dark underside, rolling glints and viscous strands; a split fountain puts several colours in one bead.
+- **Screen**: a hinged frame with mesh, emulsion and tape; its shadow is a ring (even-odd), never a full rectangle.
+- **Shapes**: ridges with a jagged lit facet, pines as one outline of drooping tiers, water as a flat body with glint bars. Hard edges everywhere.
+- **Poster template** (1000×1500 u): paper border, art area, a dark **info band** at the foot holding a name, a number, a rule and a row of stats; columns sized by content.
+- **Texture budget**: fine paper tile, mottle multiply ~55 %, pinholes ~75 %, light encode grain. More reads as risograph.
+
+## 3. Colour logic
+
+- **One palette per poster, ≤ 6 inks**, assigned by role: light sky, deep sky / bands, far, mid, near (darkest; also the info band), and **one bright accent** (sun, route, highlights, key number). An optional lit-face ink.
+- **Values step from far (light) to near (dark)**; depth is value, never blur.
+- **The accent is rare**: the sun or light source, the one route or product, the most important number.
+- **Paper is a colour**: an unprinted area is the brightest thing on the sheet (water, snow, a beam of light).
+- **A series = one template, a new palette per item** (time of day, season, colourway, neighbourhood). Re-inking the same geometry in another palette is a statement.
+- **Text inks are chosen by contrast** against the ink underneath (WCAG), never by a fixed key; a night palette must not swallow a header.
+- Examples (sky1 → near, accent): dawn `#F6CD98 #EE9A73 #9A7FA8 #3E7079 #1E3B3F #FBE6B4`; harbour noon `#E8F0F2 #7FB3C8 #D9C7A3 #2F6E8E #173247 #E8553D`; winter `#EEF1F4 #B8C9D9 #8B9BB0 #4A5D78 #1F2A3C #F2B134`.
 
 ## 4. Type & subtitles
 
-- Titles are **laid in with the knife** (a stroke-by-stroke `appear` sweep of about a second) and can be taken off by the world (washed by rain, scraped, painted over). They move with the world.
-- Small text (credits, data, captions) stays crisp DOM text over the painting: knife strokes can't carry small letters.
-- A serif display face (e.g. Cormorant, OFL). Subtitles, if there is a voice: plain serif, ≤ 2 lines, in a calm plane; hold ≥ max(1.8 s, speech + 0.6 s).
+- **Condensed display** for names and values (e.g. Big Shoulders Display, League Gothic), auto-fit; a geometric sans for letter-spaced labels (e.g. Outfit 600).
+- Headers are **printed into the sky**, tracked out; the info band is printed last.
+- **The poster text is the subtitle.** No narration is needed; if there is a voice, subtitles are a printed strip (a band pull), never a floating caption.
+- **Reading rule**: each text stays ≥ chars/12 + 1 s (min 1.5 s) after its **last** item lands, and ≥ max(1.8 s, speech + 0.6 s) with a voice. Compute it from the content, round up to the beat.
+- On a wall shot, labels stay ≥ ~18 px and values ≥ ~30 px at 1080p; close-ups on a band keep the whole band in frame with ≥ 5 % side margins.
 
 ## 5. Motion quality
 
-- Static paint is static. Only the things the story moves move (weather, figures, props, ribbons, light). Smooth 24 fps, no stepping: clarity is the brief.
-- Moving figures are procedural strokes rebuilt each frame from **fixed seeds**, so their paint doesn't boil (walk cycles, IK arms, props that open and close).
-- Actions sit on the music grid: a change of direction, a pop, a swell lands on a beat.
-- Anticipation → action → follow-through on every gesture (lift before the strike, dip before the snap, swing after the stop).
+- **Pulls are linear and steady** (a squeegee does not ease). Accent inks start half a beat after the main ink of their layer.
+- **Info items** print left to right on subdivisions of the beat. **There is no fade anywhere.**
+- **Screen lift**: the frame hinges up (vertical squash + growing shadow) in ~0.4 s.
+- **Palette re-ink**: a wide squeegee travels diagonally over the sheet in ~0.35 s; geometry identical on both sides of the blade, only the inks change. Show only the blade, bead and a sliver of handle.
+- **Loose layers**: in a multi-plane move, planes parallax by depth with paper gaps and thickness shadows, then **snap into register** on one hit.
 
 ## 6. Camera grammar
 
 A vocabulary, not a route. Opening and ending come from the topic.
 
-| Move | What it expresses | Can serve |
+| Move | Expresses | Can serve |
 |---|---|---|
-| Slow truck + push on a wide | a world observed; patience | a place; a routine; a crowd |
-| Push-in through a silence | inner pressure | a doubt; a decision; giving up |
-| Tilt-up from the ground or a reflection | discovery from below | a small character entering; a first sight |
-| Pull-back from a close-up | reaction; the world answering | consequence; a reveal of who is watching |
-| Rotating crane-out, overhead | pattern emerging from many | choreography; traffic; a gathering |
-| Same wide, repeated | before/after | change of colour, season or time |
-| Locked frame, light moves | time and weather as the actor | a day passing; a storm arriving |
-| Macro slide along the paint surface | the matter itself | a texture; a crafted object; a map |
-| Whip-pan into a new painted plate | energy, a jump | a list; montage; travel |
+| Truck with the squeegee, slight roll, frame edge in view | the act of printing; colour arriving | a hook; a split-fountain sky |
+| Locked top-down full sheet | layers stacking into a picture | watching a poster build; a comparison |
+| Fast pull-back as the screen lifts | the reveal of a finished layer | a scene complete; a title |
+| Push + tilt to the info band | reading | facts; a date; a price |
+| Truck through a foreground silhouette (tree, lamp post, sail) in screen space | passing into the next poster | poster-to-poster transitions |
+| Crane through loose planes (multi-plane parallax) | depth, a journey inside the print | a route; a climb; a street |
+| Slow lateral dolly along a row of prints | a set, a range | a series wall; colourways |
+| Push into the mesh until the weave shows | the craft, the grain of the medium | an intimate beat; a detail |
+| Log-zoom pull-back to the wall or window | the poster in the world | a final lockup (hold ≥ 3 s) |
 
-Framing: keep the camera **inside the painted plate** (`half = W/2/zoom`), or the canvas shows. The subject gets the hard edges and the smallest strokes; everything else stays in big calm planes. Transitions: paint-over sweeps and scrapes, hard cuts on beats; no dissolves (two layers of knife ridges turn to mud).
+Close-ups on a sheet keep its edge in frame; a squeegee across a close-up is tilted with the handle hidden, so it doesn't split the frame. Layers change by squeegee, posters through foreground silhouettes or a table move. No dissolves, no bare cuts.
 
 ## 7. Sound palette
 
-- **Foley follows the paint and the world**: palette-knife scrapes on every repaint or paint-over, wet dabs, the materials of the scene (wet stone, nylon, wood, fabric, glass).
-- **Beds** in layers (a hiss, near grains, one distinct detail), filtered when the camera goes under cover.
-- **Acoustic instruments with a hand-made grain**: solo strings, accordion, pizzicato, harp arpeggios, glockenspiel or celesta for pops, piano, guitar, woodwinds; a solo instrument for a lonely world, an ensemble for a shared one.
-- Options: **one action = one sound = one cut** (music-locked edit); pops pitched as a rising arpeggio so a sequence of events climbs; an unresolved phrase that the film resolves later; a hard silence that cuts music and beds to digital zero, containing at most one sound; a J-cut of the next scene's foley into a silence.
-- Mix: music and ambience duck under any voice (~8 dB); −14 LUFS. Music and foley can carry a film without narration.
+- **Acoustic, hand-played instruments**: strummed guitar, slide guitar, harmonica, upright bass, cajon or brushes, banjo, fiddle, accordion, harmonium, ukulele. Choose the family from the place: folk, surf, bossa or brass band all fit.
+- **One pull, one hit**: each ink lands on a musical event (a strum, a hit, a chord change); accelerate by subdividing, not by changing tempo. A registration snap is a loud downbeat.
+- **Foley by material**: squeegee on mesh (band-passed noise with a ~220–280 Hz mesh grain; faster = brighter), wet ink squelch, screen clack and hinge creak, paper stamps, ticks for dashed routes, paper hiss, a wood-and-metal clamp, drying-rack clips.
+- **Ambience from inside the print**: a finished scene may "wake up" (surf, street, crowd), J-cut in and L-cut out. Room tone under the table.
+- **Silence as a tool**: the music drops out for a beat before the key facts; what remains is one ambience, and the first sound after is a decisive gesture (a clamp, a long slide up).
+- Music ducks a few dB under foley. −14 LUFS.
+
+## 8. Native moves
+
+Each serves information order. A menu: use the ones your film needs.
+
+- **One ink, one beat.** Facts print last, when they are read. *Fits content like:* museum hours; a ferry timetable; tasting notes.
+- **Split fountain.** Several inks in one pull fill the frame with colour. *Fits content like:* a festival's night sky; a sunset beach bar; a rainbow of colourways.
+- **Palette re-ink.** Same poster, another palette = time passing, a season, a variant. *Fits content like:* summer vs winter hours; three jacket colourways; day and night at a market.
+- **Registration slip → snap.** Loose layers clamp into register with one hit, before the key facts. *Fits content like:* the date of a race; a launch price; a ticket sale opening.
+- **Paper as a colour.** The unprinted sheet is the brightest element. *Fits content like:* a ski slope; a lighthouse beam; fresh snow on a roof.
+- **The route as a printed layer.** A dashed accent line stamped segment by segment. *Fits content like:* a bus line; a marathon course; a delivery path.
+- **The series wall.** Every print ends up hung together as the final lockup. *Fits content like:* a city's four districts; a band's tour dates; a product family.
+
+## 9. Pitfalls of the medium
+
+- Stroke edge effects draw internal lines on unioned paths → fills only (fill, then fill shifted inside a clip).
+- A full-rectangle screen shadow muddies the print → ring shadow.
+- Cool shadow facets next to water read as water → shadows in the near ink.
+- Jagged ink beads read as paper edges → a round bead.
+- Parallax alone reads as "the mountains are moving" → paper gaps and thickness while loose, snapped to zero with a sound.
+- Silhouette wipes hold a dark blank → centre on the switch so full cover lasts ~1 frame.
+- Very wide banners are slivers in 16:9 → about 4:1.
+- Random coloured dots on the table read as confetti → a real workbench (planks, grain, muted stains, tape).
+- Too many items at honest reading times overrun the length → print items side by side in the same pulls, or let secondary ones be read on the final wall.
+
+## 10. Engine
+
+`demo/engine/silk.js` prints **any shape** in this style from a `Path2D`: `makeTextures`, `paperSheet`, `ink(ctx, {path, knock, paint}, {color, reg, clip, sheen, trap})`, `wipeRegion`/`wipeFront` (ragged pull), `squeegee` (blade, beads, split fountain), `screenFrame`, `inkFinish`, `bandSteps` (the gradient substitute), shape helpers. `demo/engine/poster.js` (template, banner, `pickInk` contrast), `demo/engine/scenes.js` (planes you can reorder or extend), `demo/film.js` (timeline and shots). API table and a minimal example that prints a new shape: [DEMO.md](DEMO.md#engine-reference).
+
+## 11. Variation space
+
+You decide the subject, the scenes and their planes, the palettes within the colour logic, the number of posters, the camera path, the opening, the ending, the instrument family and the length. Use cases are **grammar for the order and duration of information**; build your own timeline from the user's facts.
+
+| Use case | Information order (print order) | Hold per layer | Length |
+|---|---|---|---|
+| **Trail / attraction guide** | place → per item: scene → name → difficulty → distance → time → footer | title ~3 s; name ≥ chars/12 + 1 s; stat row ≥ 2.2–3 s after its last item | 30–40 s, 3 items |
+| **Event / festival poster** | scene pulls → headline → date → venue → call to action | headline 2.5 s, date + venue 3 s, final 3 s | 15–20 s |
+| **Destination series** | one template, a palette per place: name → one fact → series wall | 2.5 s per poster + 4 s wall | 20–30 s |
+| **Product drop** | layers around a flat product silhouette → name → colourway ×3 (re-ink) → price / date | 1.8 s per colourway | 12–18 s |
+| **Seasonal / hours notice** | one poster re-inked per season → season + hours | 2 s per swap | 10–15 s |
+
+All far from our demo:
+
+- Structures: **one poster, many runs** (re-inked for each of four nights, the line-up changing in the band); **a street walk** (one multi-plane truck down a street, each shop sign printed as we pass); **a misprint story** (registration drifts until the last pull lands true on the date).
+- Openings: **the empty screen** (light through a blank mesh, a stencil being exposed); **the accent first** (a lone product in the bright ink on bare paper); **the finished wall at night**, then back to the table.
+- Endings: **the drying rack** (prints clipped in a row, swaying); **the poster in use** (pasted on a bus shelter, rain starting); **the last pull is paper** (the squeegee runs dry, leaving a white silhouette).
+
+Swapping `demo/content.json` and rebuilding is a technical check that the engine re-flows, not a way to make a film.
+
+---
+
+How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
+
+<!-- STYLE: swiss-motion -->
+
+# Swiss Motion Graphics — Style Prompt
+
+> International Typographic Style in motion: a modular grid, one typeface, one signal colour, and movement as exact as a printing press.
+> References (grammar only): 1950s–70s Zurich posters (Müller-Brockmann, Hofmann, Gerstner, Crouwel) for the grid, flush-left type, scale contrast and "designing programmes"; modern identity systems in motion (Experimental Jetset, Pentagram) for snaps on the beat. Never copy a specific historical poster's composition (no concentric-circle or fan layouts lifted from Müller-Brockmann), never use Helvetica or Akzidenz font files, never name a real institution on a poster.
+
+## 1. Essence, and what it is not
+
+- **Pure 2D graphic design animated on a grid**: flat paper, black type and bars, a very light grey and **one** saturated signal colour.
+- **Every element snaps to the grid, every move lands on a beat, nothing bounces.**
+- **Rigor with one exception**: the whole frame obeys a system, so the one element that doesn't becomes a character.
+- **Extreme scale contrast**: a giant numeral next to tiny technical notes.
+
+Not a keynote (no gradients, no glow, no device renders), not kinetic typography for a lyric video (words don't fly, spin or bounce), not data visualisation (bars have mass as graphic form, not as charted quantities, unless the grid gives them that meaning), not a Bauhaus pastiche of primary shapes.
+
+## 2. Materials & rendering
+
+- **Frame grid**: 1920×1080, 12 columns, ~96 px side margins, 24 px gutters, 24 px baseline. The frame can act as a **spread**: a left page (the programme: numeral, rule text, notes) and a right page (the artifact).
+- **Artifact grid** derived from the content (Gerstner): what the columns and rows *mean* is a design decision. **Choose module sizes that give the elements mass**; too many thin columns make a layout look like a chart.
+- **Surfaces**: page, paper, ink, signal colour, grid lines in two or three light greys (on page, while building, on paper). No gradients, no shadows, no particles, no grain (mux grain 0).
+- **Bars and blocks** are flat rects; consecutive cells of one unit merge into one bar, overdrawn 1 px at seams (antialiasing shows hairlines, especially when rotated or scaled).
+- **A secondary voice** can be light-grey elements under the black ones: depth without a second colour.
+- **A 2D camera matrix** (centre, scale, rotation) for all moves.
+
+## 3. Colour logic
+
+- **Paper, ink, greys, and one signal colour.** Only one thing carries the signal colour; that makes it the protagonist. It is the only thing allowed to be inexact.
+- Overprint is allowed: black type on the signal colour.
+- The signal colour can be red, orange, ultramarine or green; choose it for the topic, then never add a second.
+- Examples: `#EAE9E5` page, `#FFFFFF` paper, `#111111` ink, signal `#E30613`; or `#F2F0EA` / `#141414` / signal `#FF5A00`; or `#E9ECEF` / `#0B0B0B` / signal `#1F3FFF`.
+
+## 4. Type & subtitles
+
+- **One family for the whole film**, an OFL neo-grotesque (Archivo, Inter, Schibsted Grotesk, Instrument Sans…), several weights. Letter-spacing ~−2 % at ≥ 90 px. Headlines can be lowercase. Load every weight with `document.fonts.load` before drawing.
+- **Flush left, ragged right**; everything on a grid line; big white space is part of the layout. Giant numerals are **optically** flush left (subtract the glyph's left bearing).
+- **Subtitles are part of the layout**, not a bar at the bottom: each line sits at a column start in the current composition (a small grey lead-in + a large bold statement, or a caption like a museum label), each word clip-revealed on its whisper timestamp. Hold ≥ max(1.8 s, speech + 0.6 s); assert it in code.
+- **Caption rows**: small (~19 px) medium-weight notes with a 1 px rule above; technical notes in a corner (module sizes, counts, a bar counter).
+
+## 5. Motion quality
+
+- **Two curves only**: a precise ease `cubic-bezier(.7,0,.2,1)` for snaps; linear for lines being drawn, playheads and the exception. No overshoot, no spring, no bounce.
+- **Durations are note values** at the film's tempo. A snap starts one note value early and **lands on the beat**.
+- **Entrances are wipes or clip-reveals, never fades**: words rise out of a clip rect from below the baseline and leave upward; lines grow along their length; paper appears by a wipe; big numerals climb in eased steps ("one module at a time").
+- **Deletions are knife cuts**: a thin line crosses the element, then the element collapses to its midline.
+- **Ripples are ordered by distance** from their cause, a couple of units per subdivision.
+- **The exception moves differently**: linear, unsnapped, perhaps pausing mid-flight; a coordinate readout beside it can turn from "on grid" to "off grid".
+- Smooth 24 fps, no stepping: digital precision, not hand-made.
+
+## 6. Camera grammar
+
+A vocabulary, not a route. The camera moves only with the precise ease and only on beats. Opening and ending come from the topic.
+
+| Move | What it expresses | Can serve |
+|---|---|---|
+| Locked spread | cause (left) → effect (right) | a rule applied; a before/after; a comparison |
+| Hard pan by one page or column | the next step in a system | a sequence; a catalogue; a timeline |
+| Rotate 90° and stop | the same thing read another way | a poster as a score; a chart as a map |
+| Pull out to a wall of artifacts | one programme, many outputs | a brand system; a product range; a series |
+| Push into one module | detail; the unit of the system | a pixel; a letter; a single data point |
+| Grid extends past the page | the system is bigger than the artifact | scale; ambition; a break from constraints |
+| Split frame into equal cells | parallel cases | options; variants; team members |
+| Vertical scroll through a column | reading; a list | a manifesto; a spec sheet; a timetable |
+
+Framing: everything on the grid; the signal element may sit off-grid only when it is being the exception. Transitions are wipes, knife cuts, camera moves and re-flows; never dissolves.
+
+## 7. Sound palette
+
+- **Music with a grid of its own**: a steady pulse whose subdivisions give snap durations. Options: motorik / krautrock kit and bass, minimal techno, marimba or vibraphone patterns, a mechanical piano ostinato, a drum machine with a glockenspiel; one instrument added per new rule is a clear build.
+- **Picture and music can share one data file** (a column → pitch, a row → onset), so a graphic can literally be the score.
+- **Techniques (options)**: drop the drums for the one moment of the exception; a near-silent bar before a reveal; thin the band during a reveal so every note is audible.
+- **Foley follows the materials of print**, dry and close, no reverb: letterpress clack, ruling pen "tss", guillotine snick, paper slap and slide, numeral thunk, block snap, felt thump for a landing, rubber stamp, typewriter carriage.
+- **The exception can be the only element that sings** (a sine glide following its position).
+- **Silence**: a hard stop of everything on a downbeat; the next snap reads as an event.
+- **Mix**: voice compressed and ≥ 6 dB above music, music ducked ~10 dB under voice, −14 LUFS.
+- **Voice**: cool, crisp, rule-like sentences; prefer voices with bright consonants.
 
 ## 8. Native moves
 
 A menu: use the ones your story needs.
 
-- **Colour re-laid by the knife.** Every stroke keeps a grey and a colour version; a reveal wave re-paints them stroke by stroke (`reveal`, `revC`). *Fits content like:* a town waking up; a patient recovering; a brand relaunch; a season turning.
-- **The one coloured thing.** The world drawn with `grey: 1`, one object with `grey: 0`. *Fits content like:* one person in a crowd; the fruit that ripened; a warning light.
-- **Motion paints the picture.** Moving objects drip their colour as knife dabs; seen from above, their paths leave a painted pattern. *Fits content like:* a dance; delivery routes across a city; a football play; migration.
-- **Raking light.** At the peak, drop the light to a grazing angle so every ridge catches it, then let it settle. *Fits content like:* a sunrise; a moment of recognition; unveiling a sculpture.
-- **Paint-over transition.** The next shot's strokes are laid over the previous one in a sweep (`appear`), with a scrape on the soundtrack. *Fits content like:* a renovation; memory replacing the present; a timeline of versions.
-- **Sound made visible.** A note or a voice becomes a paint ribbon that carries colour to what it touches. *Fits content like:* a song reaching listeners; a radio broadcast; a rumour spreading.
+- **The grid means something.** Columns and rows become a quantity (notes, hours, floors, years). *Fits content like:* a building's floors and rooms; a week's timetable; a city's districts.
+- **Snap = beat.** Every arrival is a percussion hit. *Fits content like:* a product's feature list; the steps of a recipe; a countdown.
+- **Programme.** Rules applied one by one to one artifact, then the same programme generating many. *Fits content like:* a brand identity; a typeface family; a set of stamps.
+- **Extreme scale contrast.** A giant element as chapter card beside tiny notes. *Fits content like:* a record statistic; a year; a price.
+- **The exception.** One element breaks the grid, linear and unsnapped. *Fits content like:* an inventor; an outlier in the data; a rebel employee.
+- **Knife cut.** An element deleted by a line. *Fits content like:* budget cuts; editing a text; removing a feature.
+- **Re-flow.** Everything else rearranges around a change, nearest first. *Fits content like:* a team reorganised; traffic after a road closes; a layout adapting to a phone.
 
 ## 9. Pitfalls of the medium
 
-- Confined strokes shrink near edges and leave canvas-coloured outlines → add the underpainting texture.
-- Draw order in the reference matters: painting the ground after the buildings covers their feet.
-- Plain rectangles read as posts or blocks → give silhouettes taper, a lit edge, and one or two defining dabs (shoulder, hair, handle).
-- Proportions carry the object's identity at this stroke size: a prop drawn too wide reads as a different thing. Check silhouettes at thumbnail size.
-- Film grain or heavy compression destroys the knife edges → no grain, supersample, high bitrate.
-- Strokes that are re-seeded every frame boil → fixed seeds per stroke.
-- Engine-level WebGL traps (reserved words, VAO binding) are listed in DEMO.md build notes.
+- Too many thin columns look like a chart → fewer, wider modules.
+- A "better" composition that isn't obviously better → one strong diagonal with long/short rhythm, a larger signal element, bleeds, type over colour. Merely tilting is not enough.
+- Rotating and labelling at once reads as noise → rotate, hold, then add labels.
+- Merged bars show seams after rotation → overdraw 1 px.
+- Elements that share the camera matrix leak into other shots → draw them only when on screen.
+- Canvas `letterSpacing` affects `measureText` → measure after setting the font.
+- Onsets that fall between frames flicker → put visual onsets on whole frames.
+- Whisper splits or merges words and pads the first word → align by letters, clamp to 0.
 
 ## 10. Engine
 
-Files: `demo/engine/impasto.js` (renderer), `demo/engine/plate.js` (reference → strokes).
-
-Main calls: `new Impasto(canvas,{W,H,ss})`, `E.begin()` / `E.finish(post)` (raking light + grade), `E.batch()` → `E.draw(batch,o)` for static plates (`cam`, `grey`, `reveal`, `appear`), `E.drawNow()` for moving strokes, `E.under()` for the underpainting, `new Strokes().push({...})` (`KNIFE`, `BRUSH`, `DAB`, `LINE`), `new Ref()` + `paintRef()` (reference illustration → coarse-to-fine strokes confined to shape groups), `strokePath()`. Full parameter table: DEMO.md "Engine reference".
-
-Minimal example: a warm-orange four-point sparkle with a short cursor tail, in knife paint.
-```js
-import { Impasto, Strokes, KNIFE, DAB, hex } from './engine/impasto.js';
-const E = new Impasto(canvas), s = new Strokes(), c = hex('#D97757');
-for (let k = 0; k < 4; k++) {                                   // four tapered knife points
-  const a = k * Math.PI / 2;
-  s.push({ x: 960 + Math.cos(a) * 60, y: 540 + Math.sin(a) * 60, ang: a, len: 120, wid: 46, c, c2: hex('#f0a07a'), type: KNIFE, taper: .95, seed: k });
-}
-s.push({ x: 960, y: 540, len: 40, wid: 40, c: hex('#f6c0a0'), type: DAB, seed: 9 });   // bright core
-s.push({ x: 1060, y: 610, ang: .6, len: 90, wid: 16, c, type: KNIFE, alpha: .8, seed: 10 });   // cursor tail
-E.begin(); E.drawNow(s.data(), { grey: 0, run: 0 }); E.finish();
-```
-"Only one colour" (monochrome with one exception): draw the world with `grey: 1, reveal: 1e6`, draw the exception with `grey: 0`.
+In `demo/`: `ease.js` (`cubic-bezier(.7,0,.2,1)`, `snap(t, t_arrive, dur)`, `steps()`, `track()`), `film.js` (layout system, clip-reveal text, knife cuts, bars from a score, rotation reveal, wall of artifacts, caption rows), `main.js` (fonts, whisper word times, `?nosub=1`, `?poster=1`), `score.json` (the shared data file for picture and music), `tools/words.py` and `tools/subs.py` (word timings, asserted subtitle intervals). File list and build steps: [DEMO.md](DEMO.md) "Build notes".
 
 ## 11. Variation space
 
-You decide the structure, the cast (or none), the sets, the opening, the ending, the camera path, the pacing, whether there is a voice, and where colour lives. All far from our demo:
+You decide the system, what the grid means, the exception (or none), the signal colour, the opening and the ending. All far from our demo:
 
-- Structures: **one object, many hands** (a bowl or a boat passes through the people who make and use it, one painted plate per hand); **a still life comes alive** (a locked table whose objects move in turn, the light crossing it hour by hour); **a portrait in layers** (a face painted coarse to fine as a voice tells one life, each layer a decade).
-- Openings: **the bare canvas** (underpainting only; the first knife stroke is the first event); **macro on a ridge of paint** that pulls back to become a mountain or a roof; **mid-action** (a figure already running across a finished plate).
-- Endings: **scraped back** (the knife takes the painting off to the underpainting, leaving one mark); **the light goes out** (raking light sinks until only the ridges glow, then black); **the frame in a room** (the film was a painting hanging somewhere, seen by someone).
+- Structures: **a timetable** (a 24-row grid of hours fills with the topic's day, one row per beat); **an alphabet** (A to Z, each letter a module of the topic, the grid completing as a specimen sheet); **a comparison** (two systems side by side on a split spread until one element crosses the gutter).
+- Openings: **a single dot** placed on the page, then the grid growing from it; **the finished artifact** that is then dismantled into its rules; **a giant numeral** filling the frame, which turns out to be a detail of a small layout.
+- Endings: **the empty grid** after every element has been cut away; **a single word** flush left in the corner; **the exception leaves the frame** and the system closes over the space it left.
 
 ---
 
 How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
 
-<!-- STYLE: one-line -->
+<!-- STYLE: spy-titles -->
 
-# One-line Drawing — Style Prompt
+# 60s Spy Title Sequence — Style Prompt
 
-> A single ink line that never leaves the paper. Everything on screen is that one line being drawn; scenes don't cut, they morph.
-> References (grammar only): Osvaldo Cavandoli's *La Linea* (1971) — one line is both the world and the character, and transformations of the line are the jokes and the transitions; Gjon Mili's 1949 photographs of Picasso drawing with light — the confidence and speed of a single gesture; Norman McLaren's *Begone Dull Care* and *Boogie-Doodle* — lines drawn *to* the music. Do not copy La Linea's character, its gibberish voice, or any specific continuous-line illustration.
+> A cut-paper, four-ink opening title sequence for a film that never existed: silhouettes move through sets built out of the credits themselves, every brass stab is a cut, and a title is assembled from the pieces.
+> References (grammar only): Saul Bass's titles for *North by Northwest*, *Anatomy of a Murder* and *Vertigo* (flat opaque inks, abstraction down to silhouettes, type as structure); the 2002 homage by Kuntzel + Deygas for *Catch Me If You Can* (a cut-paper chase through graphic sets, lateral tracking). Not a gun-barrel opening, not a tiptoeing cartoon panther, not a copy of any real title's logo, lettering, characters or shots.
 
 ## 1. Essence, and what it is not
 
-- **One continuous line** on warm white paper. The pen never lifts: in code the whole film can literally be one point array, from the first touch of the nib to the last frame.
-- **Everything is a line**: characters, places, objects, even time. No fills, no shading, no second line weight, no background art.
-- **We watch the line being drawn**: the camera follows the nib with a little lag and anticipation.
-- Besides ink there is only the paper and a soft **shadow of the pen** (the real world above the paper). One accent colour at most, used once.
+- **Flat, opaque inks on paper**: four colours, no gradients.
+- **Hand-cut edges** on every shape; pieces layered with cut gaps and small paper shadows.
+- **Abstraction down to silhouettes**: figures in profile, all acting in outline and timing.
+- **Typography is the picture's structure**: credits are architecture, props, vehicles.
+- **Music cuts the picture**: brass stabs are edit points.
+- A title sequence is a story in itself: one goal, a few locations, one reveal.
 
-Not a whiteboard explainer (no hand, no marker, no erasing, no text-heavy boards), not ink wash (no tones, no brush bloom as a look), not a line-art animation with cuts and many strokes.
+Not flat vector motion graphics (the edges are cut, the paper is physical), not a halftone print style (no dots), not a Swiss grid (diagonals, jaunty type, playful), not a spy parody with gadgets and gun barrels.
 
 ## 2. Materials & rendering
 
-- **Paper**: warm white (around `#F4EFE4`), procedural mottling (soft-light, large tile), long fibres that fade out when zoomed out (or they shimmer), a sparse paper-tooth speckle over the ink at close zoom, light vignette. All textures anchored to the paper; they move with the camera.
-- **Ink** is a filled polygon around the path (not `ctx.stroke`), mixed with paper colour to an opaque tone per point.
-  - Width = base width of the current "voice" of the line × pen pressure × fine noise (±8 %); pressure from speed: `0.66 + 0.8·exp(−v/300)` (fast = thin, slow = fat).
-  - The line's character can change along the path (base width, alpha, tremble, dryness); blend over a short stretch at boundaries.
-  - Ink bleed: the same polygon slightly wider, blurred on an offscreen layer, composited at ~20 %.
-  - Pooling: extra round dots where speed drops low.
-  - Tremble (perpendicular noise) and dry-brush gaps (long-scale noise + thin bristle strands) for age, fear or fatigue.
-  - A stop leaves a teardrop-shaped blot: tip at the nib, belly sagging downward as it spreads, a dark tide line at the rim.
-  - **A screen-space minimum width**: widths scale with zoom like a line under a macro lens, but clamp the zoom used for width during pull-backs so a wide view keeps its weight.
-- **The pen is never drawn**: a soft blurred wedge of shadow from the nib and a tiny contact dot. Hands, if any, appear only as shadows, each hand composited as one flat layer.
-- **Path design**: chapters written as SVG path strings, sampled by arc length, joined by tangent-continuous connectors; time assigned per point weighted by curvature.
+- **Scissor-cut edges**: every polygon resampled every ~9–10 px and displaced along its normal by low-frequency noise (amp ~1.2–2.2 px, larger for bigger shapes) plus a rare 1–2 px notch. **Cut the edge once in the piece's local space and cache it**, so a moving cutout keeps the same edge, exactly like real cutout animation (screen-space edges crawl).
+- **Paper layering**: separate pieces are separated by a ~2.4 px cut gap in the ground colour and cast a small paper shadow (offset a few px, blur ~5, alpha ~0.3). Whole figures get the gap as an outline, so a black figure reads in front of a black letter.
+- **Paper texture**: one full-frame texture multiplied on top (mottling + faint fibres), a sparse "ink void" speckle on dark ink, faint squeegee streaks; film grain in the mux (~6).
+- **Silhouette figures**: tall stylised adults (~7 heads), identity by hat, coat cut, shoes and **one colour accent** that doubles as a motion indicator (a tie or scarf streaming back when running). Pieces **merge into one outline** inside the figure, with only thin slits at shoulder, elbow, hip and knee. Hands are sharp wedges; no faces except an eye slit in close-ups.
+- **The object of the chase** sits on a black backing (an ink keyline) so it reads on any ground; it is the brightest thing in frame.
+- **Type**: a condensed OFL display face (e.g. League Gothic) for credits, glyph outlines extracted (opentype.js) and **re-cut** per letter (edge noise, ±0.8° rotation, ±1.5 px baseline jitter). A title in custom geometric cut glyphs (straight cuts + arcs, uneven weights, staggered baselines), never a real title's lettering.
 
 ## 3. Colour logic
 
-- **Ink on paper.** A warm black (around `#1D1A17`) on warm white; nothing else fills the frame.
-- **One accent at most, used once**, on a stretch of the line that means something; it returns to ink afterwards and stays visible in the final picture if the picture is revealed.
-- Examples of an accent's job: red for love or danger; blue for water or cold; gold for money or a prize. Never a second accent.
+- **Four inks**: ink black, paper cream, one hot colour, one warm secondary. Darker "shadow paper" variants of those inks only for depth.
+- **One dominant ground colour per scene**, changing with the location; figures and type in the other inks.
+- The hot colour is reserved for one accent on the hero and for danger; the secondary marks the object of the chase.
+- Background props go in a darker version of the ground, never in black, or they read as letters.
+- Examples: black `#1b1714` / cream `#efe4c9` / red `#d23a22` / mustard `#e2a52a`; ink `#161a22` / bone `#ece6d6` / teal `#1f8a8a` / orange `#f07a28`; black / pale pink `#f3d6cc` / cobalt `#2a46b8` / lemon `#f0d23a`.
 
 ## 4. Type & subtitles
 
-- **Text is written, like the line**: a handwriting face (e.g. Caveat) for subtitles, ink at ~84 %, no box, centred near the bottom, **written on** left to right (~0.2 s + ~17 ms per character) behind a soft paper-coloured halo so passing lines never cross the letters; fade out ~0.45 s. Hold ≥ max(1.8 s, speech + 0.6 s).
-- Titles in a monoline connected script (e.g. Sacramento: itself a one-line drawing), written on in empty paper away from the drawing, gone before the camera moves into them.
+- **Credits live in the set**, never in the subtitle band: one line per location, fully readable at some moment. Credits are fictional roles only, never real people's names.
+- **Subtitles** on a narrow paper strip (scissor-cut ends, slightly tilted) bottom-left, a small glyph from the film as bullet, a geometric OFL sans (e.g. League Spartan 600, ~44 px). Light strip on dark scenes, dark strip on light scenes; slides in from the left in ~0.18 s. Hold ≥ max(1.8 s, speech + 0.6 s).
+- Hold each credit long enough to read alongside a subtitle.
 
 ## 5. Motion quality
 
-- **Everything on ones** (24 fps): the appeal is the continuous act of drawing; stepping breaks it.
-- **Timing = chapter windows + curvature**: within a window, time per point is weighted by `1 + K·turn` (sharp turns get more time, smoothed so speed never jumps). Pin musical beats with marks: by arc-length fraction or by position ("the second time the pen passes here"). A stop is two marks at the same place.
-- Corners (speed minima at high turn) can be exported to the soundtrack as candidate note onsets.
-- Speeds: ~300–700 units/s for travelling lines, ~50–150 for small details. The most important stroke is usually the slowest.
-- **Retracing** over an existing line is legal and invisible (it only thickens slightly).
+- **Puppets on twos** (12 fps): poses and positions of figures, hands, letters landing, vehicles. **Camera, credit slides and grid growth on ones** (24 fps): a stepped camera judders.
+- Run cycles of ~8 drawings, one step per beat, a strong lean, the accent flying back. Walks one step per beat, coats swinging.
+- Credits slide in along grid lines and **stop dead on the beat** (short ease-out); letters land with a paper slap.
+- **Stop-time**: at a stab the whole picture freezes (background scroll included) for a couple of beats in total silence, then resumes.
+- Shattering: a scene sliced into strips parallel to a cut line that slide off alternately along the diagonal.
 
 ## 6. Camera grammar
 
-A vocabulary, not a route. The camera is one continuous move: composition centre, zoom, a few degrees of roll, and a follow weight (0 = composed, 1 = locked to the nib); the follow point averages the nib over roughly −0.55…+0.4 s (lag and anticipation), with a soft clamp keeping the nib inside the central ~70 % of the frame. Opening and ending come from the topic.
+A vocabulary, not a route. Graphic, flat, decisive. Opening and ending come from the topic.
 
 | Move | What it expresses | Can serve |
 |---|---|---|
-| Follow the nib (high follow weight) | travel; momentum; a thread of time | a journey; a process; a timeline |
-| Composed frame, low follow weight | a scene that must read as a whole | a vignette; a joke; a diagram |
-| Macro on the nib | intimacy; the act of making | a first touch; a signature; a detail |
-| Hold with a slow push-in | weight; a stop | a loss; a doubt; a decision |
-| Mirrored framing | rhyme across time | parent and child; before/after |
-| Continuous pull-back | everything was one picture | a reveal; a map; a word |
-| Lateral scroll with the line running ahead | a horizon; a graph; a race | a stock chart; a heartbeat; a road |
-| Roll with the line | vertigo; play | a loop-the-loop; a fall; a dance |
+| Wide on a full credit line, then truck in | reading, then action | any location built from type |
+| Lateral tracking, one screen direction | pursuit; momentum | a chase; a race; a delivery |
+| Hard cut on a brass stab | punch; a new location | montage; a reveal; a gag |
+| Graphic match cut (same shape, same position) | rhyme; acceleration | wheel → coin → pupil → moon |
+| Locked single shape on a flat ground | mystery; an icon | a cold open; a clue; a logo |
+| Silhouette against a giant circle | the hero moment | a catch; a triumph; a stand-off |
+| Diagonal split into a grid | fragmentation; many at once | a split screen; a conspiracy; a team |
+| Vertical pan down a column of type | descent; a list | a building; a roster; a countdown |
+| Push into a letter until it fills frame | a letter becomes a place | a door; a tunnel; a window |
 
-No cuts. Transitions are morphs: the last stroke of one image is the first stroke of the next.
+Framing: strong diagonals (~30°), big flat grounds, figures small against type. Match cuts keep circle centres and sizes identical across the cut. No dissolves.
 
 ## 7. Sound palette
-
-- **Music: one solo instrument, one unbroken melodic line**, the sound equivalent of the drawing: a bowed or plucked string (cello, violin, viola, harp), a solo woodwind (clarinet, flute, bassoon), a hummed voice, a single guitar. A second colour only as a rare accent (a chime, a pizzicato stretch). No pads.
-- **Write the score to the drawing**: key notes on marks and corners; fast line = short notes; a stopped line = one long note fading into silence; the highest note on the most important touch.
-- **The pen on paper is the most important sound**, synthesised from the pen speed: band-passed noise (brighter when fast, duller when slow), random paper-fibre ticks with density ∝ speed, amplitude ∝ √speed, panned with the nib's screen position; broken up by dry gaps; lighter and jerkier for a young hand. Plus: a wooden tap on the first touch, a faint wet swell for a blot, a tiny rub for a handoff, a page lift.
-- **Silence is literal**: zero the music bus including reverb tails; drop room tone.
-- **Mix**: music ducks ~5 dB and the pen ~4 dB under voice; −14 LUFS; grain 0 (the paper is in the render).
-- **Voice**: warm, few short lines that leave space for the line; place key words on picture beats with whisper word timestamps.
-
-## 8. Native moves
-
-A menu: use the ones your story needs.
-
-- **The pen never lifts.** Anything that is one continuous thing. *Fits content like:* a river from source to sea; a relay race; a production line.
-- **The line is time.** The stroke's character changes with age, mood or strain. *Fits content like:* a building aging; a runner tiring; a machine wearing out.
-- **Transformation.** One image morphs into the next. *Fits content like:* a seed becoming a tree becoming a table; a sketch becoming a product; a word becoming its object.
-- **Stopping is an event.** The nib stops, ink pools, music cuts to silence (1.5–3 s). *Fits content like:* a power cut; a pause for a minute's silence; a hesitation before a signature.
-- **Reverse-designed scale reveal.** Every vignette is secretly part of one big picture seen at the end. *Fits content like:* a city's landmarks forming its skyline; a company's milestones forming its logo; a recipe's steps forming the dish.
-- **Handoff.** The pen passes to another hand (as a shadow) and a new line begins. *Fits content like:* a teacher and a student; a founder and a successor; one generation to the next.
-- **Line as graph.** The line becomes a chart while staying a drawing. *Fits content like:* a heartbeat; a temperature record; a football match's momentum.
-
-## 9. Pitfalls of the medium
-
-- **Stray connectors ruin a reveal**: every extra line reads as a wrinkle, beard or mask. Fix the topology (where each chapter enters and leaves), not the drawing. Plan it like an Euler path: a closed motif is a circuit (you leave where you came in); retrace or reorder chapters.
-- Each region of a final picture is drawn exactly once; connectors must fall on natural lines of that picture.
-- **Test the reveal early and often**: render the whole path at once at final scale after every change.
-- Lines drawn too close braid together once width is applied; keep a gap.
-- A round blot reads as a mole → a sagging teardrop.
-- Thin lines at wide zoom → clamp the width zoom.
-- Translucent hand shadows double-darken where they overlap → one layer per hand.
-- Titles collide with the drawing as the camera moves → check every frame of the title's window.
-- Whisper mishears short lines → rephrase rather than fight it.
-
-## 10. Engine
-
-In `demo/`: `geom.js` (samples SVG paths by arc length in the browser, adds tangent-continuous connectors, assigns time by curvature, marks and holds), `ink.js` (the line renderer: pressure, bleed, pooling, tremble, dry brush, accent stretch, blot, minimum screen width), `paper.js` (paper, fibres, tooth, vignette), `cam.js` (composition keys + nib follow + soft clamp), `hands.js` (pen and hand shadows), `subs.js` (written-on subtitles and titles). The drawing itself lives in one file of SVG path strings and a chapter table (`face.js`); replace it with your own path. Debug views (`?all=1`, `?cams=`) render the whole path or many camera views in one session: see [DEMO.md](DEMO.md) "Build notes".
-
-## 11. Variation space
-
-You decide what the line draws, whether it reveals one final picture, where it stops, the accent (or none), the opening and the ending. All far from our demo:
 
 
 <!-- END STYLE PAGE -->

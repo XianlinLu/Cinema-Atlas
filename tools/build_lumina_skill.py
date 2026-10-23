@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bundle the complete style specifications for Lumina's text-file importer.
 
-Run from anywhere: python3 tools/build_lumina_skill.py [--check | --verify-import] [--zip PATH]
+Run from anywhere: python3 tools/build_lumina_skill.py [--check | --verify-import | --repack-existing] [--zip PATH]
 The uploaded skill contains data and instructions only; this maintainer script
 stays outside it. Style fragments are byte-verifiable against the library.
 """
@@ -16,7 +16,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 LIB = ROOT / 'xianlin-lu'
 SKILL = ROOT / 'skills' / 'lumina-canvas-film'
-CAP = 19800  # UTF-16 code units; retain margin below the 20,000-character importer
+CAP = 29600  # UTF-16 code units; 400-unit margin below the user-confirmed 30,000 limit
 TAIL = '\n<!-- END STYLE PAGE -->\n'
 REPO = 'https://github.com/XianlinLu/Cinema-Atlas'
 
@@ -45,31 +45,14 @@ def blocks(text):
         yield ''.join(block)
 
 
-def generate():
-    order = re.findall(r'\[`([^`]+)`\]\([^)]*STYLE\.md\)', (LIB / 'styles/README.md').read_text())
-    assert order and len(order) == len(set(order)), 'Invalid or duplicate style entries'
-    assert set(order) == {p.parent.name for p in (LIB / 'styles').glob('*/STYLE.md')
-                          if not p.parent.name.startswith('_')}, 'Index and source styles differ'
-    revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-    metadata = {slug: json.loads((LIB / f'styles/{slug}/style.json').read_text()) for slug in order}
-    catalog_hash = hashlib.sha256(json.dumps(metadata, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
-    old_manifest = SKILL / 'references/style-manifest.json'
-    # Keep the pinned library revision stable across unrelated skill-only commits.
-    if old_manifest.exists():
-        previous = json.loads(old_manifest.read_text())
-        same = all(hashlib.sha256((LIB / f'styles/{slug}/STYLE.md').read_bytes()).hexdigest()
-                   == previous.get('styles', {}).get(slug, {}).get('sha256') for slug in order)
-        if same and len(previous.get('styles', {})) == len(order) and previous.get('catalog_sha256') == catalog_hash:
-            revision = previous['library_revision']
-    manifest = {'format': 1, 'library_repository': REPO, 'library_revision': revision,
-                'style_count': len(order), 'offsets': 'Unicode code points; end-exclusive; fragments concatenate in listed order',
-                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v4.1', 'styles': {}}
+def partition_styles(order, sources, manifest):
+    """Pack exact source text without summaries, using current importer capacity."""
     generated = {}
     page_no = 1
     page = '# Complete style specifications 01\n\n'
     active = None
     for slug in order:
-        raw = (LIB / f'styles/{slug}/STYLE.md').read_text()
+        raw = sources[slug]
         entry = {'sha256': hashlib.sha256(raw.encode()).hexdigest(), 'parts': []}
         manifest['styles'][slug] = entry
         for block in blocks(raw):
@@ -93,8 +76,32 @@ def generate():
     generated[f'references/style-specs-{page_no:02}.md'] = page + TAIL
     for slug, entry in manifest['styles'].items():
         restored = ''.join(generated[file][start:end] for file, start, end in entry['parts'])
-        assert restored == (LIB / f'styles/{slug}/STYLE.md').read_text(), slug
+        assert restored == sources[slug], slug
         assert hashlib.sha256(restored.encode()).hexdigest() == entry['sha256'], slug
+    return generated
+
+
+def generate():
+    order = re.findall(r'\[`([^`]+)`\]\([^)]*STYLE\.md\)', (LIB / 'styles/README.md').read_text())
+    assert order and len(order) == len(set(order)), 'Invalid or duplicate style entries'
+    assert set(order) == {p.parent.name for p in (LIB / 'styles').glob('*/STYLE.md')
+                          if not p.parent.name.startswith('_')}, 'Index and source styles differ'
+    revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+    metadata = {slug: json.loads((LIB / f'styles/{slug}/style.json').read_text()) for slug in order}
+    catalog_hash = hashlib.sha256(json.dumps(metadata, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+    old_manifest = SKILL / 'references/style-manifest.json'
+    # Keep the pinned library revision stable across unrelated skill-only commits.
+    if old_manifest.exists():
+        previous = json.loads(old_manifest.read_text())
+        same = all(hashlib.sha256((LIB / f'styles/{slug}/STYLE.md').read_bytes()).hexdigest()
+                   == previous.get('styles', {}).get(slug, {}).get('sha256') for slug in order)
+        if same and len(previous.get('styles', {})) == len(order) and previous.get('catalog_sha256') == catalog_hash:
+            revision = previous['library_revision']
+    manifest = {'format': 1, 'library_repository': REPO, 'library_revision': revision,
+                'style_count': len(order), 'offsets': 'Unicode code points; end-exclusive; fragments concatenate in listed order',
+                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v5', 'styles': {}}
+    sources = {slug: (LIB / f'styles/{slug}/STYLE.md').read_text() for slug in order}
+    generated = partition_styles(order, sources, manifest)
     generated['references/style-manifest.json'] = json.dumps(manifest, ensure_ascii=False, separators=(',', ':')) + '\n'
     lines = ['# Style index / 风格索引', '',
              f'All {len(order)} styles are included with their full specifications. Names and categories below are canonical.',
@@ -125,6 +132,36 @@ def generate():
     generated['references/style-index.md'] = '\n'.join(lines) + '\n'
     for name, text in generated.items():
         assert units(text) <= CAP, (name, units(text))
+    return generated
+
+
+def repack_existing():
+    """Repack a hash-verified ready bundle without fetching demo/media assets."""
+    manifest = json.loads((SKILL / 'references/style-manifest.json').read_text())
+    order = list(manifest['styles'])
+    sources = {}
+    for slug, entry in manifest['styles'].items():
+        sources[slug] = ''.join((SKILL / name).read_text()[start:end]
+                                for name, start, end in entry['parts'])
+        assert hashlib.sha256(sources[slug].encode()).hexdigest() == entry['sha256'], slug
+    index = (SKILL / 'references/style-index.md').read_text()
+    manifest['workflow'] = 'native-video-v5'
+    manifest['styles'] = {}
+    generated = partition_styles(order, sources, manifest)
+    lines = []
+    indexed = set()
+    for line in index.splitlines():
+        cells = line.split('|')
+        if len(cells) == 7 and cells[3].strip() in manifest['styles']:
+            slug = cells[3].strip()
+            indexed.add(slug)
+            refs = [part[0] for part in manifest['styles'][slug]['parts']]
+            cells[-2] = ' ' + ', '.join(f'[{Path(name).name}]({Path(name).name})' for name in refs) + ' '
+            line = '|'.join(cells)
+        lines.append(line)
+    assert indexed == set(order), 'Style index lost a canonical entry'
+    generated['references/style-index.md'] = '\n'.join(lines) + '\n'
+    generated['references/style-manifest.json'] = json.dumps(manifest, ensure_ascii=False, separators=(',', ':')) + '\n'
     return generated
 
 
@@ -163,7 +200,8 @@ def inspect_import():
                            for name, start, end in entry['parts'])
         assert hashlib.sha256(restored.encode()).hexdigest() == entry['sha256'], slug
     core = [SKILL / 'SKILL.md', SKILL / 'references/production-workflow.md',
-            SKILL / 'references/production-requests.md', SKILL / 'references/style-index.md']
+            SKILL / 'references/production-requests.md', SKILL / 'references/style-index.md',
+            SKILL / 'references/runtime-control.md', SKILL / 'references/characters-voices.md']
     for path in core:
         text = path.read_text()
         for ref in re.findall(r'`((?:references/)?[a-z0-9-]+\.(?:md|json|yaml))`', text):
@@ -186,9 +224,16 @@ def main():
     mode.add_argument('--check', action='store_true')
     mode.add_argument('--verify-import', action='store_true',
                       help='Check the existing import folder without regenerating from source')
+    mode.add_argument('--repack-existing', action='store_true',
+                      help='Losslessly repack existing verified style texts at the current cap')
     parser.add_argument('--zip', type=Path)
     args = parser.parse_args()
-    files = inspect_import() if args.verify_import else validate(generate(), args.check)
+    if args.verify_import:
+        files = inspect_import()
+    elif args.repack_existing:
+        files = validate(repack_existing(), False)
+    else:
+        files = validate(generate(), args.check)
     if args.zip:
         args.zip.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(args.zip, 'w', zipfile.ZIP_DEFLATED) as archive:

@@ -1,0 +1,60 @@
+# Runtime control: automatic execution with native creative gates
+
+## Purpose and authority
+
+The target is one continuous, recoverable production run from an idea to reviewed downloadable video. The user makes creative decisions only at the required native Question gates; every authorized technical operation between them proceeds automatically. Latest explicit user requirements govern over prior defaults, bundled style demo instructions and editing-reference examples. Core defaults remain Seedance 2.5, 16:9 unless explicitly overridden, BGM-free prepared shots, same-scene continuity checks and hard-cut picture boundaries. Full source-style specifications remain authoritative for compatible artistic grammar, not for overriding these production constraints.
+
+This is an orchestration contract, not executable tool syntax or an installed background service. Discover actual native schemas and use real node/asset/voice/editor handles. Do not print a fictional tool call or assign made-up field names to a provider payload. Apply the conceptual records below through supported notes/files/project metadata. If Question or another required capability is absent, identify that actual blocker; do not simulate success or invent an external fallback.
+
+## Reconcile → act → observe → persist → repeat
+
+At start/resume and after every tool result, callback or native answer:
+
+1. Load the durable project and newest native editor state, refresh exposed tool bindings, and reconcile actual task statuses. Inspect any current input versions, user edits or outputs whose readiness changed. A saved callable name is not proof that it still exists after a context/tool change.
+2. Apply returned decisions to the exact artifact/card/version they refer to. Ignore empty, ignored, default-selected or stale responses. Invalidate only real dependents of changed assets. A revised request authorizes its specified technical edits; do not ask an extra “continue” question.
+3. Resolve the first unfinished required stage and its ready dependencies. If a required creative gate is pending, display its real artifact and issue/await that ONE native gate; keep it pending until a valid response. If the gate response is already recorded, do not ask it again. Do not submit a duplicate copy of a card that is already awaiting a response.
+4. Otherwise select the next permitted real action: create a missing script/asset, resolve an input, submit a ready job, inspect a completed result, normalize shot BGM, prepare a preview, modify the native draft, export an approved revision, or verify an actual download. Independent jobs can progress while another waits/fails; a dependent job cannot borrow an unrelated ready asset.
+5. Persist the job/request key and intended action before dispatch, then persist actual returned IDs/status/results and the next action. If the tool returns pending, register the actual supported continuation/callback or query the same task until terminal. Observe service quotas/backoff, with at most the existing bounded correction/resubmission rules. Query ambiguous accepted work before retrying to avoid duplicate paid calls. Do not use repeated generation as polling.
+6. Inspect actual outputs and record checks separately from user approval. Advance the stage only when its stated exit conditions are true, then immediately repeat this loop. A progress note such as “next I will generate” does not execute the next action. Do not end the resumed turn at that note while a ready authorized action remains.
+
+Only return control intentionally for a real native decision, explicit pause/cancellation, a saved unrecoverable blocker, or completed delivery. Host-imposed turn termination needs a real durable host continuation to resume automatically. Store its handle and next action; if absent, honestly report the capability limit once. Text instructions cannot guarantee an agent wakes itself up. Do not ask the user to type “continue” as the routine job scheduler.
+
+## States and evidence
+
+Keep these distinct: PLANNED, INPUTS_READY, SUBMITTED, RUNNING, GENERATED, QC_READY, USER_APPROVED, BLOCKED and FAILED. Use equivalent actual host values where applicable; these labels are not invented API arguments.
+
+- INPUTS_READY: required text/handles resolve in this project/session, producer tasks are ready, owners/versions match and current operation constraints pass. Omit absent optional inputs; never supply empty reference objects or substitute node/task IDs for content handles.
+- GENERATED: this exact task returned a successful accessible output, not merely an ID or global success toast.
+- QC_READY for a shot: its actual prepared BGM-free video resolves and plays, measured ratio/duration are valid, correct identity/approved speech and timing are preserved, scene/mode and source-prefix trim are checked. Store raw output, cleanup evidence and prepared output separately.
+- USER_APPROVED: an actual positive native answer for that artifact/version. One approved clip, an approved table or generation success does not approve all shots.
+- DELIVERY_READY: every required current shot is approved, post-scope is answered, selected editing is performed in native Video Editor, current preview revision is approved, and that revision has a verified downloadable export matching the approved scope. Explicit no-edit clip delivery is separately labeled and never called a stitched movie.
+
+For each dispatch store project/stage/logical-artifact/version, input fingerprint, real node/task IDs and current state. Use actual provider idempotency support if exposed. A local request key helps locate existing work; it is not itself proof the provider deduplicates. A task with an unknown submission result must be reconciled before another billable submission.
+
+## Dependency rules that prevent unnecessary stops
+
+**Two approval levels for extension:** table approval authorizes producing its planned same-scene chain. A successor may consume a QC_READY prepared predecessor from that chain before per-shot user review, provided all foundational script/character/voice approvals are valid. Do not wait for the later USER_APPROVED shot flag to produce that already authorized successor: that would deadlock “generate all, then review each.” User approval of EVERY current prepared shot is still mandatory before post-production. A predecessor revision invalidates its affected extensions and approvals; recompute only those descendants.
+
+**BGM cleanup before post-choice:** native shot-audio cleanup is already authorized technical preparation. Use a supported native audio node or editor normalization route, preserving source assets and exact speech, then register the prepared clip. It does not authorize stitching/captions ahead of the later post-choice. Only released successful outputs may be processed; policy-blocked results remain blocked. Model BGM is removed; separately approved whole-film music is a different asset/track and can be added in final editing.
+
+**Scoped invalidation:** a different role voice affects that role's auditions/speech and dependent speaking shots, not silent unrelated shots. A ratio change affects boards, affected clips, extensions and edit layout; a fixed 16:9 character turnaround need not be regenerated if its identity remains correct. A music-only final edit does not invalidate the script/character approvals. Substantive new words, identity, voice or story changes revisit the relevant native gates; technical re-encoding/handle repair preserving content does not.
+
+**Production table versus edit timeline:** retain the approved source production table/version and speech assets. Save native editing placements, trims, beat markers and caption cues in a separate versioned edit map, linked to their source shot/span. An authorized handle trim, hard-cut adjustment or music alignment can change final placement without silently overwriting the approved source table or demanding whole-film regeneration. Recompute final duration/caption offsets and present the new edit revision at final review. If approved dialogue/action is lost or reordered substantively, obtain the appropriate creative revision rather than calling it a timing fix.
+
+**Source and instance coverage:** every required approved shot/line span must be represented in the final selected scope, with no accidental repeated extension prefix. Multiple non-overlapping instances of one source file can be legitimate; count content coverage rather than raw file-instance count. Mark deliberate reuse only when actually requested/approved. Dialogue/narrator dry audio, source sound, model BGM and final project music have distinct roles.
+
+**Caption scope:** subtitle choice controls dialogue captions. It does not remove approved story titles, environmental writing, evidence labels or style-required data typography. Keep such text roles explicit. Do not bake dialogue captions into generated video by default; use editable native captions when selected, disable unwanted automatic captions and check for duplicate burnt-in text. A caption-only request preserves existing approved assembly or captions individual approved clips, without silently stitching them.
+
+## Native decisions without questionnaire churn
+
+The fixed creative gates remain script, character images (when applicable), role voice choices, actual auditions (when applicable), master table, EVERY current shot, post-scope, and final edit/revision review. Show actual artifacts before their cards. Start from the supplied idea; infer a topic/style and write the full script without an initial serial questionnaire. Use supplied decisions and current approvals rather than asking them again. Skip only genuinely inapplicable stages, recording why; do not create fake narrator portraits or silent-role auditions.
+
+Fit the actual Question schema's option/question limits. Post-scope has three explicit normal routes plus native Other when provided. Other is not a duplicate fake option. Each voice option is a complete meaningful profile. A batch of shot questions preserves an individual shot/version decision for every displayed clip. Large preview collections are paged without approving unseen items.
+
+Continue-modifying opens native card text/Other asking the target shot/time/track, the issue and desired change. Capture real nonempty instructions, apply them to the SAME editor draft, preserve unrelated user locks/overrides, update dependent sound/captions, and return a new actual preview/version to final review. Do not request main-chat typing or treat a click on “modify” as a full edit instruction. Ambiguity gets one focused native clarification, not a general new briefing interview. Missing native text entry is a precise host blocker.
+
+## Failure isolation and final delivery
+
+Route input-ID/readiness errors, invalid parameters, transient failures and policy rejections separately using production-requests.md. Never spend a retry allowance for one error class on another. Preserve exact error/stage/task/role/shot evidence; do not assert a hidden root cause. Continue independent ready jobs; at a true dependency barrier present one native recovery card for actual unresolved decisions. Repeated notifications of one terminal task are one failure. No hidden omission, unheard approval or fabricated success to finish a checklist.
+
+Final confirmation approves the displayed current edit revision and authorizes its native export. Re-read the draft immediately before export; changed drafts return to review. Wait for actual export success, verify output/ratio/duration/coverage, complete dialogue and sync, selected caption state, hard cuts, intended final music and real download access. A cloud draft or expired/guessed URL is not downloadable media. Refresh through native support when available. Deliver the actual download with real editable draft/subtitle references when supported, and retain the project state for later revisions. Do not publish generated media outside the requested destination.
