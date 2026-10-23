@@ -21,6 +21,14 @@ One idea → a full script → consistent characters and voices → all video sh
 9. **剪辑成片确认 ↔ 继续修改。** 展示实际预览后，通过原生卡片确认或修改。选择修改后，在卡片内填写“哪段／哪个时间点、修改什么、怎么修改”；Agent 在同一 Video Editor 项目中修改、检查、重新预览与确认，保留无关的人工作业。
 10. **最终确认 → 原生导出 → 下载交付。** 只有已批准当前版本真实导出且可下载后，才返回最终剪辑视频。云草稿地址和任务提交成功不等于可下载视频。
 
+### 视频生成默认规则（v4.1）
+
+- **模型：Seedance 2.5。** 解析 Lumina 实际模型标识；不可用时通过原生卡片处理，不静默换模型。
+- **画幅：默认 16:9。** 只有用户明确指定其他比例才覆盖，不能凭发布平台或参考图自动改竖屏。
+- **分镜先去模型背景音乐，再确认。** 使用原生工具处理已成功生成的分镜；音乐与对白混轨时，不能假装只静音了音乐，应隔离音乐，或静音原混轨后恢复已批准角色／旁白音频，并检查口型。保留原始素材和实际处理后版本。
+- **同 scene 连续 shot 可续写。** 需要时间、动作、角色、服装、光线与机位连续，前镜头就绪、比例一致，且真实工具支持；否则独立生成。不同 scene、时间跳跃或动作断开不做续写。续写继承源比例，移除返回结果中的重复前缀。
+- **转场硬切。** 不自动添加叠化、交叉淡化、擦除或变形转场。后期若使用已规划配乐，作为独立轨道统一添加并卡点，不恢复每段模型随机配乐。
+
 ### 风格与稳定性
 
 完整收录 **11 类、59 种风格规范**，按需读取完整文本并保持其材质、色彩、字体、构图、运动与声音语言。示例故事、角色和音乐不自动成为可复用素材；纪实与实证题材保留真实来源要求。
@@ -33,17 +41,19 @@ One idea → a full script → consistent characters and voices → all video sh
 
 ### 导入 Lumina
 
-下载 [v4 专用导入 ZIP](dist/lumina-cinema-atlas-v4.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。
+下载 [v4.1 专用导入 ZIP](dist/lumina-cinema-atlas-v4-1.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。
 
 - **46 个文件**，加两个子目录和最外层目录共 **49 项**。
 - 每个文件不超过 **19,800 个 UTF-16 代码单元**，低于 20,000 字符兼容线。
 - 保留全部 59 种风格，分片可重建并逐项核对哈希。
-- SKILL.md 开头应为 `Import build: v4-native-editor`。
+- SKILL.md 开头应为 `Import build: v4.1-scene-audio`。
 - `agents/openai.yaml` 是显示元数据，不能替 Lumina 注册工具。
 
 完整执行依赖 Lumina 实际暴露原生 Question、媒体生成、任务查询／续跑和 Video Editor 编辑、字幕、预览、导出、下载能力。截图仅确认界面存在，不能证明每项操作已向 Agent 开放。缺失能力时 Skill 会保存状态并报告具体阻塞；不会虚报工具调用或保证平台审核通过。**本版本完成了静态内容、打包和风格完整性检查，尚未在 Lumina 执行新版全流程媒体制作。**
 
 ## English overview
+
+Video defaults are **Seedance 2.5** and **16:9** unless the user explicitly requests another ratio. Strip/mute model-generated BGM from successful clips before shot review, retaining or restoring approved speech through real native operations. Use true extension only for eligible continuous shots in the same scene; separate scenes remain independent. All visual transitions are hard cuts. Planned final music is a separate editor track.
 
 The agent turns an idea into a complete script, **16:9 character turnarounds**, role-specific voice choices, real **20–30 second auditions**, a measured shot production table and every planned video shot. Each current shot is then reviewed through a native Question card before post-production begins.
 
@@ -57,9 +67,9 @@ All **59 styles** retain their full specifications. The importer package contain
 
 ```sh
 python3 tools/build_lumina_skill.py
-python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v4.zip
+python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v4-1.zip
 # Verify/package the existing import folder without needing the source library:
-python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v4.zip
+python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v4-1.zip
 ```
 
 The builder verifies importer counts, filenames, text lengths, local reference links and reconstructed style hashes. `tools/lumina_preflight.py` provides existing normalized media checks; it is not the native runtime orchestrator and does not replace v4 approvals. Helpers, historical tests, documents and ZIPs stay outside the import folder. The separately preserved toolkit and media live in `xianlin-lu/`; follow their corresponding notices.

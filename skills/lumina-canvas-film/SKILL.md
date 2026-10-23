@@ -5,11 +5,11 @@ description: Turn one idea into a complete Lumina video with native Question app
 
 # Cinema Atlas · Native Video Director · 59 Styles
 
-Import build: v4-native-editor (46 files; full 59-style library; input-ID/audio guards, shot approvals and native post-production).
+Import build: v4.1-scene-audio (46 files; 59 styles; Seedance 2.5, 16:9, BGM-free shots and scene-aware extension).
 
 ## Native execution and reading order
 
-Read `references/production-workflow.md` for durable stages, EVERY native review gate, detailed Video Editor editing/subtitles/music/revision/export procedure and completion rules. Read `references/production-requests.md` for shot tables/prompts, timing, actual request limits and bounded recovery before media calls. Character/voice details are below. These are self-contained native workflows; older style demo engines or unconditional assembly examples cannot override them.
+Read `references/production-workflow.md` for durable stages, EVERY native review gate, detailed Video Editor editing/subtitles/music/revision/export procedure and completion rules. Read `references/production-requests.md` for shot tables/prompts, timing, actual request limits and bounded recovery before media calls. Character/voice details are below. Native rules override older style demo/assembly examples.
 
 Discover actual runtime tool schemas for Question, image, speech, video, task status/continuation and Video Editor media/timeline/caption/preview/export operations. The supplied UI labels do not prove callable names. Use real native canvas nodes and supported asset ports. Do not invent `VideoEditor` functions, node IDs, tool arguments or download URLs, install a missing tool, or replace the required editor with external CLI/HTML/ffmpeg/OpenFilm Studio. If a capability is missing, preserve state and explain the exact blocker through native recovery; missing Question cannot be fixed by a simulated card or main-chat approval.
 
@@ -17,12 +17,14 @@ From the user's idea infer a coherent topic and fitting library style without an
 
 ## Required progression
 
+Default video model: **Seedance 2.5**. Default film ratio: **16:9**, changed only for an explicit user ratio requirement. Resolve the actual native model/ratio schema; do not silently substitute models or infer vertical format.
+
 1. Write the FULL script, scenes, exact dialogue/narration, cast, setting and ending. Derive overall duration from natural speech and dramatic rhythm, not a fixed 30/45/60s quota. Explain style and estimated duration; display it and obtain native **剧本确认** before character/audio/video work.
-2. Generate and inspect each actual recurring visual character's real **16:9 front/side/back sheet**, with one identity across panels. Display actual images; native **角色三视图确认** locks asset versions. No portrait is required for an off-screen narrator.
+2. Generate and inspect each actual recurring visual character's real **16:9 front/side/back sheet**, with one identity across panels. Display actual images; native **角色三视图确认** locks asset versions.
 3. Use native **角色试音要求** for every speaking role/narrator: 2–3 complete recommended timbre/pitch/language/accent/pace/performance profiles. Honor already supplied preferences. No implicit real-person voice cloning.
 4. Generate real original dry **20–30s auditions**, about 24s if unspecified; check and play each, logically map it to its role, then native **角色试音确认**. Lock actual reusable voice and audio handles, never merely a nickname. No dummy audio for mute roles.
 5. Build the full versioned **镜头生产总表** from approved script/images/voices. Generate exact shot speech and measure it before locking integer prompt timing. Store row/scene IDs, exact source lines, speaker/voice/audio versions, board/identity assets, action/camera, timelines, sound route, mode/dependencies and status. Display complete table and speech previews; native **镜头生产总表确认** authorizes automatic shot production.
-6. Generate every shot, validate inputs, query real tasks and inspect outputs; repair only failed rows within bounds. Submitted job one is not a finished film. Preserve unrelated successful assets.
+6. Generate all shots, classify same-scene continuity for eligible true extension, and hard-cut across scenes. Remove model BGM from successful outputs BEFORE review, preserving/restoring approved speech. Follow production-workflow.md for this native cleanup. Query real tasks; repair only failed rows, retaining successes. Submission is not completion.
 7. Display each playable shot and obtain native **分镜成片确认** for EACH current shot version. Schema-sized batches may carry one question per shot; no unseen clips or global inferred approval. Revisions invalidate and re-review only affected dependencies. Only after all required shots are approved ask **后期制作方式**.
 8. Native post options: **仅剪辑拼接 / 仅添加字幕 / 剪辑拼接＋字幕（推荐） / Other**. Use the actual built-in Other text field when supplied, without adding a duplicate. Both immediately invokes the native Video Editor for both operations. Stitch-only adds no new captions; subtitle-only preserves the approved existing timeline or captions separate clips without silently stitching. Other collects custom scope inside the card. Explicit no-edit delivery is labeled as approved clips, not a stitched film.
 9. Execute selected scope in the SAME native Video Editor project across edits, following `references/production-workflow.md`. Preserve human locks/overrides; trim using source in/out, assemble editable tracks, place correct dialogue, and add requested timed captions. With music, inspect real beats/phrases and place suitable cuts on those markers without cutting speech or forcing speed. Never invent analyzed BPM.

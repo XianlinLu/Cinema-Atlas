@@ -1,0 +1,15 @@
+{
+  "build": "v4.1-scene-audio",
+  "files": 46,
+  "items_including_directories_and_root": 49,
+  "full_styles_hash_verified": 59,
+  "max_utf16_units": 19793,
+  "defaults": {
+    "video_model": "Seedance 2.5",
+    "ratio": "16:9 unless explicitly specified",
+    "model_bgm": "remove before shot approval",
+    "extension": "eligible same-scene continuity only",
+    "visual_transitions": "hard cuts"
+  },
+  "native_runtime_verified": false
+}

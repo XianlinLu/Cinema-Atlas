@@ -29,7 +29,7 @@ The SOP's written prompt timelines use integer seconds and ordinary half-up roun
 
 For shots at or below four seconds, assess merge eligibility rather than blindly merging. Same scene/time, same identity/costume/light and directly connected action may be merged only if the atomic action, camera, speaker, approved dialogue and all visual requirements remain coherent. Never merge across scenes, conflicting camera instructions, a speaker change, a reveal or a deliberate emotional pause. Record the exact original line/row range. If it cannot merge, use a supported duration with a motivated hold or a user-approved edit; do not generate zero-second rows.
 
-Total film duration is the locked sum after measured speech, intentional transitions and approved edit overlap. Show that sum at table review. A model's 30-second maximum is a ceiling per request, not a reason to generate thirty seconds of unrelated shots together.
+Total film duration follows measured speech and approved hard-cut shot boundaries; do not add transition overlaps by default. Show that sum at table review. A model's 30-second maximum is a ceiling per request, not a reason to generate thirty seconds of unrelated shots together.
 
 ## Deterministic prompt construction
 
@@ -45,9 +45,9 @@ No alternative actions, “approximately” timed beats, random weather, guessed
 
 Generate/use scene and prop anchors from the approved script as needed. Create a fresh board when camera position, framing, staging, axis or scene changes. A shared board must depict the starting state, not the action's completed result. Reconnect the correct locked assets on every shot; the previous video/last frame cannot substitute for identity references.
 
-## Independent generation and true extension
+## Scene-aware independent generation and true extension
 
-Default to independent atomic shots. The older batch template's “续写这个@视频。” is conditional: use it only when the actual tool truly extends the input timeline, the source clip is usable/approved for this operation, the same scene/time/costume/action continues, and required identity assets can still be connected. A video-reference port alone does not prove true extension. Never carry an extension dependency across a scene boundary.
+Classify every row by scene_id and real temporal/action continuity. For consecutive shots in the SAME scene/time with compatible costume/light/action/camera, a ready QC-passed BGM-free predecessor at project ratio and actual native extension support, true extension is eligible. Otherwise generate an independent atomic shot. Different scenes, time jumps or broken action never use extension or the prior scene's last frame as continuation. A shared location or video-reference port is insufficient. Record source ID/version and the mode reason; the table approval authorizes those dependencies. Preserve the current approved identity/voice assets on extensions.
 
 Read the runtime extension schema. The output ratio follows the source; omit ratio if optional, or use the schema's adaptive value if required. Do not send a forced 16:9 ratio with an extension task. Ensure the existing source is already in the intended film ratio. First-frame/last-frame modes may have similar model-specific adaptive-ratio requirements; validate rather than assuming normal reference-generation rules.
 
@@ -59,7 +59,7 @@ Apply SKILL.md’s Video sound planning and output-audio policy failures rules. 
 
 After native table approval, process all rows automatically with bounded concurrency. Speech/voice/identity assets must exist, be approved, and match current versions. Inspect each generated clip against its row: correct identity and outfit, expected speaker/line, other mouths closed, readable action/camera, ratio, actual length, and no missing or duplicate content. Rework only failed rows and dependencies; a creative change reopens the corresponding native gate.
 
-Keep edit-ready clip trim in/out and dialogue/narration placements. Table approval authorizes generation and technical QC. Then obtain native user review for EVERY current shot version and the post-production scope before editing. Follow production-workflow.md for native Video Editor, music-aware cuts, optional subtitles, final revision approval and actual downloadable export. No extra “continue” request between technical jobs.
+Keep edit-ready clip trim in/out and dialogue/narration placements. Table approval authorizes generation, technical QC and native BGM cleanup, restoring approved speech if needed. Every reviewed shot is its real BGM-free prepared version. Obtain per-shot approval and post-production scope before requested stitching/subtitle editing. Follow production-workflow.md for native Video Editor, music-aware cuts, optional subtitles, final revision approval and actual downloadable export. No extra “continue” request between technical jobs.
 
 ---
 
@@ -76,7 +76,7 @@ At this package's update, the public Seedance 2.5 documentation specifies refere
 
 ## Before every media request
 
-Verify the real operation/model profile; dependency approvals and versions; accessible, ready asset IDs; correct owners/roles; measured metadata rather than requested metadata; count/size/type constraints; intended duration and output ratio; and a unique job/request fingerprint. Never submit placeholder URLs, a character name as an asset ID, a failed audio node, or an unapproved candidate. Query existing pending jobs before resubmission.
+Default to Seedance 2.5 and project 16:9 unless the user explicitly requested another ratio; bind actual native model/schema and use the eligible scene-aware mode. Verify the real operation/model profile; dependency approvals and versions; accessible, ready asset IDs; correct owners/roles; measured metadata rather than requested metadata; count/size/type constraints; intended duration and output ratio; and a unique job/request fingerprint. Never submit placeholder URLs, a character name as an asset ID, a failed audio node, or an unapproved candidate. Query existing pending jobs before resubmission.
 
 Store role-aware reference inputs explicitly. Sum the actual durations of ALL attached audio files in the request, including music/narration where that route counts them. Count duplicate attachments as the API does. Do not use file names, a requested “25 seconds,” or rounded UI labels as measured duration.
 

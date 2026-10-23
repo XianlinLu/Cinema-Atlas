@@ -30,6 +30,14 @@ The post-production card offers stitching only, subtitles only, both and native 
 
 The final review shows the actual current editor preview/version. A request to keep modifying opens native card text for the target shot/time/track, the issue and desired change. The same editor draft is read and patched, with dependent captions/audio checked again. Approval is invalidated by subsequent changes. No main-chat “continue” or drawn imitation card is substituted.
 
+## Generation defaults and source cleanup (v4.1)
+
+Default to Seedance 2.5 and 16:9, with a ratio override only on explicit user instruction. Resolve actual Lumina identifiers rather than inventing an API name. Same-scene consecutive shots may use true extension only when action/time/identity/light/camera and source readiness/ratio are compatible. Different scenes or time jumps never extend the previous scene. Trim repeated source prefixes from extension results.
+
+Before user shot review, remove model-generated background music from each successful clip using native audio operations or Video Editor. Preserve the raw source and record the prepared output. If music and speech are mixed, separate BGM where supported, or mute that original mix and restore exact approved dry speech/necessary sound with real sync. Do not deliver missing dialogue or claim an unavailable stem control. Blocked/rejected outputs remain unavailable under the existing policy rules. This pre-review normalization does not authorize stitching/subtitles early.
+
+All picture boundaries use hard cuts without automatic transition effects/overlaps. Final approved music remains a separate editor track, with beat-aware cutting and optional audio fades. Only BGM-free prepared shot versions can receive shot approval or enter final editing/continuation.
+
 ## Music, captions and delivery
 
 Use actual selected music and genuine beat/phrase observations. Cut on narratively valid accents, preserving complete speech, actions and pauses. Do not fabricate BPM, drop words or accelerate dialogue for a beat. A substantive content/music change gets a native decision.

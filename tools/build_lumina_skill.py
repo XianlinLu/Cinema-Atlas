@@ -63,7 +63,7 @@ def generate():
             revision = previous['library_revision']
     manifest = {'format': 1, 'library_repository': REPO, 'library_revision': revision,
                 'style_count': len(order), 'offsets': 'Unicode code points; end-exclusive; fragments concatenate in listed order',
-                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v4', 'styles': {}}
+                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v4.1', 'styles': {}}
     generated = {}
     page_no = 1
     page = '# Complete style specifications 01\n\n'
