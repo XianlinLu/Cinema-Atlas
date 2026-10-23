@@ -22,7 +22,9 @@ Its core editing method is mapped to Lumina's native tools. HTML page rendering 
 
 ## Required native decisions
 
-`剧本确认 → 角色三视图确认 → 角色试音要求 → 角色试音确认 → 镜头生产总表确认 → 每段分镜成片确认 → 后期制作方式 → 剪辑成片确认 ↔ 剪辑修改说明 → 导出下载`
+`剧本确认 → 角色／重要道具配图确认（适用的合并卡片） → 角色试音要求 → 角色试音确认 → 镜头生产总表确认 → 每段分镜成片确认 → 后期制作方式 → 剪辑成片确认 ↔ 剪辑修改说明 → 导出下载`
+
+The visual phase automatically extracts important close-up/recurring objects, including background props/decorations, alongside the cast. Generate real prop references and bind approved versions/states to their boards/shots under `skills/lumina-canvas-film/references/props-assets.md`. Initial props share the existing applicable visual review; newly discovered important objects receive targeted incremental review before dependent production, without restarting unrelated approved roles/voices.
 
 Every required shot has its own approved current output version. A batch may contain one question for each shown clip if the native schema permits it. It never converts approval of one shot into approval of the rest.
 

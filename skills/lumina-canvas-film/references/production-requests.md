@@ -55,7 +55,7 @@ For each table row, resolve actual assets before writing the final request. Use 
 
 No alternative actions, “approximately” timed beats, random weather, guessed assets, additional dialogue or model-chosen ending. Avoid conflicts such as “static camera” and “continuous tracking” for the same interval. Use the selected style's own vocabulary instead of sample SOP genres or named copyrighted movies/characters. Do not add long lists of unrelated negative terms.
 
-Generate/use scene and prop anchors from the approved script as needed. Create a fresh board when camera position, framing, staging, axis or scene changes. A shared board must depict the starting state, not the action's completed result. Reconnect the correct locked assets on every shot; the previous video/last frame cannot substitute for identity references.
+Apply `props-assets.md`: rescan every planned close-up/recurring/background-object appearance; generate any newly required actual prop reference and obtain its incremental native visual approval before the affected table/shots. Map each appearance to approved prop ID/image/version, state/view and scene placement/scale; attach relevant real images through supported ports within actual limits. Names alone are not attachments. Create a fresh board for changed camera/framing/staging/axis/scene, depicting the action's START state. Reconnect locked character/prop/scene assets on independent shots and supported extensions; the previous video alone cannot substitute for them. Inspect object identity and state across shots.
 
 ## Scene-aware independent generation and true extension
 

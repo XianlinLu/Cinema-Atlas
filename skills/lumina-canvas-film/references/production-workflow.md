@@ -2,7 +2,7 @@
 
 ## Priority and actual capabilities
 
-The latest user sequence governs: idea → script approval → 16:9 character approval → role voice choices → playable 20–30s audition approval → full shot-table approval → generate all shots → user approval of EVERY shot version → post-production choice → native Video Editor → final review/revision → final export and download. Earlier unconditional assembly instructions do not bypass these gates. Preserve selected catalog style grammar, exact approved speech and the execution loop in runtime-control.md and audio/parameter safeguards in production-requests.md and characters-voices.md.
+The latest user sequence governs: idea → script approval → automatic character/important-prop images and applicable native visual approval → role voice choices → playable 20–30s audition approval → full shot-table approval → all shots → user approval of EVERY shot version → post-production choice → native Video Editor → final review/revision → final export/download. Earlier unconditional assembly cannot bypass these gates. Preserve style grammar, exact speech and runtime-control.md's execution loop plus production-requests.md, characters-voices.md and props-assets.md's visual/audio rules.
 
 Discover real native canvas schemas: Question, images, speech/voices, video, task status/continuation, and Video Editor project/media/timeline/caption/preview/export/download operations. The screenshot establishes UI labels, not callable names or parameters. Save the actual bindings and supported ports. Use only the host's native nodes and supported connections; a fake node, printed JSON, editor description, HTML project, external editor or ffmpeg result is not a native Video Editor operation. Do not install/run OpenFilm or redirect this workflow to its Studio. If a required tool is missing, report its precise limitation through native recovery and retain state; a Skill cannot register tools. If Question itself is missing, state the blocker before new paid work rather than imitate a card.
 
@@ -27,7 +27,7 @@ For pre-execution canvas/task-result synchronization failures, use runtime-contr
 | Stage | Work / required exit |
 |---|---|
 | SCRIPT / WAIT_SCRIPT | Full original script, exact lines, style and rhythm-based estimate; returned script approval |
-| CHARACTERS / WAIT_CHARACTERS | Automatically extract/deduplicate the full on-screen cast from the approved script, infer compatible appearance and generate all real 16:9 single-image three-view sheets; show all inspected images for the existing native approval, with no cast-list/per-first-character gate |
+| CHARACTERS / PROPS / WAIT_VISUAL_ASSETS | Automatically extract cast AND important close-up/recurring/background objects from approved script; generate real 16:9 character three-view sheets and prop references with identity/state/layout links; show all inspected initial images at ONE applicable native visual review under props-assets.md |
 | VOICE_BRIEF / AUDITIONS / WAIT_AUDITIONS | Each speaking role/narrator's native profile choices, real playable samples, returned audio approvals |
 | MASTER_TABLE / WAIT_TABLE | Atomic shot plan with visible concrete 画面描述 per row, real voice/line assets and measured timing; automatically repair abstract/mismatched descriptions under production-requests.md, then approve full table |
 | SHOTS / SHOT_AUDIO_NORMALIZE | Seedance 2.5 by default; classify continuity, generate/QC, remove ONLY model BGM, retain/restore and actually check speech, narration, effects and ambience before QC_READY |
@@ -50,7 +50,7 @@ Only an actual returned affirmative response approves an exact artifact revision
 Show real images/audio/video/table before review. Use the runtime tool, concise labels and real previews/IDs. `agents/openai.yaml` is metadata and cannot create a tool. A native canvas worker unable to ask must return artifact/version and proposed question to a parent with Question, then await its actual response. Do not print choices or request a reply in the main chat.
 
 - **剧本确认:** 通过并继续 / 调整剧本 / 更换风格. Infer concept/style and write the script BEFORE this card. A style revision browses the full indexed catalog in manageable native batches. Do not force 59 items into one card.
-- **角色三视图确认:** 全部通过 / 调整指定角色 / 重新查看. All relevant images must be visible; approve no unseen assets.
+- **配图确认 (one applicable title):** characters only use **角色三视图确认**, characters plus important props use **角色三视图与道具图确认**, props only use **道具参考图确认**. Options are 全部通过 / 调整指定角色或道具 (only applicable kinds) / 重新查看. Show all actual required images; approve no unseen assets. Follow `props-assets.md` for important background objects, state/layout mapping and targeted incremental review if new references are needed at table/board preparation. No prop-list questionnaire or per-item “continue”.
 - **角色试音要求:** 2–3 complete timbre/pitch/language/accent/pace/performance profiles per speaking role, with one recommendation. Group questions only within actual schema limits. Honor already supplied requirements.
 - **角色试音确认:** 全部通过 / 调整指定声音 / 再听一次. Every required actual sample must play. Mute roles need none; narrator has its own voice without a fake image.
 - **镜头生产总表确认:** 通过并生成全部分镜 / 调整指定镜头 / 重新查看表格与对白. This authorizes automatic generation and technical repairs, not unseen shot approval or post-production selection.
