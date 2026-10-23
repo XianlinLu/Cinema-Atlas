@@ -55,7 +55,7 @@ One idea → a full script → consistent characters and voices → all video sh
 - SKILL.md 开头应为 `Import build: v5-orchestrated`。
 - `agents/openai.yaml` 是显示元数据，不能替 Lumina 注册工具。
 
-完整执行依赖 Lumina 实际暴露原生 Question、媒体生成、任务查询／续跑和 Video Editor 编辑、字幕、预览、导出、下载能力。截图仅确认界面存在，不能证明每项操作已向 Agent 开放。缺失能力时 Skill 会保存状态并报告具体阻塞；不会虚报工具调用或保证平台审核通过。**本版本完成了静态内容、打包和风格完整性检查，尚未在 Lumina 执行新版全流程媒体制作。**
+完整执行依赖 Lumina 实际暴露原生 Question、媒体生成、任务查询／续跑和 Video Editor 编辑、字幕、预览、导出、下载能力。截图仅确认界面存在，不能证明每项操作已向 Agent 开放。缺失能力时 Skill 会保存状态并报告具体阻塞；不会虚报工具调用或保证平台审核通过。
 
 ## English overview
 
