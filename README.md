@@ -16,12 +16,14 @@ One idea → a full script → consistent characters and voices → all video sh
 
 **v5.2 同步恢复：节点创建、任务受理与真实产物分开。** 先完成第一个真实角色，再自动推进其余队列；画布同步失败先有限读取／对账恢复，复用原节点与已有任务，受理不明不重复提交。临时恢复不增加用户问答，持续的宿主故障保留断点并通过真实原生恢复选项处理；工具卡片显示完成不冒充媒体生成完成。详见 [同步恢复说明](docs/v5-2-sync-review.md)。
 
+**v5.3 剧本自动提取角色并生图。** 用户确认剧本后，Agent 自动分析全剧本的出镜角色、去重并补全合理外观设计，再自动生成每个角色的一张 **16:9 正／侧／背三分区图**。不要求用户提供人物清单、人物照或手动建节点；第一张先跑通只是内部提交顺序，其余角色自动继续。全部真实角色图完成后，才用原生卡片统一确认并进入声音阶段。[角色流程说明](docs/v5-3-cast-workflow.md)。
+
 用户只需要给出想法，Agent 会推理故事与风格、写完整剧本，再依次生成角色三视图、试音、镜头总表与全部分镜。用户在关键节点用原生选项卡决定；通过后自动推进，无需反复在聊天框输入“继续”。
 
 ### 完整流程
 
 1. **完整剧本 → 剧本确认。** 片长由故事节奏、自然语速和动作决定；风格与剧本一起确认。
-2. **16:9 角色三视图 → 角色确认。** 每个需明确身份的出镜剧情角色（含只出现一次的发声角色）包含同一身份的正面、侧面、背面。
+2. **确认的剧本 → 自动分析全部角色 → 自动生成 16:9 三视图 → 角色确认。** 每个需明确身份的出镜剧情角色（含无台词或只出现一次的角色）在同一张横向图中展示同身份正面、侧面、背面；角色与场景／道具分别管理，全部所需人物图真实完成后统一确认。
 3. **逐角色声音选项 → 20–30 秒真实试音 → 试音确认。** 角色、音色、实际音频与版本明确对应；旁白独立管理。
 4. **镜头生产总表 → 总表确认。** 保留确切台词、角色与声音引用、实测音频时长、分镜、时间轴及任务依赖。
 5. **自动生成全部分镜 → 逐段成片确认。** 每段实际视频都需要用户确认当前版本，修改后仅重新确认受影响内容。
@@ -51,12 +53,12 @@ One idea → a full script → consistent characters and voices → all video sh
 
 ### 导入 Lumina
 
-下载 [v5.2 专用导入 ZIP](dist/lumina-cinema-atlas-v5-2.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。更新 Skill 不代表已停止的旧会话会自行唤醒：恢复时需实际加载新版规则，并在同一画布先对账复用已有节点／任务，无需删除画布重做。
+下载 [v5.3 专用导入 ZIP](dist/lumina-cinema-atlas-v5-3.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。更新 Skill 不代表已停止的旧会话会自行唤醒：恢复时需实际加载新版规则，并在同一画布先对账复用已有节点／任务，无需删除画布重做。
 
 - **36 个文件**，加两个子目录和最外层目录共 **39 项**。
 - 当前 Lumina 上限为 **30,000 字符**；本包每个文件不超过 **29,600 个 UTF-16 代码单元**，保留余量。
 - 保留全部 59 种风格，分片可重建并逐项核对哈希。
-- SKILL.md 开头应为 `Import build: v5.2-resumable`。
+- SKILL.md 开头应为 `Import build: v5.3-script-cast`。
 - `agents/openai.yaml` 是显示元数据，不能替 Lumina 注册工具。
 
 完整执行依赖 Lumina 实际暴露原生 Question、媒体生成、任务查询／续跑和 Video Editor 编辑、字幕、预览、导出、下载能力。截图仅确认界面存在，不能证明每项操作已向 Agent 开放。缺失能力时 Skill 会保存状态并报告具体阻塞；不会虚报工具调用或保证平台审核通过。
@@ -66,6 +68,8 @@ One idea → a full script → consistent characters and voices → all video sh
 Video defaults are **Seedance 2.5** and **16:9** unless the user explicitly requests another ratio. Remove ONLY model-generated background music before shot review; retain or restore all intended dialogue, off-screen speech, narration, sound effects and ambience. Prepared shots must actually play with their required sound before approval; a globally muted intermediate or detached audio is incomplete. Use true extension only for eligible continuous shots in the same scene; separate scenes remain independent. All visual transitions are hard cuts.
 
 The agent turns an idea into a complete script, **16:9 character turnarounds**, role-specific voice choices, real **20–30 second auditions**, a measured shot production table and every planned video shot. Each current shot is then reviewed through a native Question card before post-production begins. A persistent reconcile/dispatch loop advances every ready authorized task after native answers and actual tool results; host callbacks/status APIs provide asynchronous continuation.
+
+After script approval, the agent automatically reads the full script, extracts and deduplicates its on-screen cast, infers compatible unspecified appearance details, and generates each required character's front/side/back views in ONE landscape 16:9 image through native image tools. No manual cast list, portrait upload, node creation or per-character continue action is required. The first-item dispatch order is internal; all required real sheets are completed and inspected before the existing native character-image approval, then voice work begins. Narrator-only voices and ordinary props/locations are classified separately.
 
 Version 5.2 distinguishes prepared nodes, accepted jobs and real outputs. It completes the first required character deliverable before expanding the queue, serializes shared-canvas writes, and handles pre-execution sync faults with bounded non-generating reconciliation. Existing nodes, running tasks and completed media are reused; uncertain acceptance never triggers a blind duplicate paid submission. Persistent host failures retain a precise checkpoint and use actual native recovery rather than promising unsupported background resumption.
 
@@ -79,11 +83,11 @@ All **59 styles** retain their full specifications. The importer package contain
 
 ```sh
 python3 tools/build_lumina_skill.py
-python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v5-2.zip
+python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v5-3.zip
 # Repack existing verified style text without needing the source library:
-python3 tools/build_lumina_skill.py --repack-existing --zip dist/lumina-cinema-atlas-v5-2.zip
+python3 tools/build_lumina_skill.py --repack-existing --zip dist/lumina-cinema-atlas-v5-3.zip
 # Check/package the current import folder:
-python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v5-2.zip
+python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v5-3.zip
 ```
 
 The builder verifies importer counts, filenames, 29,600-unit text lengths, local reference links and reconstructed style hashes. The 59 complete specifications are losslessly repacked into 27 style pages; no style is summarized or removed. `tools/lumina_preflight.py` provides existing normalized media checks; it is not the native runtime orchestrator and does not replace v5 approvals. Helpers, historical tests, documents and ZIPs stay outside the import folder. The separately preserved toolkit and media live in `xianlin-lu/`; follow their corresponding notices.
