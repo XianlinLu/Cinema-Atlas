@@ -22,6 +22,8 @@ All visual shot/scene boundaries use **hard cuts**: no automatic dissolve, cross
 
 Use runtime-control.md for the reconcile/dispatch loop and evidence barriers. Technical QC_READY and user USER_APPROVED are distinct; approved-table continuation may use its QC_READY predecessor before later user shot review. Keep source table versions and the final edit map separate.
 
+For pre-execution canvas/task-result synchronization failures, use runtime-control.md's distinct preparation/acceptance/output ledger and bounded non-generating reconciliation. Prefer one actual character deliverable end to end before expanding the queue; reuse existing empty nodes and successful outputs. An execution-card Completed flag does not prove image generation. Preserve unresolved acceptance and original node/task handles; never manufacture a fresh batch or repeatedly execute to repair a stale display. A genuine shared-sync outage can block new independent submissions too; continue only actions that do not cross that barrier.
+
 | Stage | Work / required exit |
 |---|---|
 | SCRIPT / WAIT_SCRIPT | Full original script, exact lines, style and rhythm-based estimate; returned script approval |

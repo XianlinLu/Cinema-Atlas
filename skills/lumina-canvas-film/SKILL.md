@@ -5,7 +5,7 @@ description: Turn one idea into a complete Lumina video with native Question app
 
 # Cinema Atlas · Native Video Director · 59 Styles
 
-Import build: v5.1-audible (30,000-character importer; 59 complete styles; audible shots and separate final scoring).
+Import build: v5.2-resumable (30,000-character importer; 59 complete styles; audible shots, native scoring and canvas recovery).
 
 ## Native execution and reading order
 
@@ -22,7 +22,7 @@ Default video model: **Seedance 2.5**. Default film ratio: **16:9**, changed onl
 **Remove only model background music, never all sound.** Infer each shot's dialogue, off-screen speech, narration, effects and ambience from its approved script/action. Those intended sounds must be actually audible in the prepared shot BEFORE its review, even when picture and sound were produced separately. A global mute or picture-only output is at most an intermediate step; restore and verify ALL required speech/effects before QC_READY. Only justified intentional silence may be soundless. Keep final scoring for the native editor, where the agent automatically fits original/cleared music to the story unless explicitly excluded.
 
 1. Write the FULL script, scenes, exact dialogue/narration, cast, setting and ending. Derive overall duration from natural speech and dramatic rhythm, not a fixed 30/45/60s quota. Explain style and estimated duration; display it and obtain native **剧本确认** before character/audio/video work.
-2. Generate and inspect each identifiable on-screen story character's real **16:9 front/side/back sheet**, with one identity across panels. Display actual images; native **角色三视图确认** locks asset versions.
+2. Reuse matching existing nodes/ready images. Run the first missing REAL required character's **16:9 front/side/back sheet** from saved inputs through actual task/output, then process the remaining roles automatically, initially serially. A created empty node or Completed Canvas invocation is not image generation. Follow runtime-control.md for pre-execution sync/acceptance recovery without duplicate nodes/jobs. Inspect each identifiable character's same-identity sheet; display actual images and obtain native **角色三视图确认** for their versions.
 3. Use native **角色试音要求** for every speaking role/narrator: 2–3 complete recommended timbre/pitch/language/accent/pace/performance profiles. Honor already supplied preferences. No implicit real-person voice cloning.
 4. Generate real original dry **20–30s auditions**, about 24s if unspecified; check and play each, logically map it to its role, then native **角色试音确认**. Lock actual reusable voice and audio handles, never merely a nickname. No dummy audio for mute roles.
 5. Build the full versioned **镜头生产总表** from approved script/images/voices. Generate exact shot speech and measure it before locking integer prompt timing. Store row/scene IDs, exact source lines, speaker/voice/audio versions, board/identity assets, action/camera, timelines, sound route, mode/dependencies and status. Display complete table and speech previews; native **镜头生产总表确认** authorizes automatic shot production.
@@ -39,9 +39,11 @@ After a returned approval, invoke the next actual tool action immediately; no ex
 
 After each real native answer or tool result, reconcile → choose the next ready authorized action → dispatch the actual native tool → observe/check → persist → repeat. A future-tense progress note is not an action. End only for a pending native decision, explicit pause, a genuine saved blocker, or completed verified delivery. Running tasks need actual host polling/callback continuation; this text cannot supply missing background infrastructure.
 
+For Canvas synchronization errors, distinguish node setup, generation acceptance and actual output. Read runtime-control.md's scoped recovery procedure: inspect real saved nodes/tasks, serialize shared-canvas writes, perform bounded non-generating reconciliation, and reuse existing media. Submit an existing node only when current acceptance is authoritatively absent and sync/inputs are ready; uncertain acceptance forbids duplicate submission. A persistent host failure needs a saved blocker/native recovery, not endless retries or an unsupported promise to resume later.
+
 Keep raw generation, BGM-free prepared output, technical QC and version-specific user approval separate. The approved table permits its planned same-scene successor to use a QC_READY prepared predecessor before later per-shot user review; EVERY current shot must still be user-approved before final post-production. Keep approved production rows separate from the edited timeline, so authorized handle trims/music alignment update the edit map and caption offsets without restarting unrelated production. Preserve dialogue, action coverage and hard-cut boundaries.
 
-- `references/runtime-control.md`: automatic dispatch/resume, evidence states, native gate handling, dependency/invalidation and final download barriers.
+- `references/runtime-control.md`: automatic dispatch/resume, separate node/task/output evidence, canvas-sync recovery, native gates, dependency/invalidation and final download barriers.
 - `references/production-workflow.md`: complete required stage/card sequence, Seedance 2.5/16:9 defaults, native BGM cleanup, continuity/extension/hard cuts, Video Editor editing, revisions, subtitles, beat-aware music and delivery.
 - `references/characters-voices.md`: 16:9 turnarounds, native role profiles, actual 20–30s auditions, reusable voice identity, exact speech and lip-sync.
 - `references/audio-postproduction.md`: mandatory audible-shot checks, BGM-only removal, speech/effects preservation, automatic final scoring, real editable sound-role tracks and approval-before-export.

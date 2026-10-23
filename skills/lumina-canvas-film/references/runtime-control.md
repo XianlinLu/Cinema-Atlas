@@ -31,6 +31,54 @@ Keep these distinct: PLANNED, INPUTS_READY, SUBMITTED, RUNNING, GENERATED, QC_RE
 
 For each dispatch store project/stage/logical-artifact/version, input fingerprint, real node/task IDs and current state. Use actual provider idempotency support if exposed. A local request key helps locate existing work; it is not itself proof the provider deduplicates. A task with an unknown submission result must be reconciled before another billable submission.
 
+## Canvas synchronization, existing nodes and submission recovery
+
+### Separate node setup, accepted jobs and outputs
+
+A Canvas tool call marked Completed, a task checklist marked 8/8, or a visible image/audio/video node does NOT prove media generation ran. Such a call may have created nodes only. Maintain three distinct records for each logical asset/version: node preparation (actual node and saved prompt/inputs), generation acceptance (actual task or authoritative acceptance evidence), and output (actual ready media handle). Never use node setup success to complete a production stage.
+
+Track node existence, input-save/readback result, canvas revision/sync result where exposed, submission certainty, task/output IDs, observed status, attempts and next action. Distinguish these conceptual conditions without inventing provider enum fields:
+
+| Observation | Meaning and next action |
+|---|---|
+| Node created, no accepted task and no output | Preparation only; resolve/save inputs, synchronize as supported, then submit when acceptance is known absent |
+| Authoritative tool result explicitly says no new task was submitted | NOT_ACCEPTED for that attempt only; preserve existing nodes, repair/reconcile sync, then submit once it is safe |
+| Timeout/sync error with unclear acceptance | ACCEPTANCE_UNKNOWN; inspect original task/node/history through real supported reads; do not resubmit just because an ID is missing |
+| Task accepted/queued/running | Observe that same task; do not start another generation to recover a canvas display |
+| Successful media exists but canvas attachment/display is stale | Rebind/register the verified existing output through supported native operations; do not regenerate it |
+| Persistent synchronization failure with no safe inspection/repair | Save precise evidence and resume point; native recovery/host support is needed, not a duplicate canvas |
+
+Only the actual tool result/current provider state establishes NOT_ACCEPTED. An earlier assistant message saying “system confirms no new task” is not independent evidence. Absence from one eventually consistent listing is not conclusive non-acceptance. Bind the observation to its exact dispatch/version, since an older attempt may still have been accepted. If the tool exposes neither a task ID nor authoritative status, leave acceptance unknown rather than guessing.
+
+### Start production with the first real required asset
+
+After script approval, reuse any matching existing character nodes and actual ready images. Create/configure the first missing required character sheet, read back its saved prompt, image model/operation, 16:9 setting and necessary real references where supported, and submit that REAL requested asset. Observe its task and real output end to end before expanding the queue. This is the user's first deliverable, not an extra paid diagnostic generation. Prefer a serial automatic queue for the remaining character jobs until the actual route is known healthy; increase concurrency only within exposed quotas and independent dependencies. A tool that creates/configures/executes atomically may perform this in one call; do not invent separate save or sync endpoints it lacks.
+
+Do not create an entire empty-node batch and mistake it for production. If a batch already exists, enumerate it through actual native reads and map logical role IDs to their existing node IDs/input versions. Preserve each node, approved script and successful media. Finish its missing prompt/settings/inputs and submit the first eligible unaccepted node when safe; continue the remaining existing nodes automatically. Do not blindly recreate, delete, or rename the batch to reset error counters. Replace one node only if current evidence shows it is unusable, the native tool supports replacement, and acceptance/dependencies have been resolved.
+
+Serialize mutations of a shared canvas/project: only one actual save/create/connect/execute mutation may be in flight through that coordinator. A pending save/revision/registration is reconciled before a dependent submit. Independent provider jobs may run concurrently where supported after their inputs are committed; this does not authorize overlapping stale canvas writes. Read latest state before each write and honor actual revision/lease fields if exposed. Do not overwrite concurrent human edits or run a broad whole-canvas execute merely to probe one node.
+
+### Bounded recovery for pre-execution synchronization failures
+
+Treat “pre-execution synchronization failed / synchronization of existing task results failed” as its own orchestration phase. It does not by itself mean the image/video model failed, the prompt was rejected, the script needs rewriting, a copyright block occurred, or the platform is globally unavailable. Screenshots containing only the agent's description do not expose the underlying error; inspect the relevant raw native tool result when available.
+
+1. Record the actual failing operation, phase, affected project/revision/node, exact error/request/log IDs, any task IDs, acceptance certainty and last successful checkpoint. Stop dependent billable submits while acceptance/sync is unresolved. Avoid new image/audio/video execution calls just to test connectivity.
+2. Inspect supported read-only task/node/output state, scoped to the affected work and any explicitly reported stale earlier task. Some Canvas calls combine status sync with execution: inspect the real schema/result before assuming a call is read-only. Use actual status/list/read/reconcile/refresh capabilities only when exposed. A tool label or this document cannot create a repair API.
+3. For a transient read/sync failure, allow at most THREE additional non-generating reconciliation attempts in that recovery episode, honoring Retry-After and real host waits/backoff (for example 1s, 3s, 8s if no service guidance exists). Persist the budget across turns and callbacks; do not reset it by changing nodes, rereading the Skill or renaming the phase. A scheduled attempt counts only when the host actually executes it. Normal observation of a healthy running job is not a failed-sync retry.
+4. If an old accepted task has completed, recover its actual output/attachment and record it; if still running, track the same job with actual host continuation. If the native response identifies a repairable stale binding/revision, perform only the supported scoped refresh/rebind after inspecting current state. Do not clear histories, delete old tasks, detach unrelated media, cancel paid work, force a stale revision or bypass a required global sync barrier.
+5. After synchronization really succeeds, re-read acceptance for ALL previous attempts. For authoritative NOT_ACCEPTED with ready saved inputs and no other accepted/unknown attempt, submit the existing node once within the separate generation-submission budget. For accepted work, continue its original task; for successful work, reuse its output; for unknown acceptance, keep reconciling within the remaining safe budget and never duplicate paid work. Re-enter the normal automatic loop immediately after recovery; no “type continue” checkpoint.
+6. If the budget is exhausted, there is no supported safe repair/status route, or the actual error is non-transient, preserve a real blocker. Continue independent work only if it does not cross the failed shared sync barrier. Do not keep sending the same failing Canvas execute or claim indefinite automatic recovery. Register a delayed resume only if the host actually offers it, saving its real handle. Otherwise report that automatic resumption is unavailable, not “I will retry later” without a scheduled operation.
+
+Reconciliation attempts do not consume or increase the existing maximum TWO generation resubmissions for confirmed transient submission failure. A submission whose acceptance is unknown has zero safe automatic resubmissions until resolved. Deterministic input errors and policy rejections retain their separate rules in production-requests.md. Any recovery budget is per unresolved episode/dispatch, not an unlimited allowance per node.
+
+### Progress, recovery card and resume
+
+Maintain counts independently: nodes prepared / tasks accepted / outputs generated / QC-passed / user-approved. When only placeholders exist, report e.g. “节点已准备 N/N；图片生成 0/N，尚未提交或提交待核实”, never “角色完成” or overall production complete. If the host checklist cannot express all states, name setup versus generation as separate tasks and use an actual persistent status note; do not fabricate a counter API.
+
+At a true blocked barrier, use the actual native Question card with concise supported choices such as “重新检查并恢复 / 保存并暂停 / 查看故障详情”, respecting its real option limit and built-in Other. Explain what is known, unknown and still pending. The recheck choice authorizes a new bounded READ/RECONCILIATION episode, not blind media resubmission or resetting unknown acceptance. A persistent platform failure may require host support; do not automatically contact anyone. If the native card/state write is itself unavailable, provide an honest saved blocker report through the available channel instead of inventing a card or claiming it was saved remotely. Do not turn every temporary retry into a user question.
+
+On later resume, refresh actual bindings and reconcile saved nodes/tasks/outputs first, preserve genuine existing approvals, then run only missing ready work. A prose “script confirmed” note without the actual native response/version does not supply approval. Do not restart the script/style interview or recreate successful characters as a workaround. Save the precise next eligible node/action and any verified unresolved task/log IDs, so neither the user nor the agent must reconstruct the failed stage from chat history.
+
 ## Dependency rules that prevent unnecessary stops
 
 **Two approval levels for extension:** table approval authorizes producing its planned same-scene chain. A successor may consume a QC_READY prepared predecessor from that chain before per-shot user review, provided all foundational script/character/voice approvals are valid. Do not wait for the later USER_APPROVED shot flag to produce that already authorized successor: that would deadlock “generate all, then review each.” User approval of EVERY current prepared shot is still mandatory before post-production. A predecessor revision invalidates its affected extensions and approvals; recompute only those descendants.
