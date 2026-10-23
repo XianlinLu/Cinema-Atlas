@@ -20,6 +20,8 @@ One idea → a full script → consistent characters and voices → all video sh
 
 **v5.4 音频输入前置检查。** 在每次音频执行前准备当前操作真正需要的文本、声线和就绪素材，检查空引用、错误执行连接及未完成注册；遇到共享输入配置错误先暂停后续未提交任务，修复后自动继续，避免逐个角色重复弹错。不能修复的内部服务错误保留明确断点，不重复生成角色图，也不虚构“禁止弹窗”参数。[音频输入说明](docs/v5-4-audio-inputs.md)。
 
+**v5.5 具体画面描述。** 镜头总表逐镜写清人物／主体处境、动作、空间关系、相关感官细节与可见结果，避免用抽象设计建议或效果口号代替画面；制表时自动改写含糊内容，并将具体细节传到分镜板与视频提示词。参考图只取写法，不复制内容，也不把第一人称表述擅自加成主观镜头或旁白。[画面描述规范](docs/v5-5-shot-descriptions.md)。
+
 用户只需要给出想法，Agent 会推理故事与风格、写完整剧本，再依次生成角色三视图、试音、镜头总表与全部分镜。用户在关键节点用原生选项卡决定；通过后自动推进，无需反复在聊天框输入“继续”。
 
 ### 完整流程
@@ -27,7 +29,7 @@ One idea → a full script → consistent characters and voices → all video sh
 1. **完整剧本 → 剧本确认。** 片长由故事节奏、自然语速和动作决定；风格与剧本一起确认。
 2. **确认的剧本 → 自动分析全部角色 → 自动生成 16:9 三视图 → 角色确认。** 每个需明确身份的出镜剧情角色（含无台词或只出现一次的角色）在同一张横向图中展示同身份正面、侧面、背面；角色与场景／道具分别管理，全部所需人物图真实完成后统一确认。
 3. **逐角色声音选项 → 20–30 秒真实试音 → 试音确认。** 角色、音色、实际音频与版本明确对应；旁白独立管理。
-4. **镜头生产总表 → 总表确认。** 保留确切台词、角色与声音引用、实测音频时长、分镜、时间轴及任务依赖。
+4. **镜头生产总表 → 总表确认。** 每镜单列可见的具体“画面描述”，体现动作、空间与体验，区分机位、原台词和声音；保留角色引用、实测音频时长、分镜、时间轴及任务依赖。
 5. **自动生成全部分镜 → 逐段成片确认。** 每段实际视频都需要用户确认当前版本，修改后仅重新确认受影响内容。
 6. **后期制作选项。** 原生卡片提供“仅剪辑拼接”“仅添加字幕”“剪辑拼接＋字幕（推荐）”及 Other 自定义入口。
 7. **原生 Video Editor 分轨制作。** 选“两者都需要”立即执行拼接和字幕；仅拼接不额外添加字幕，仅字幕不擅自拼接。真实视频轨、背景音乐轨、文字字幕轨（选中时）和音效轨分别可编辑；对白／旁白保留正确源声或使用独立人声轨，避免重复播放。
@@ -55,12 +57,12 @@ One idea → a full script → consistent characters and voices → all video sh
 
 ### 导入 Lumina
 
-下载 [v5.4 专用导入 ZIP](dist/lumina-cinema-atlas-v5-4.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。更新 Skill 不代表已停止的旧会话会自行唤醒：恢复时需实际加载新版规则，并在同一画布先对账复用已有节点／任务，无需删除画布重做。
+下载 [v5.5 专用导入 ZIP](dist/lumina-cinema-atlas-v5-5.zip)，解压后只导入 [`skills/lumina-canvas-film/`](skills/lumina-canvas-film/) 对应的 **SKILL.md、agents、references**。新建空白 Skill 最稳妥；覆盖旧版时先备份，再整包替换，避免旧参考文件残留。不要上传整个仓库、dist、工具或说明文档。更新 Skill 不代表已停止的旧会话会自行唤醒：恢复时需实际加载新版规则，并在同一画布先对账复用已有节点／任务，无需删除画布重做。
 
 - **37 个文件**，加两个子目录和最外层目录共 **40 项**。
 - 当前 Lumina 上限为 **30,000 字符**；本包每个文件不超过 **29,600 个 UTF-16 代码单元**，保留余量。
 - 保留全部 59 种风格，分片可重建并逐项核对哈希。
-- SKILL.md 开头应为 `Import build: v5.4-audio-ready`。
+- SKILL.md 开头应为 `Import build: v5.5-concrete-scenes`。
 - `agents/openai.yaml` 是显示元数据，不能替 Lumina 注册工具。
 
 完整执行依赖 Lumina 实际暴露原生 Question、媒体生成、任务查询／续跑和 Video Editor 编辑、字幕、预览、导出、下载能力。截图仅确认界面存在，不能证明每项操作已向 Agent 开放。缺失能力时 Skill 会保存状态并报告具体阻塞；不会虚报工具调用或保证平台审核通过。
@@ -77,6 +79,8 @@ Version 5.2 distinguishes prepared nodes, accepted jobs and real outputs. It com
 
 Version 5.4 makes operation-specific audio input preparation mandatory BEFORE every submission: actual text/voice/reference types, saved bindings and exposed registration/readiness are resolved first. A failed shared input path holds its unsubmitted queue, and only observed repairs with resolved acceptance permit bounded retries. This avoids repeating invalid calls for every character; it cannot suppress Lumina's own error dialogs or repair hidden backend registration services.
 
+Version 5.5 adds an explicit visible scene description to every shot row: concrete subject experience, action, spatial/sensory interaction and observable result. Abstract design advice and unsupported benefit claims are rewritten before table review, consistently with the approved script, board, timing and sound. Reference examples supply the writing principle only, not story content or automatic new POV/narration.
+
 The next card offers **stitching only / subtitles only / both / Other**. Choosing both invokes Lumina's native Video Editor for assembly and editable captions. The agent automatically fits original/cleared final scoring to the story, mood and pace through supported native tools, respecting explicit no-music choices. Picture, final background music, selected subtitles and sound effects remain on real separately editable tracks, with correct embedded or dedicated speech and no doubling. Meaningful cuts follow genuine musical markers while preserving dialogue, effects, actions and synchronization. Final scoring is reviewed in the actual preview before export.
 
 Final review offers **confirm and export / continue modifying / preview again**. A modification is specified inside the native card, then applied to the same editor project. The loop repeats for the current revision until approved. The agent exports through the native editor, checks the actual accessible media and returns the downloadable result; an editor draft is not a completed export. If the user explicitly declines post-production, delivery is clearly labeled as approved clips.
@@ -87,11 +91,11 @@ All **59 styles** retain their full specifications. The importer package contain
 
 ```sh
 python3 tools/build_lumina_skill.py
-python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v5-4.zip
+python3 tools/build_lumina_skill.py --check --zip dist/lumina-cinema-atlas-v5-5.zip
 # Repack existing verified style text without needing the source library:
-python3 tools/build_lumina_skill.py --repack-existing --zip dist/lumina-cinema-atlas-v5-4.zip
+python3 tools/build_lumina_skill.py --repack-existing --zip dist/lumina-cinema-atlas-v5-5.zip
 # Check/package the current import folder:
-python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v5-4.zip
+python3 tools/build_lumina_skill.py --verify-import --zip dist/lumina-cinema-atlas-v5-5.zip
 ```
 
 The builder verifies importer counts, filenames, 29,600-unit text lengths, local reference links and reconstructed style hashes. The 59 complete specifications are losslessly repacked into 27 style pages; no style is summarized or removed. `tools/lumina_preflight.py` provides existing normalized media checks; it is not the native runtime orchestrator and does not replace v5 approvals. Helpers, historical tests, documents and ZIPs stay outside the import folder. The separately preserved toolkit and media live in `xianlin-lu/`; follow their corresponding notices.

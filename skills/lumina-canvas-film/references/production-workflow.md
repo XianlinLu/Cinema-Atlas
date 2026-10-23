@@ -29,7 +29,7 @@ For pre-execution canvas/task-result synchronization failures, use runtime-contr
 | SCRIPT / WAIT_SCRIPT | Full original script, exact lines, style and rhythm-based estimate; returned script approval |
 | CHARACTERS / WAIT_CHARACTERS | Automatically extract/deduplicate the full on-screen cast from the approved script, infer compatible appearance and generate all real 16:9 single-image three-view sheets; show all inspected images for the existing native approval, with no cast-list/per-first-character gate |
 | VOICE_BRIEF / AUDITIONS / WAIT_AUDITIONS | Each speaking role/narrator's native profile choices, real playable samples, returned audio approvals |
-| MASTER_TABLE / WAIT_TABLE | Atomic shot plan, real voice/line assets and measured timing; approve full table |
+| MASTER_TABLE / WAIT_TABLE | Atomic shot plan with visible concrete 画面描述 per row, real voice/line assets and measured timing; automatically repair abstract/mismatched descriptions under production-requests.md, then approve full table |
 | SHOTS / SHOT_AUDIO_NORMALIZE | Seedance 2.5 by default; classify continuity, generate/QC, remove ONLY model BGM, retain/restore and actually check speech, narration, effects and ambience before QC_READY |
 | WAIT_SHOT_REVIEWS | Show each actual clip and obtain approval of EACH shot version, in order or schema-sized question batches |
 | WAIT_POST_CHOICE | Only after every required current shot passes user review: native choice of stitching, subtitles, both, or Other |
@@ -61,6 +61,8 @@ Show real images/audio/video/table before review. Use the runtime tool, concise 
 - **异常处理:** offer actual supported repair/creative alternatives, provider review or save/pause only for a real blocker. No moderation bypass option, dummy success or hidden omission. Batch unresolved independent failures into one appropriate recovery interaction where possible.
 
 ## Story, source media and timing
+
+Use production-requests.md's **画面描述** writing standard when making the master table, boards and video prompts. Concrete subject experience/action/space and observable results must replace unsupported abstract design/benefit claims. Keep camera instructions, exact speech and sound cues distinct; first-person reference language does not add POV or narration. Do not copy reference-image content or add a new approval questionnaire for wording-only repairs.
 
 Write full scenes, cast, exact dialogue/narration and ending from the user's idea. Preserve supplied scripts and facts. Derive total duration from natural speech, actions and intentional pauses; do not impose fixed 30/45/60s totals. An explicit target is a script constraint, not authorization to truncate lines later. Generate exact shot speech and measure it before locking row timing. Approved source material remains intact; trim only expendable handles or approved content. Ordinary local prompt timing uses the integer allocation rules in production-requests.md; native editor cuts and caption cues use the actual frame/time precision and timebase, not forced whole seconds.
 
