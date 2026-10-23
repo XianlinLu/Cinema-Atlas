@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bundle the complete style specifications for Lumina's text-file importer.
 
-Run from anywhere: python3 tools/build_lumina_skill.py [--check] [--zip PATH]
+Run from anywhere: python3 tools/build_lumina_skill.py [--check | --verify-import] [--zip PATH]
 The uploaded skill contains data and instructions only; this maintainer script
 stays outside it. Style fragments are byte-verifiable against the library.
 """
@@ -18,7 +18,7 @@ LIB = ROOT / 'xianlin-lu'
 SKILL = ROOT / 'skills' / 'lumina-canvas-film'
 CAP = 19800  # UTF-16 code units; retain margin below the 20,000-character importer
 TAIL = '\n<!-- END STYLE PAGE -->\n'
-REPO = 'https://github.com/XianlinLu/Code-Cinema-Atlas'
+REPO = 'https://github.com/XianlinLu/Cinema-Atlas'
 
 
 def units(text):
@@ -63,7 +63,7 @@ def generate():
             revision = previous['library_revision']
     manifest = {'format': 1, 'library_repository': REPO, 'library_revision': revision,
                 'style_count': len(order), 'offsets': 'Unicode code points; end-exclusive; fragments concatenate in listed order',
-                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v2', 'styles': {}}
+                'catalog_sha256': catalog_hash, 'workflow': 'native-video-v4', 'styles': {}}
     generated = {}
     page_no = 1
     page = '# Complete style specifications 01\n\n'
@@ -142,24 +142,53 @@ def validate(generated, check):
             if check:
                 raise AssertionError(f'Stale style shard: {stale}')
             stale.unlink()
+    return inspect_import()
+
+
+def inspect_import():
+    """Verify the ready importer without requiring the source toolkit or media."""
     files = sorted(p for p in SKILL.rglob('*') if p.is_file())
-    assert len(files) <= 50, f'Import has {len(files)} files'
+    directories = [p for p in SKILL.rglob('*') if p.is_dir()]
+    total = len(files) + len(directories) + 1
+    assert total <= 49, f'Import has {total} items including directories/root (maximum 49)'
     for path in files:
         assert path.suffix in {'.md', '.txt', '.json', '.yaml', '.yml'}, path
         for part in path.relative_to(SKILL).parts:
             assert len(part) <= 64 and re.fullmatch(r'[A-Za-z0-9_-]+(?:\.[a-z]+)?', part), part
         assert units(path.read_text()) <= CAP, (path, units(path.read_text()))
-    style_count = json.loads(generated['references/style-manifest.json'])['style_count']
-    print(f'{len(files)} files; {style_count} complete styles; maximum {max(units(p.read_text()) for p in files)} UTF-16 units/file; hashes verified')
+    manifest = json.loads((SKILL / 'references/style-manifest.json').read_text())
+    assert manifest['style_count'] == len(manifest['styles'])
+    for slug, entry in manifest['styles'].items():
+        restored = ''.join((SKILL / name).read_text()[start:end]
+                           for name, start, end in entry['parts'])
+        assert hashlib.sha256(restored.encode()).hexdigest() == entry['sha256'], slug
+    core = [SKILL / 'SKILL.md', SKILL / 'references/production-workflow.md',
+            SKILL / 'references/production-requests.md', SKILL / 'references/style-index.md']
+    for path in core:
+        text = path.read_text()
+        for ref in re.findall(r'`((?:references/)?[a-z0-9-]+\.(?:md|json|yaml))`', text):
+            target = SKILL / ref if ref.startswith('references/') or ref == 'SKILL.md' else path.parent / ref
+            # The index explicitly identifies demo paths as source-toolkit examples.
+            if ref in {'DEMO.md'}:
+                continue
+            assert target.exists(), f'Broken importer reference: {path.name}: {ref}'
+        for link in re.findall(r'\]\((style-specs-[0-9]+\.md)\)', text):
+            assert (path.parent / link).exists(), link
+    print(f'{len(files)} files; {total} items including directories/root; '
+          f'{manifest["style_count"]} complete styles; maximum '
+          f'{max(units(p.read_text()) for p in files)} UTF-16 units/file; hashes and references verified')
     return files
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--check', action='store_true')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--check', action='store_true')
+    mode.add_argument('--verify-import', action='store_true',
+                      help='Check the existing import folder without regenerating from source')
     parser.add_argument('--zip', type=Path)
     args = parser.parse_args()
-    files = validate(generate(), args.check)
+    files = inspect_import() if args.verify_import else validate(generate(), args.check)
     if args.zip:
         args.zip.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(args.zip, 'w', zipfile.ZIP_DEFLATED) as archive:
@@ -170,3 +199,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

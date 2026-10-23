@@ -1,4 +1,4 @@
 interface:
-  display_name: "Cinema Atlas Video Director"
-  short_description: "Create a complete film with native review gates"
-  default_prompt: "使用 $lumina-canvas-film，从我的想法写完整剧本，以原生 Question 选项确认剧本、16:9 角色三视图、逐角色试音和镜头生产总表，通过后自动生成全部分镜并合成成片。"
+  display_name: "Cinema Atlas Native Video Director"
+  short_description: "Native reviews, beat-aware edits and downloadable video"
+  default_prompt: "使用 $lumina-canvas-film，从我的想法写剧本、生成角色与试音、自动制作分镜并逐段用原生 Question 确认，再询问拼接与字幕需求，在 Lumina 原生 Video Editor 剪辑，按配乐卡点并循环修改至确认，最后导出可下载视频。"
