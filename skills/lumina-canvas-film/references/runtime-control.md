@@ -31,6 +31,8 @@ Keep these distinct: PLANNED, INPUTS_READY, SUBMITTED, RUNNING, GENERATED, QC_RE
 
 For each dispatch store project/stage/logical-artifact/version, input fingerprint, real node/task IDs and current state. Use actual provider idempotency support if exposed. A local request key helps locate existing work; it is not itself proof the provider deduplicates. A task with an unknown submission result must be reconciled before another billable submission.
 
+For all native audio, `speech-inputs.md` is a mandatory BEFORE-EXECUTE preparation/readiness contract, not just an error appendix. Validate operation-specific real inputs and save their observed versions. On an unresolved empty-content failure, hold unsubmitted jobs sharing the faulty input path rather than executing every role or the whole canvas; continue only genuinely unaffected ready work that does not cross the same barrier. A changed node name, mere delay or serial scheduling is not a repaired input. Resume the held queue after actual repair and successful repaired deliverable; retain the same logical-job retry budget and actual acceptance checks.
+
 ## Canvas synchronization, existing nodes and submission recovery
 
 ### Separate node setup, accepted jobs and outputs

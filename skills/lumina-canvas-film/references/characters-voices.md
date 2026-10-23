@@ -18,6 +18,8 @@ Store CH001-style stable IDs, script version, master node/file ID, image version
 
 ## Voice direction and audition
 
+Before any audio execution, read `speech-inputs.md`. Prepare actual operation-specific text/profile/ready references and verify observable saved bindings before dispatch; do not treat a role-image execution edge or future audition as a required reference by default. Its minimal-input and shared-failure hold rules apply to auditions AND exact shot lines, while preserving the selected voice and existing native gates.
+
 For each role with approved lines, use native Question to choose a complete voice profile, informed by its confirmed characterization. Include language/accent, pitch, timbre, age presentation, pace, and emotional range. Use original synthetic voices or cleared recordings; do not infer consent to clone a real voice from a name, photograph, or project license. The narrator gets its own VO_NARRATOR entry and voice decision. A genuinely mute role gets no empty audio job.
 
 Generate a playable **20–30 second** audition, aiming around 24 seconds when no preference specifies otherwise. Use original text with a neutral phrase and an emotional phrase, no background music, no song lyrics or imitation request. Check real duration, intelligibility, clean recording and performance. Use the chosen actual voice engine/profile; keep dry audio at natural pace. If a speech tool cannot produce that length in one request, generate compatible parts with the same voice, assemble and inspect one real audition before presenting it.
